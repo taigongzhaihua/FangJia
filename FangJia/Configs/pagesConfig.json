@@ -1,0 +1,8 @@
+{
+  "Pages": [
+    {
+      "name": "HomePage",
+      "uri": "/Views/Pages/Home.xaml"
+    }
+  ]
+}
