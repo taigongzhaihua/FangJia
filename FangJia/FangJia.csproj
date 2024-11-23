@@ -18,8 +18,11 @@
     <Folder Include="Cores\Interfaces\" />
     <Folder Include="Resources\" />
     <Folder Include="DataAccess\" />
-    <Folder Include="ViewModels\" />
     <Folder Include="Moels\" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="NLog" Version="5.3.4" />
   </ItemGroup>
 
 </Project>
