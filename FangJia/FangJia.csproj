@@ -10,19 +10,29 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Folder Include="Cores\Services\" />
+    <None Remove="Configs\pagesConfig.json" />
+  </ItemGroup>
+
+  <ItemGroup>
     <Folder Include="Cores\Utils\Behaviors\" />
     <Folder Include="Cores\Utils\Commands\" />
     <Folder Include="Cores\Utils\Converters\" />
     <Folder Include="Cores\Utils\Helpers\" />
-    <Folder Include="Cores\Interfaces\" />
     <Folder Include="Resources\" />
     <Folder Include="DataAccess\" />
-    <Folder Include="Moels\" />
   </ItemGroup>
 
   <ItemGroup>
+    <PackageReference Include="Newtonsoft.Json" Version="13.0.3" />
     <PackageReference Include="NLog" Version="5.3.4" />
   </ItemGroup>
+
+  <ItemGroup>
+    <EmbeddedResource Include="Configs\pagesConfig.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </EmbeddedResource>
+  </ItemGroup>
+
+  <ProjectExtensions><VisualStudio><UserProperties configs_4pagesconfig_1json__JsonSchema="https://appsemble.app/api.json" /></VisualStudio></ProjectExtensions>
 
 </Project>
