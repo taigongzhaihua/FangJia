@@ -1,0 +1,25 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <OutputType>WinExe</OutputType>
+    <TargetFramework>net8.0-windows</TargetFramework>
+    <Nullable>enable</Nullable>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <UseWPF>true</UseWPF>
+    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Folder Include="Cores\Services\" />
+    <Folder Include="Cores\Utils\Behaviors\" />
+    <Folder Include="Cores\Utils\Commands\" />
+    <Folder Include="Cores\Utils\Converters\" />
+    <Folder Include="Cores\Utils\Helpers\" />
+    <Folder Include="Cores\Interfaces\" />
+    <Folder Include="Resources\" />
+    <Folder Include="DataAccess\" />
+    <Folder Include="ViewModels\" />
+    <Folder Include="Moels\" />
+  </ItemGroup>
+
+</Project>
