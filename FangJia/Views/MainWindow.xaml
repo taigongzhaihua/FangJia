@@ -13,7 +13,8 @@
             <ColumnDefinition Width="Auto"/>
             <ColumnDefinition Width="*"/>
         </Grid.ColumnDefinitions>
-        <controls:MainMenu/>
-        <Frame Grid.Column="1" x:Name="MainFrame"/>
+        <controls:MainMenu MenuItems="{Binding MenuItems}"/>
+        <Frame Grid.Column="1" x:Name="MainFrame"
+               NavigationUIVisibility="Hidden"/>
     </Grid>
 </base:BaseWindow>
