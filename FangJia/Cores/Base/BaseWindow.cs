@@ -10,10 +10,10 @@ namespace FangJia.Cores.Base;
 /// BaseWindow 类作为整个应用所有自定义窗口的基类，继承自 Window 类。
 /// 在保留系统边框的前提下，只实现窗口拖动一个功能，并将窗口圆角设定为标准圆角
 /// </summary>
-[SuppressMessage("ReSharper", "StringLiteralTypo")]
-[SuppressMessage("ReSharper", "InconsistentNaming")]
-[SuppressMessage("ReSharper", "IdentifierTypo")]
-[SuppressMessage("ReSharper", "UnusedMember.Local")]
+[SuppressMessage(category: "ReSharper", checkId: "StringLiteralTypo")]
+[SuppressMessage(category: "ReSharper", checkId: "InconsistentNaming")]
+[SuppressMessage(category: "ReSharper", checkId: "IdentifierTypo")]
+[SuppressMessage(category: "ReSharper", checkId: "UnusedMember.Local")]
 public partial class BaseWindow : Window
 {
     /// <summary>
@@ -43,7 +43,7 @@ public partial class BaseWindow : Window
     /// <param name="attr">属性标识符</param>
     /// <param name="attrValue">属性值</param>
     /// <param name="attrSize">属性大小</param>
-    [LibraryImport("dwmapi.dll", SetLastError = true)]
+    [LibraryImport(libraryName: "dwmapi.dll", SetLastError = true)]
     private static partial void DwmSetWindowAttribute(IntPtr hwnd, int attr, ref DwmWindowCornerPreference attrValue,
         int attrSize);
 
@@ -69,10 +69,10 @@ public partial class BaseWindow : Window
     {
         var windowChrome = new WindowChrome
         {
-            ResizeBorderThickness = new Thickness(5), // 设置窗口的可调整边框厚度
+            ResizeBorderThickness = new Thickness(uniformLength: 5), // 设置窗口的可调整边框厚度
             CaptionHeight = 0 // 设置标题栏的高度为 0，隐藏默认标题栏
         };
-        WindowChrome.SetWindowChrome(this, windowChrome); // 应用自定义的 WindowChrome 到窗口
+        WindowChrome.SetWindowChrome(window: this, chrome: windowChrome); // 应用自定义的 WindowChrome 到窗口
     }
 
     /// <summary>
@@ -92,16 +92,16 @@ public partial class BaseWindow : Window
     {
         if (!IsWindows11OrGreater) return; // 如果不是 Windows 11 或更高版本，则不进行任何操作
 
-        var hWnd = new WindowInteropHelper(this).Handle; // 获取窗口的句柄
+        var hWnd = new WindowInteropHelper(window: this).Handle; // 获取窗口的句柄
         var preference = DwmWindowCornerPreference.DWMWCP_ROUND; // 设置为圆角样式
 
         // 调用 DWM API 设置窗口的圆角属性
-        DwmSetWindowAttribute(hWnd, DWMWA_WINDOW_CORNER_PREFERENCE, ref preference, sizeof(uint));
+        DwmSetWindowAttribute(hwnd: hWnd, attr: DWMWA_WINDOW_CORNER_PREFERENCE, attrValue: ref preference, attrSize: sizeof(uint));
     }
 
     /// <summary>
     /// 静态属性用于判断当前操作系统是否为 Windows 11 或更高版本
     /// </summary>
     private static bool IsWindows11OrGreater =>
-        Environment.OSVersion.Version >= new Version(10, 0, 22000, 0); // Windows 11 的版本号为 10.0.22000
+        Environment.OSVersion.Version >= new Version(major: 10, minor: 0, build: 22000, revision: 0); // Windows 11 的版本号为 10.0.22000
 }

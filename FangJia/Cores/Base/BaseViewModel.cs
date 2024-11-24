@@ -25,8 +25,8 @@ public class BaseViewModel : INotifyPropertyChanged
     /// <param name="propertyName">发生变化的属性名称。</param>
     protected virtual void OnPropertyChanged([CallerMemberName] string? propertyName = null)
     {
-        Logger.Debug($"属性 {propertyName} 发生变化。");
-        PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
+        Logger.Debug(message: $"属性 {propertyName} 发生变化。");
+        PropertyChanged?.Invoke(sender: this, e: new PropertyChangedEventArgs(propertyName: propertyName));
     }
 
     /// <summary>
@@ -39,9 +39,9 @@ public class BaseViewModel : INotifyPropertyChanged
     /// <returns>如果字段值发生变化则返回 true，否则返回 false。</returns>
     protected bool SetProperty<T>(ref T field, T newValue, [CallerMemberName] string? propertyName = null)
     {
-        if (Equals(field, newValue)) return false;
+        if (Equals(objA: field, objB: newValue)) return false;
         field = newValue;
-        OnPropertyChanged(propertyName);
+        OnPropertyChanged(propertyName: propertyName);
         return true;
     }
 }
