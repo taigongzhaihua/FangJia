@@ -15,11 +15,10 @@
 
   <ItemGroup>
     <Folder Include="Cores\Utils\Behaviors\" />
-    <Folder Include="Cores\Utils\Commands\" />
     <Folder Include="Cores\Utils\Converters\" />
     <Folder Include="Cores\Utils\Helpers\" />
-    <Folder Include="Resources\" />
     <Folder Include="DataAccess\" />
+    <Folder Include="Resources\" />
   </ItemGroup>
 
   <ItemGroup>
@@ -54,6 +53,9 @@
   </ItemGroup>
 
   <ItemGroup>
+    <None Update="nlog.config">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
     <None Update="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>

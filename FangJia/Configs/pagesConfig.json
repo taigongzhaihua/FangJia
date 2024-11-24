@@ -3,6 +3,23 @@
     {
       "name": "HomePage",
       "uri": "/Views/Pages/Home.xaml"
+    },
+    {
+      "name": "SettingPage",
+      "uri": "/Views/Pages/Setting.xaml"
     }
+  ],
+  "MainMenuItems": [
+    {
+      "Name": "首页",
+      "Icon": "H",
+      "PageName": "HomePage"
+    },
+    {
+      "Name": "设置",
+      "Icon": "S",
+      "PageName": "SettingPage"
+    }
+
   ]
 }

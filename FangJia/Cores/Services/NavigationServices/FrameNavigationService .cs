@@ -39,10 +39,10 @@ public class FrameNavigationService : INavigationService
     /// 导航到指定的视图。
     /// </summary>
     /// <param name="viewName">要导航到的视图名称。</param>
-    public void NavigateTo(string viewName)
+    public void NavigateTo(string? viewName)
     {
         // 根据视图名称查找对应的 URI 并导航
-        if (_pageMappings.TryGetValue(key: viewName, value: out var uri))
+        if (_pageMappings.TryGetValue(key: viewName!, value: out var uri))
         {
             _frame.Navigate(source: new Uri(uriString: uri, uriKind: UriKind.Relative));
         }

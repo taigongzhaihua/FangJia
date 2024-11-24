@@ -7,3 +7,4 @@ using System.Diagnostics.CodeAnalysis;
 
 [assembly: SuppressMessage("CodeQuality", "IDE0079:请删除不必要的忽略", Justification = "<挂起>", Scope = "type", Target = "~T:FangJia.Cores.Services.ConfigurationService")]
 [assembly: SuppressMessage("CodeQuality", "IDE0079:请删除不必要的忽略", Justification = "<挂起>", Scope = "type", Target = "~T:FangJia.Cores.Services.NavigationServices.FrameNavigationService")]
+[assembly: SuppressMessage("CodeQuality", "IDE0079:请删除不必要的忽略", Justification = "<挂起>", Scope = "type", Target = "~T:FangJia.Cores.Utils.Commands.RelayCommand")]
