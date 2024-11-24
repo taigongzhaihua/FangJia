@@ -4,10 +4,16 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:base="clr-namespace:FangJia.Cores.Base"
+        xmlns:controls="clr-namespace:FangJia.Views.Components.Controls"
         mc:Ignorable="d" 
         Title="MainWindow" Height="450" Width="800"
         WindowStyle="None">
     <Grid>
-        <Frame x:Name="MainFrame"/>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="Auto"/>
+            <ColumnDefinition Width="*"/>
+        </Grid.ColumnDefinitions>
+        <controls:MainMenu/>
+        <Frame Grid.Column="1" x:Name="MainFrame"/>
     </Grid>
 </base:BaseWindow>

@@ -1,0 +1,36 @@
+﻿<UserControl x:Class="FangJia.Views.Components.Controls.MainMenu"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:FangJia.Views.Components.Controls"
+             mc:Ignorable="d" 
+             d:DesignHeight="450" d:DesignWidth="800">
+    <Grid>
+
+        <Grid Grid.Column="0" Background="White" x:Name="ListGrid">
+            <!-- Selection Background Rectangle -->
+            <Rectangle x:Name="SelectionBackground" Fill="DodgerBlue" 
+                       Height="40" 
+                       Width="{Binding ElementName=ListGrid,Path=ActualWidth}" VerticalAlignment="Top">
+                <Rectangle.RenderTransform>
+                    <TranslateTransform x:Name="SelectionTransform" />
+                </Rectangle.RenderTransform>
+            </Rectangle>
+
+            <!-- Items ListBox -->
+            <ListBox x:Name="SidebarListBox" Background="Transparent" 
+                     SelectionChanged="SidebarListBox_SelectionChanged" 
+                     ScrollViewer.VerticalScrollBarVisibility="Auto">
+                <ListBoxItem Height="40" Content="Option 1" />
+                <ListBoxItem Height="40" Content="Option 2" />
+                <ListBoxItem Height="40" Content="Option 3" />
+                <ListBoxItem Height="40" Content="Option 4" />
+                <ListBoxItem Height="40" Content="Option 5" />
+                <ListBoxItem Height="40" Content="Option 6" />
+                <ListBoxItem Height="40" Content="Option 7" />
+                <ListBoxItem Height="40" Content="Option 8" />
+            </ListBox>
+        </Grid>
+    </Grid>
+</UserControl>
