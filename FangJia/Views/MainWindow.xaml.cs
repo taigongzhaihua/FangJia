@@ -26,14 +26,14 @@ public partial class MainWindow
         var pageConfigs = LoadPageConfigurations();
 
         // 初始化框架导航服务
-        var frameNavigationService = new FrameNavigationService(frame: MainFrame, pageConfigs: pageConfigs);
+        var frameNavigationService = new FrameNavigationService(MainFrame, pageConfigs);
 
         // 初始化并绑定 ViewModel
         var viewModel = new MainWindowViewModel();
         BindViewModel(viewModel, frameNavigationService);
 
         // 设置初始视图为 HomePage
-        frameNavigationService.NavigateTo(viewName: "HomePage");
+        frameNavigationService.NavigateTo("HomePage");
     }
 
     /// <summary>
@@ -54,7 +54,7 @@ public partial class MainWindow
     private void BindViewModel(MainWindowViewModel viewModel, INavigationService navigationService)
     {
         // 将框架导航服务添加到 ViewModel 中
-        viewModel.NavigationServices.Add(key: "MainFrame", value: navigationService);
+        viewModel.NavigationServices.Add("MainFrame", navigationService);
 
         // 设置数据上下文以进行绑定
         DataContext = viewModel;
