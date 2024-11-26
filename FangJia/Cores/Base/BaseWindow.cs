@@ -70,7 +70,8 @@ public partial class BaseWindow : Window
         var windowChrome = new WindowChrome
         {
             ResizeBorderThickness = new Thickness(uniformLength: 5), // 设置窗口的可调整边框厚度
-            CaptionHeight = 0 // 设置标题栏的高度为 0，隐藏默认标题栏
+            CaptionHeight = 0, // 设置标题栏的高度为 0，隐藏默认标题栏
+
         };
         WindowChrome.SetWindowChrome(window: this, chrome: windowChrome); // 应用自定义的 WindowChrome 到窗口
     }

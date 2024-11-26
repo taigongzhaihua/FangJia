@@ -8,13 +8,14 @@
         mc:Ignorable="d" 
         Title="MainWindow" Height="450" Width="800"
         WindowStyle="None">
-    <Grid>
+    <Grid ClipToBounds="False">
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="Auto"/>
             <ColumnDefinition Width="*"/>
         </Grid.ColumnDefinitions>
-        <controls:MainMenu MenuItems="{Binding MenuItems}"/>
+        
         <Frame Grid.Column="1" x:Name="MainFrame"
                NavigationUIVisibility="Hidden"/>
+        <controls:MainMenu Grid.Column="0" MenuItems="{Binding MenuItems}" Margin="0"/>
     </Grid>
 </base:BaseWindow>

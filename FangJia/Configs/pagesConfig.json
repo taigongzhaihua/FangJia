@@ -12,12 +12,12 @@
   "MainMenuItems": [
     {
       "Name": "首页",
-      "Icon": "H",
+      "Icon": "\ue695",
       "PageName": "HomePage"
     },
     {
       "Name": "设置",
-      "Icon": "S",
+      "Icon": "\ue647",
       "PageName": "SettingPage"
     }
 
