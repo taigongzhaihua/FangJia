@@ -11,11 +11,11 @@
 
   <ItemGroup>
     <None Remove="Configs\pagesConfig.json" />
+    <None Remove="Fonts\iconfont.ttf" />
   </ItemGroup>
 
   <ItemGroup>
     <Folder Include="Cores\Utils\Behaviors\" />
-    <Folder Include="Cores\Utils\Converters\" />
     <Folder Include="Cores\Utils\Helpers\" />
     <Folder Include="DataAccess\" />
     <Folder Include="Resources\" />
@@ -30,6 +30,12 @@
     <EmbeddedResource Include="Configs\pagesConfig.json">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </EmbeddedResource>
+  </ItemGroup>
+
+  <ItemGroup>
+    <Resource Include="Fonts\iconfont.ttf">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Resource>
   </ItemGroup>
 
   <ItemGroup>

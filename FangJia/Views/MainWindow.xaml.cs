@@ -42,8 +42,8 @@ public partial class MainWindow
     /// <returns>页面配置的列表。</returns>
     private static List<PageConfig> LoadPageConfigurations()
     {
-        var configService = new ConfigurationService(configFilePath: Properties.Resources.MainPagesConfigUri);
-        return configService.GetConfig<PageConfig>(key: "Pages");
+        var configService = new ConfigurationService(Properties.Resources.MainPagesConfigUri);
+        return configService.GetConfig<PageConfig>("Pages");
     }
 
     /// <summary>

@@ -4,9 +4,6 @@
              xmlns:local="clr-namespace:FangJia"
              StartupUri="/Views/MainWindow.xaml">
     <Application.Resources>
-         <ResourceDictionary>
-             <ResourceDictionary.MergedDictionaries>
-             </ResourceDictionary.MergedDictionaries>
-         </ResourceDictionary>
+        <FontFamily x:Key="IconFont">Fonts/#iconfont</FontFamily>
     </Application.Resources>
 </Application>
