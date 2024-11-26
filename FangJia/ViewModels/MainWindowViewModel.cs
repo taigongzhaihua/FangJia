@@ -4,6 +4,7 @@ using FangJia.Cores.Services;
 using FangJia.Cores.Utils.Commands;
 using FangJia.Models;
 using FangJia.Models.ConfigModels;
+using NLog;
 using System.Collections.ObjectModel;
 using System.Windows.Input;
 
@@ -12,6 +13,7 @@ namespace FangJia.ViewModels;
 
 public class MainWindowViewModel : BaseViewModel
 {
+    private new static readonly Logger Logger = LogManager.GetCurrentClassLogger();
     public Dictionary<string, INavigationService> NavigationServices = [];
     public ObservableCollection<MainMenuItemData> MenuItems { get; set; } = [];
     public MainWindowViewModel()

@@ -26,18 +26,18 @@ public class RelayCommand(Action<object> execute, Func<object, bool>? canExecute
     /// </summary>
     /// <param name="parameter">命令参数。</param>
     /// <returns>如果可以执行则返回 true，否则返回 false。</returns>
-    public bool CanExecute(object parameter)
+    public bool CanExecute(object? parameter)
     {
-        return canExecute == null || canExecute(parameter);
+        return canExecute == null || canExecute(parameter!);
     }
 
     /// <summary>
     /// 执行命令的逻辑。
     /// </summary>
     /// <param name="parameter">命令参数。</param>
-    public void Execute(object parameter)
+    public void Execute(object? parameter)
     {
-        _execute(parameter);
+        _execute(parameter!);
     }
 
     /// <summary>

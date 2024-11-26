@@ -1,4 +1,5 @@
 ﻿using FangJia.Models;
+using NLog;
 using System.Collections.ObjectModel;
 using System.Windows;
 using System.Windows.Controls;
@@ -11,7 +12,7 @@ namespace FangJia.Views.Components.Controls;
 /// </summary>
 public partial class MainMenu
 {
-
+    private new static readonly Logger Logger = LogManager.GetCurrentClassLogger();
     public MainMenu()
     {
         InitializeComponent();
@@ -56,7 +57,7 @@ public partial class MainMenu
         VisualStateManager.GoToState(this, IsOpen ? "Open" : "Close", true);
     }
 
-    private void EventSetter_OnHandler(object sender, MouseEventArgs e)
+    private void ListItem_OnMouseEnter(object sender, MouseEventArgs e)
     {
         if (sender is ListBoxItem { IsSelected: false } && IsOpen == false)
         {
@@ -64,7 +65,7 @@ public partial class MainMenu
         }
     }
 
-    private void EventSetter_OnMouseLeave(object sender, MouseEventArgs e)
+    private void ListItem_OnMouseLeave(object sender, MouseEventArgs e)
     {
         if (sender is ListBoxItem && IsOpen == false)
         {
