@@ -1,0 +1,39 @@
+[[Groups]]
+Title = "外观"
+Key = "Appearance"
+
+[[Appearance.Items]]
+Name = "主题"
+Key = "Theme"
+Type = "String"
+ContorlType = "ComboBox"
+ContorlStyle = "ColorComboBox"
+default = "lightTheme"
+values = ["lightTheme", "darkTheme"]
+options = ["浅色主题", "深色主题"]
+IsEnable = true
+Tip = "选择应用的主题"
+
+[[Appearance.Items]]
+Name = "语言"
+Key = "Language"
+Type = "String"
+ContorlType = "ComboBox"
+ContorlStyle = "DefaultComboBox"
+default = "zh-CN"
+values = ["zh-CN", "en-US"]
+options = ["简体中文", "English"]
+IsEnable = false
+Tip = "选择应用的语言"
+
+[[Appearance.Items]]
+Name = "默认字体"
+Key = "Font"
+Type = "String"
+ContorlType = "ComboBox"
+ContorlStyle = "DefaultComboBox"
+default = "Microsoft YaHei"
+values = ["Microsoft YaHei", "SimSun", "SimHei", "Arial"]
+options = ["微软雅黑", "宋体", "黑体", "Arial"]
+IsEnable = true
+Tip = "选择应用的默认字体"

@@ -14,6 +14,9 @@ public class FrameNavigationService : INavigationService
 {
     private readonly Frame _frame;
     private readonly Dictionary<string, string> _pageMappings;
+    private string _currentViewName;
+    private readonly Stack<string> _backNameStack = [];
+    private readonly Stack<string> _forwardNameStack = [];
 
     /// <summary>
     /// 构造函数，初始化 FrameNavigationService 实例。
@@ -35,16 +38,28 @@ public class FrameNavigationService : INavigationService
         }
     }
 
+    public string CurrentViewName()
+    {
+        return _currentViewName;
+    }
+
     /// <summary>
     /// 导航到指定的视图。
     /// </summary>
     /// <param name="viewName">要导航到的视图名称。</param>
     public void NavigateTo(string? viewName)
     {
+        if (viewName == CurrentViewName()) return;
         // 根据视图名称查找对应的 URI 并导航
         if (_pageMappings.TryGetValue(key: viewName!, value: out var uri))
         {
             _frame.Navigate(source: new Uri(uriString: uri, uriKind: UriKind.Relative));
+            if (!string.IsNullOrEmpty(_currentViewName))
+            {
+                _backNameStack.Push(CurrentViewName());
+                _forwardNameStack.Clear();
+            }
+            _currentViewName = viewName!;
         }
         else
         {
@@ -59,10 +74,10 @@ public class FrameNavigationService : INavigationService
     public void GoBack()
     {
         // 如果可以后退，则执行后退操作
-        if (_frame.CanGoBack)
-        {
-            _frame.GoBack();
-        }
+        if (!_frame.CanGoBack) return;
+        _frame.GoBack();
+        _forwardNameStack.Push(CurrentViewName());
+        _currentViewName = _backNameStack.Pop();
     }
 
     /// <summary>
@@ -74,6 +89,9 @@ public class FrameNavigationService : INavigationService
         if (_frame.CanGoForward)
         {
             _frame.GoForward();
+            _backNameStack.Push(CurrentViewName());
+            _currentViewName = _forwardNameStack.Pop();
         }
     }
+
 }

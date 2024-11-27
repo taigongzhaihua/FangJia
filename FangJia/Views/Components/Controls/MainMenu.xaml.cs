@@ -3,6 +3,8 @@ using NLog;
 using System.Collections.ObjectModel;
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Controls.Primitives;
+using System.Windows.Data;
 using System.Windows.Input;
 
 namespace FangJia.Views.Components.Controls;
@@ -17,6 +19,9 @@ public partial class MainMenu
     {
         InitializeComponent();
         VisualStateManager.GoToState(this, "Close", false);
+        TitleBlock.SetBinding(TextBlock.TextProperty, new Binding(nameof(Title)) { Source = this });
+        SidebarListBox.SetBinding(ItemsControl.ItemsSourceProperty, new Binding(nameof(MenuItems)) { Source = this });
+        SidebarListBox.SetBinding(Selector.SelectedIndexProperty, new Binding(nameof(MenuSelectedIndex)) { Source = this });
     }
 
     public static readonly DependencyProperty MenuItemsProperty =
@@ -24,7 +29,7 @@ public partial class MainMenu
             nameof(MenuItems),
             typeof(ObservableCollection<MainMenuItemData>),
             typeof(MainMenu),
-            new PropertyMetadata(
+            new FrameworkPropertyMetadata(
                 new ObservableCollection<MainMenuItemData>()
                 )
             );
@@ -33,6 +38,31 @@ public partial class MainMenu
     {
         get => (ObservableCollection<MainMenuItemData>)GetValue(MenuItemsProperty);
         set => SetValue(MenuItemsProperty, value);
+    }
+
+    public static readonly DependencyProperty TitleProperty =
+        DependencyProperty.Register(
+            nameof(Title),
+            typeof(string),
+            typeof(MainMenu),
+            new FrameworkPropertyMetadata(
+                default(string)
+                )
+            );
+
+    public string Title
+    {
+        get => (string)GetValue(TitleProperty);
+        set => SetValue(TitleProperty, value);
+    }
+
+    public static readonly DependencyProperty MenuSelectedIndexProperty = DependencyProperty.Register(
+        nameof(MenuSelectedIndex), typeof(int), typeof(MainMenu), new FrameworkPropertyMetadata(0));
+
+    public int MenuSelectedIndex
+    {
+        get => (int)GetValue(MenuSelectedIndexProperty);
+        set => SetValue(MenuSelectedIndexProperty, value);
     }
 
     private void ListBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
