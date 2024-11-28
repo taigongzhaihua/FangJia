@@ -5,21 +5,24 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:base="clr-namespace:FangJia.Cores.Base"
              xmlns:controls="clr-namespace:FangJia.Views.Components.Controls"
-             mc:Ignorable="d" 
-             d:DesignHeight="450" d:DesignWidth="800">
-    <controls:ShadowBorder>
+             mc:Ignorable="d"
+             MaxWidth="750">
+    <controls:ShadowBorder CornerRadius="15"
+                           Padding="10" Margin="20">
         <Grid>
             <Grid.RowDefinitions>
                 <RowDefinition />
                 <RowDefinition />
             </Grid.RowDefinitions>
-            <TextBlock x:Name="Title"
+            <TextBlock x:Name="TitleBlock"
                        Grid.Row="0"
+                       FontSize="16" FontWeight="Bold"
+                       Foreground="{DynamicResource ForegroundBrush}"
                        Margin="10"/>
             <ItemsControl x:Name="Items"
                           Grid.Row="1"
                           Margin="20,0,20,10"
-                          ItemsSource="{Binding Items}">
+                          >
                 <ItemsControl.ItemsPanel>
                     <ItemsPanelTemplate>
                         <StackPanel Orientation="Vertical"></StackPanel>
@@ -32,10 +35,8 @@
                                 <ColumnDefinition Width="Auto"/>
                                 <ColumnDefinition Width="*"/>
                             </Grid.ColumnDefinitions>
-                            <TextBlock Text="{Binding Title}"
+                            <TextBlock Text="{Binding Name}"
                                        Grid.Column="0"/>
-                            <TextBlock Text="{Binding Value}"
-                                       Grid.Column="1"/>
                         </Grid>
                     </DataTemplate>
                 </ItemsControl.ItemTemplate>

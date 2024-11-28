@@ -6,8 +6,9 @@
         xmlns:base="clr-namespace:FangJia.Cores.Base"
         xmlns:controls="clr-namespace:FangJia.Views.Components.Controls"
         mc:Ignorable="d" 
-        Title="方家" Height="600" Width="800"
-        WindowStyle="None">
+        Title="方家"
+        Height="600" Width="800"
+        MinHeight="450" MinWidth="800">
     <Grid ClipToBounds="False" Background="{StaticResource BackgroundBrush}">
         <Grid.RowDefinitions>
             <RowDefinition  Height="Auto"/>
@@ -23,7 +24,7 @@
                 <RowDefinition />
             </Grid.RowDefinitions>
             <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="Auto"/>
+                <ColumnDefinition Width="10"/>
                 <ColumnDefinition Width="Auto"/>
                 <ColumnDefinition Width="*" />
                 <ColumnDefinition Width="Auto" />
@@ -41,7 +42,7 @@
                     Command="{Binding FrameForwardCommand}"
                     Style="{DynamicResource TitleButton}" />
             <!-- 页面标题 -->
-            <TextBlock Grid.Column="0" Grid.Row="0" Grid.ColumnSpan="3" Grid.RowSpan="2"
+            <TextBlock Grid.Column="1" Grid.Row="0" Grid.ColumnSpan="2" Grid.RowSpan="2"
                        Text="{Binding PageTitle}"
                        VerticalAlignment="Center" Foreground="{StaticResource ForegroundBrush}"
                        Margin="30,0"

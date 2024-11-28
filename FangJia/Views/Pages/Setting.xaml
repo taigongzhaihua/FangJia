@@ -2,20 +2,30 @@
       xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
       xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
       xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
-      xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
-      xmlns:local="clr-namespace:FangJia.Views.Pages"
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
       xmlns:pageViewModels="clr-namespace:FangJia.ViewModels.PageViewModels"
       xmlns:controls="clr-namespace:FangJia.Views.Components.Controls"
       mc:Ignorable="d" 
-      d:DesignHeight="450" d:DesignWidth="800"
+      MinHeight="450" MinWidth="600"
       Title="Setting">
     <Page.DataContext>
         <pageViewModels:SettingViewModel/>
     </Page.DataContext>
-    <Grid>
-        <ScrollViewer>
-            <ItemsControl ScrollViewer.CanContentScroll="True">
-                <controls:SettingGroup />
+    <Grid Margin="15,20">
+        <ScrollViewer VerticalScrollBarVisibility="Auto">
+            <ItemsControl ItemsSource="{Binding Groups,Mode=TwoWay}"
+                          x:Name="ItemsControl">
+                <ItemsControl.ItemsPanel>
+                    <ItemsPanelTemplate>
+                        <StackPanel Orientation="Vertical"/>
+                    </ItemsPanelTemplate>
+                </ItemsControl.ItemsPanel>
+                <ItemsControl.ItemTemplate>
+                    <DataTemplate>
+                        <controls:SettingGroup Title="{Binding Title}"
+                                               ItemsSource="{Binding Items}"/>
+                    </DataTemplate>
+                </ItemsControl.ItemTemplate>
             </ItemsControl>
         </ScrollViewer>
     </Grid>

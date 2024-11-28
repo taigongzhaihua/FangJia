@@ -11,6 +11,7 @@
 
   <ItemGroup>
     <None Remove="Configs\pagesConfig.json" />
+    <None Remove="Configs\SettingConfig.toml" />
     <None Remove="Configs\Themes\darkTheme.toml" />
     <None Remove="Configs\Themes\lightTheme.toml" />
     <None Remove="Fonts\iconfont.ttf" />
@@ -30,6 +31,9 @@
 
   <ItemGroup>
     <EmbeddedResource Include="Configs\pagesConfig.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Configs\SettingConfig.toml">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </EmbeddedResource>
     <EmbeddedResource Include="Configs\Themes\darkTheme.toml">

@@ -1,9 +1,61 @@
 ﻿using FangJia.Cores.Base;
+using FangJia.Models.ConfigModels;
+using NLog;
+using System.Collections.ObjectModel;
+using System.IO;
+using Tomlyn;
+using Tomlyn.Model;
+using WinRT;
 
-namespace FangJia.ViewModels.PageViewModels
+namespace FangJia.ViewModels.PageViewModels;
+
+internal class SettingViewModel : BaseViewModel
 {
-    class SettingViewModel : BaseViewModel
+    private new static readonly Logger Logger = LogManager.GetCurrentClassLogger();
+    public SettingViewModel()
     {
+        // 读取配置文件
+        var tomlContent = File.ReadAllText("Configs/SettingConfig.toml");
 
+        // 解析 TOML 内容
+        var tomlTable = Toml.Parse(tomlContent).ToModel();
+
+        // 提取 "Groups" 部分的数据
+        var groups = tomlTable["Groups"] as TomlTableArray;
+        foreach (var group in groups!)
+        {
+            // 解析并映射数据到 C# 类
+            var appearanceGroup = new Group
+            {
+                Title = group["Title"].ToString()!,
+                Key = group["Key"].ToString()!,
+                Items = []
+            };
+
+            foreach (var item in (group["Items"] as TomlTableArray)!)
+            {
+                appearanceGroup.Items.Add(new Item
+                {
+                    Name = item["Name"].ToString()!,
+                    Key = item["Key"].ToString()!,
+                    Type = item["Type"].ToString()!,
+                    ControlType = item["ControlType"].ToString()!,
+                    ControlStyle = item["ControlStyle"].ToString()!,
+                    Default = item["Default"].ToString()!,
+                    Values = item["Values"] as List<string> ?? [],
+                    Options = item["Options"] as List<string> ?? [],
+                    IsEnable = item["IsEnable"].As<bool>(),
+                    Tip = item["Tip"].ToString()!
+                });
+            }
+            Groups.Add(appearanceGroup);
+        }
+        Logger.Debug(Groups.Count);
+        Logger.Debug(Groups[0].Title);
     }
+
+    public ObservableCollection<Group> Groups
+    {
+        get; set;
+    } = [];
 }
