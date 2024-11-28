@@ -1,6 +1,4 @@
-﻿using FangJia.Models.ConfigModels;
-using NLog;
-using System.Collections.ObjectModel;
+﻿using NLog;
 
 namespace FangJia.Views.Pages
 {
@@ -13,10 +11,6 @@ namespace FangJia.Views.Pages
         public Setting()
         {
             InitializeComponent();
-            var x = ItemsControl.ItemsSource as ObservableCollection<Group>;
-            Logger.Debug(x?[0].Title);
-            var y = ItemsControl.Items.CurrentItem as Group;
-            Logger.Debug(y?.Title);
         }
     }
 }

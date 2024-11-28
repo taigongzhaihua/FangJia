@@ -11,7 +11,7 @@
     <Page.DataContext>
         <pageViewModels:SettingViewModel/>
     </Page.DataContext>
-    <Grid Margin="15,20">
+    <Grid>
         <ScrollViewer VerticalScrollBarVisibility="Auto">
             <ItemsControl ItemsSource="{Binding Groups,Mode=TwoWay}"
                           x:Name="ItemsControl">

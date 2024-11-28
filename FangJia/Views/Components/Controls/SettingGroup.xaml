@@ -5,8 +5,12 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:base="clr-namespace:FangJia.Cores.Base"
              xmlns:controls="clr-namespace:FangJia.Views.Components.Controls"
+             xmlns:converters="clr-namespace:FangJia.Cores.Utils.Converters"
              mc:Ignorable="d"
-             MaxWidth="750">
+             Width="560">
+    <base:BaseControl.Resources>
+        <converters:StringToStyleConverter x:Key="StringToStyleConverter"/>
+    </base:BaseControl.Resources>
     <controls:ShadowBorder CornerRadius="15"
                            Padding="10" Margin="20">
         <Grid>
@@ -25,19 +29,16 @@
                           >
                 <ItemsControl.ItemsPanel>
                     <ItemsPanelTemplate>
-                        <StackPanel Orientation="Vertical"></StackPanel>
+                        <StackPanel Orientation="Vertical" IsItemsHost="True"/>
                     </ItemsPanelTemplate>
                 </ItemsControl.ItemsPanel>
                 <ItemsControl.ItemTemplate>
                     <DataTemplate>
-                        <Grid>
-                            <Grid.ColumnDefinitions>
-                                <ColumnDefinition Width="Auto"/>
-                                <ColumnDefinition Width="*"/>
-                            </Grid.ColumnDefinitions>
-                            <TextBlock Text="{Binding Name}"
-                                       Grid.Column="0"/>
-                        </Grid>
+                        <controls:SettingItem Title="{Binding Name,Mode=TwoWay}"
+                                              ControlType="{Binding ControlType,Mode=TwoWay}"
+                                              Tip="{Binding Tip,Mode=TwoWay}"
+                                              Options="{Binding Options,Mode=TwoWay}"
+                                              Key="{Binding Key,Mode=TwoWay}"/>
                     </DataTemplate>
                 </ItemsControl.ItemTemplate>
             </ItemsControl>

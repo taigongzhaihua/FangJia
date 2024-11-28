@@ -29,7 +29,7 @@ public class MainWindowViewModel : BaseViewModel
         set => SetProperty(ref _menuSelectedIndex, value);
     }
 
-    private string _pageTitle;
+    private string _pageTitle = null!;
     public string PageTitle
     {
         get => _pageTitle;

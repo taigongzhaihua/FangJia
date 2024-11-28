@@ -34,7 +34,7 @@ internal class SettingViewModel : BaseViewModel
 
             foreach (var item in (group["Items"] as TomlTableArray)!)
             {
-                appearanceGroup.Items.Add(new Item
+                var outItem = new Item
                 {
                     Name = item["Name"].ToString()!,
                     Key = item["Key"].ToString()!,
@@ -42,11 +42,18 @@ internal class SettingViewModel : BaseViewModel
                     ControlType = item["ControlType"].ToString()!,
                     ControlStyle = item["ControlStyle"].ToString()!,
                     Default = item["Default"].ToString()!,
-                    Values = item["Values"] as List<string> ?? [],
-                    Options = item["Options"] as List<string> ?? [],
+                    Options = [],
                     IsEnable = item["IsEnable"].As<bool>(),
                     Tip = item["Tip"].ToString()!
-                });
+                };
+                if (item.TryGetValue("Options", out var options))
+                {
+                    foreach (var option in (options as TomlArray)!)
+                    {
+                        outItem.Options.Add(option?.ToString()!);
+                    }
+                }
+                appearanceGroup.Items.Add(outItem);
             }
             Groups.Add(appearanceGroup);
         }
