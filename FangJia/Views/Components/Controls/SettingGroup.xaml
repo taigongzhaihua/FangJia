@@ -7,17 +7,15 @@
              xmlns:controls="clr-namespace:FangJia.Views.Components.Controls"
              mc:Ignorable="d"
              Width="560">
-    <controls:ShadowBorder CornerRadius="15"
-                           Padding="10" Margin="20">
-        <controls:ShadowBorder.Style>
-            <Style TargetType="controls:ShadowBorder">
-                <Setter Property="ShadowColor" Value="{StaticResource ShadowColor}"/>
-                <Setter Property="ShadowDepth" Value="0"/>
-                <Setter Property="ShadowOpacity" Value="0.5"/>
-                <Setter Property="ShadowBlurRadius" Value="15"/>
-                <Setter Property="Background" Value="{StaticResource BackgroundBrush}"></Setter>
+    <Border CornerRadius="15"
+            Padding="10" Margin="20"
+            BorderThickness="0.5">
+        <Border.Style>
+            <Style TargetType="Border">
+                <Setter Property="Background" Value="{StaticResource BackgroundBrush}"/>
+                <Setter Property="BorderBrush" Value="{StaticResource WeakAccentForegroundBrush}"></Setter>
             </Style>
-        </controls:ShadowBorder.Style>
+        </Border.Style>
         <Grid>
             <Grid.RowDefinitions>
                 <RowDefinition />
@@ -39,16 +37,16 @@
                 </ItemsControl.ItemsPanel>
                 <ItemsControl.ItemTemplate>
                     <DataTemplate>
-                        <controls:SettingItem Title="{Binding Name,Mode=TwoWay}"
-                                              ControlType="{Binding ControlType,Mode=TwoWay}"
-                                              Tip="{Binding Tip,Mode=TwoWay}"
-                                              Options="{Binding Options,Mode=TwoWay}"
-                                              Key="{Binding Key,Mode=TwoWay}"
+                        <controls:SettingItem Title="{Binding Name,Mode=OneWay}"
+                                              ControlType="{Binding ControlType,Mode=OneWay}"
+                                              Tip="{Binding Tip,Mode=OneWay}"
+                                              Options="{Binding Options,Mode=OneWay}"
+                                              Key="{Binding Key,Mode=OneWay}"
                                               ValueType="{Binding Type}"
                                               Margin="10"/>
                     </DataTemplate>
                 </ItemsControl.ItemTemplate>
             </ItemsControl>
         </Grid>
-    </controls:ShadowBorder>
+    </Border>
 </base:BaseControl>

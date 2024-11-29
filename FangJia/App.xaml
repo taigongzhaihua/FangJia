@@ -11,6 +11,7 @@
                 <ResourceDictionary Source="/Resources/buttons.xaml"/>
                 <ResourceDictionary Source="Resources/Grids.xaml"/>
                 <ResourceDictionary Source="Resources/TextBlocks.xaml"/>
+                <ResourceDictionary Source="Resources/ListBoxs.xaml"/>
             </ResourceDictionary.MergedDictionaries>
         </ResourceDictionary>
     </Application.Resources>

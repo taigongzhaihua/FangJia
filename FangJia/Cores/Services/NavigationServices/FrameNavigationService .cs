@@ -1,40 +1,27 @@
 ﻿using FangJia.Cores.Interfaces;
 using FangJia.Models.ConfigModels;
-using System.Diagnostics.CodeAnalysis;
+using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Media.Animation;
 
 namespace FangJia.Cores.Services.NavigationServices;
 
-/// <summary>
-/// FrameNavigationService 类，用于管理 Frame 的导航功能。
-/// 提供页面导航、后退和前进的功能。
-/// </summary>
-[SuppressMessage("ReSharper", "UnusedMember.Global")]
 public class FrameNavigationService : INavigationService
 {
     private readonly Frame _frame;
     private readonly Dictionary<string, string> _pageMappings;
     private string? _currentViewName;
-    private readonly Stack<string?> _backNameStack = [];
-    private readonly Stack<string?> _forwardNameStack = [];
+    private readonly Stack<string?> _backNameStack = new();
+    private readonly Stack<string?> _forwardNameStack = new();
 
-    /// <summary>
-    /// 构造函数，初始化 FrameNavigationService 实例。
-    /// </summary>
-    /// <param name="frame">用于导航的 Frame 对象。</param>
-    /// <param name="pageConfigs">页面配置的列表，用于映射页面名称到页面 URI。</param>
     public FrameNavigationService(Frame frame, List<PageConfig> pageConfigs)
     {
-        // 检查 frame 参数是否为 null
-        _frame = frame ?? throw new ArgumentNullException(paramName: nameof(frame));
+        _frame = frame ?? throw new ArgumentNullException(nameof(frame));
+        _pageMappings = new Dictionary<string, string>();
 
-        // 初始化页面映射字典
-        _pageMappings = [];
-
-        // 根据页面配置列表填充页面映射字典
         foreach (var config in pageConfigs)
         {
-            _pageMappings[key: config.Name!] = config.Uri!;
+            _pageMappings[config.Name!] = config.Uri!;
         }
     }
 
@@ -43,17 +30,19 @@ public class FrameNavigationService : INavigationService
         return _currentViewName;
     }
 
-    /// <summary>
-    /// 导航到指定的视图。
-    /// </summary>
-    /// <param name="viewName">要导航到的视图名称。</param>
     public void NavigateTo(string? viewName)
     {
         if (viewName == CurrentViewName()) return;
-        // 根据视图名称查找对应的 URI 并导航
-        if (_pageMappings.TryGetValue(key: viewName!, value: out var uri))
+
+        if (_pageMappings.TryGetValue(viewName!, out var uri))
         {
-            _frame.Navigate(source: new Uri(uriString: uri, uriKind: UriKind.Relative));
+            // 获取当前页面的内容
+            var currentContent = _frame.Content as UIElement;
+
+            // 执行页面切换动画
+            StartPageTransitionAnimation(currentContent, uri, "Navigate");
+
+            // 更新视图信息
             if (!string.IsNullOrEmpty(_currentViewName))
             {
                 _backNameStack.Push(CurrentViewName());
@@ -63,35 +52,107 @@ public class FrameNavigationService : INavigationService
         }
         else
         {
-            // 如果找不到视图，抛出异常
-            throw new ArgumentException(message: $"View {viewName} not found in configuration.");
+            throw new ArgumentException($"View {viewName} not found in configuration.");
         }
     }
 
+    private void StartPageTransitionAnimation(UIElement? currentContent, string uri, string type)
+    {
+        if (currentContent == null)
+        {
+            _frame.Navigate(new Uri(uri, UriKind.Relative));
+            var newContent = _frame.Content as UIElement;
+            ApplyFadeInAnimation(newContent);
+        }
+        else
+        {
+            // 执行当前页面的淡出动画
+            ApplyFadeOutAnimation(currentContent, uri, type);
+        }
+    }
+
+    private void ApplyFadeOutAnimation(UIElement content, string uri, string type)
+    {
+        var fadeOutAnimation = new DoubleAnimation
+        {
+            From = 1,
+            To = 0,
+            Duration = TimeSpan.FromSeconds(0.2)
+        };
+
+        fadeOutAnimation.Completed += (_, _) =>
+        {
+            switch (type)
+            {
+                case "Back":
+                    _frame.GoBack();
+                    break;
+                case "Forward":
+                    _frame.GoForward();
+                    break;
+                case "Navigate":
+                    _frame.Navigate(new Uri(uri, UriKind.Relative));
+                    break;
+            }
+
+            // 在新页面加载完成后应用淡入动画
+            var newContent = _frame.Content as UIElement;
+            ApplyFadeInAnimation(newContent);
+        };
+
+        content.BeginAnimation(UIElement.OpacityProperty, fadeOutAnimation);
+    }
+
+    private static void ApplyFadeInAnimation(UIElement? content)
+    {
+        if (content == null) return;
+        var fadeInAnimation = new DoubleAnimation
+        {
+            From = 0,
+            To = 1,
+            Duration = TimeSpan.FromSeconds(0.2)
+        };
+
+        content.BeginAnimation(UIElement.OpacityProperty, fadeInAnimation);
+    }
+
     /// <summary>
-    /// 导航回到前一个页面。
+    /// 导航回到前一个页面，并添加页面切换动画。
     /// </summary>
     public void GoBack()
     {
-        // 如果可以后退，则执行后退操作
         if (!_frame.CanGoBack) return;
-        _frame.GoBack();
+
+        // 获取当前页面的内容，用于淡出动画
+        var currentContent = _frame.Content as UIElement;
+        if (!_pageMappings.TryGetValue(_backNameStack.Peek()!, out var uri)) return;
+        // 执行页面后退的动画
+        StartPageTransitionAnimation(currentContent, uri, "Back");
+
+        // 更新视图信息
         _forwardNameStack.Push(CurrentViewName());
         _currentViewName = _backNameStack.Pop();
+
     }
 
     /// <summary>
-    /// 导航到下一个页面。
+    /// 导航到下一个页面，并添加页面切换动画。
     /// </summary>
     public void GoForward()
     {
-        // 如果可以前进，则执行前进操作
-        if (_frame.CanGoForward)
-        {
-            _frame.GoForward();
-            _backNameStack.Push(CurrentViewName());
-            _currentViewName = _forwardNameStack.Pop();
-        }
-    }
+        if (!_frame.CanGoForward) return;
 
+        // 获取当前页面的内容，用于淡出动画
+        var currentContent = _frame.Content as UIElement;
+
+        if (!_pageMappings.TryGetValue(_forwardNameStack.Peek()!, out var uri)) return;
+
+        // 执行页面后退的动画
+        StartPageTransitionAnimation(currentContent, uri, "Forward");
+
+        // 更新视图信息
+        _backNameStack.Push(CurrentViewName());
+        _currentViewName = _forwardNameStack.Pop();
+
+    }
 }

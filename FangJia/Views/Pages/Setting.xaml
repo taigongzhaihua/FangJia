@@ -12,7 +12,7 @@
         <pageViewModels:SettingViewModel/>
     </Page.DataContext>
     <Grid>
-        <ScrollViewer VerticalScrollBarVisibility="Auto">
+        <ScrollViewer VerticalScrollBarVisibility="Auto" Background="Transparent">
             <ItemsControl ItemsSource="{Binding Groups,Mode=TwoWay}"
                           x:Name="ItemsControl">
                 <ItemsControl.ItemsPanel>
@@ -22,8 +22,8 @@
                 </ItemsControl.ItemsPanel>
                 <ItemsControl.ItemTemplate>
                     <DataTemplate>
-                        <controls:SettingGroup Title="{Binding Title}"
-                                               ItemsSource="{Binding Items}"/>
+                        <controls:SettingGroup Title="{Binding Title,Mode=OneWay}"
+                                               ItemsSource="{Binding Items,Mode=OneWay}"/>
                     </DataTemplate>
                 </ItemsControl.ItemTemplate>
             </ItemsControl>
