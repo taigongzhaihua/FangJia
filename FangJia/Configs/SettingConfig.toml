@@ -5,21 +5,19 @@ Key = "Appearance"
 [[Groups.Items]]
 Name = "主题"
 Key = "Theme"
-Type = "String"
+Type = "System.String"
 ControlType = "ComboBox"
 ControlStyle = "ColorComboBox"
-Default = "lightTheme"
-Options = ["浅色主题", "深色主题"]
+Options = ["lightTheme", "darkTheme"]
 IsEnable = true
-Tip = "选择应用的主题"
+Tip = "更换主题后部分不见不会立即生效，请重启应用"
 
 [[Groups.Items]]
 Name = "语言"
 Key = "Language"
-Type = "String"
+Type = "System.String"
 ControlType = "ComboBox"
 ControlStyle = "DefaultComboBox"
-Default = "zh-CN"
 Options = ["简体中文", "English"]
 IsEnable = false
 Tip = "选择应用的语言"
@@ -27,10 +25,9 @@ Tip = "选择应用的语言"
 [[Groups.Items]]
 Name = "默认字体"
 Key = "Font"
-Type = "String"
+Type = "System.String"
 ControlType = "ComboBox"
 ControlStyle = "DefaultComboBox"
-Default = "Microsoft YaHei"
 Options = ["微软雅黑", "宋体", "黑体", "Arial"]
 IsEnable = true
 Tip = "选择应用的默认字体"

@@ -2,7 +2,7 @@
 {
     public interface INavigationService
     {
-        string CurrentViewName();
+        string? CurrentViewName();
         void NavigateTo(string? viewName);
         void GoBack();
         void GoForward();

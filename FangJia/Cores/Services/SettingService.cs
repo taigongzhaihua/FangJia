@@ -4,11 +4,11 @@ namespace FangJia.Cores.Services;
 
 public class SettingService(IEventAggregator eventAggregator)
 {
-    public void UpdateSetting(string key, object newValue)
+    public void UpdateSetting(string key, object newValue, Type type)
     {
         // 将更新存储到设置中
         // 假设你有一个方法 `SaveSetting` 来存储设置
-        SaveSetting(key, newValue);
+        SaveSetting(key, newValue, type);
 
         // 发布更新事件
         eventAggregator.GetEvent<SettingChangedEvent>().Publish(new SettingChangedEventArgs
@@ -18,9 +18,9 @@ public class SettingService(IEventAggregator eventAggregator)
         });
     }
 
-    private static void SaveSetting(string key, object newValue)
+    private static void SaveSetting(string key, object newValue, Type type)
     {
-        Properties.Settings.Default[key] = newValue;
+        Properties.Settings.Default[key] = Convert.ChangeType(newValue, type);
         Properties.Settings.Default.Save();
     }
 

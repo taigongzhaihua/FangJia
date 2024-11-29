@@ -14,7 +14,6 @@ public class Item
     public string? Type { get; set; }
     public string? ControlType { get; set; }
     public string? ControlStyle { get; set; }
-    public string? Default { get; set; }
     public List<string>? Options { get; set; }
     public bool IsEnable { get; set; }
     public string? Tip { get; set; }

@@ -18,7 +18,8 @@
     <Color x:Key="AlertColor">Goldenrod</Color>
     <Color x:Key="WarningColor">OrangeRed</Color>
     <Color x:Key="DangerColor">IndianRed</Color>
-    <Color x:Key="EmphasisHighlightColor">White</Color>
+    <Color x:Key="AccentHighlightColor">White</Color>
+    <Color x:Key="AccentHighlightForegroundColor">Black</Color>
 
     <!-- 定义 SolidColorBrush -->
     <SolidColorBrush x:Key="BackgroundBrush" Color="{DynamicResource BackgroundColor}"/>
@@ -36,6 +37,7 @@
     <SolidColorBrush x:Key="AlertBrush" Color="{DynamicResource AlertColor}"/>
     <SolidColorBrush x:Key="WarningBrush" Color="{DynamicResource WarningColor}"/>
     <SolidColorBrush x:Key="DangerBrush" Color="{DynamicResource DangerColor}"/>
-    <SolidColorBrush x:Key="EmphasisHighlightBrush" Color="{DynamicResource EmphasisHighlightColor}"/>
+    <SolidColorBrush x:Key="AccentHighlightBrush" Color="{DynamicResource AccentHighlightColor}"/>
+    <SolidColorBrush x:Key="AccentHighlightForegroundBrush" Color="{DynamicResource AccentHighlightForegroundColor}"/>
 
 </ResourceDictionary>

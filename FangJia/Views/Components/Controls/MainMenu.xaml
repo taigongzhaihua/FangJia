@@ -5,6 +5,7 @@
                   xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
                   xmlns:base="clr-namespace:FangJia.Cores.Base"
                   xmlns:converters="clr-namespace:FangJia.Cores.Utils.Converters"
+                  xmlns:controls="clr-namespace:FangJia.Views.Components.Controls"
                   mc:Ignorable="d"
                   d:DesignHeight="450" d:DesignWidth="800">
 
@@ -18,7 +19,8 @@
                         <Grid>
                             <Border x:Name="Border" Background="{TemplateBinding Background}"
                                     Margin="0,5"
-                                    Padding="8"
+                                    Padding="5"
+                                    Height="42"
                                     CornerRadius="5">
 
                                 <StackPanel Orientation="Horizontal">
@@ -26,8 +28,8 @@
                                                Text="{Binding Icon}"
                                                Foreground="{TemplateBinding Foreground}"
                                                FontSize="24" FontFamily="{DynamicResource IconFont}"
-                                               Width="{Binding ActualHeight, RelativeSource={RelativeSource Self}}"
-                                               Margin="0,0,13,0"
+                                               Width="30"
+                                               Margin="0,0,10,0"
                                                TextAlignment="Center"
                                                VerticalAlignment="Center" />
                                     <TextBlock x:Name="TextBlock" 
@@ -47,14 +49,6 @@
                                                                 Storyboard.TargetProperty="Margin"
                                                                 Duration="0:0:0.2"
                                                                 To="0"/>
-                                            <ThicknessAnimation Storyboard.TargetName="Border"
-                                                                Storyboard.TargetProperty="Padding"
-                                                                Duration="0:0:0.2"
-                                                                To="8"/>
-                                            <ThicknessAnimation Storyboard.TargetName="IconBlock"
-                                                                Storyboard.TargetProperty="Margin"
-                                                                Duration="0:0:0.2"
-                                                                To="0,0,13,0"/>
                                             <DoubleAnimation Storyboard.TargetName="TextBlock"
                                                              Storyboard.TargetProperty="FontSize"
                                                              Duration="0:0:0.2"
@@ -72,14 +66,6 @@
                                                                 Storyboard.TargetProperty="Margin"
                                                                 Duration="0:0:0.2"
                                                                 To="10,0,0,0"/>
-                                            <ThicknessAnimation Storyboard.TargetName="Border"
-                                                                Storyboard.TargetProperty="Padding"
-                                                                Duration="0:0:0.2"
-                                                                To="5"/>
-                                            <ThicknessAnimation Storyboard.TargetName="IconBlock"
-                                                                Storyboard.TargetProperty="Margin"
-                                                                Duration="0:0:0.2"
-                                                                To="0,0,10,0"/>
                                             <DoubleAnimation Storyboard.TargetName="TextBlock"
                                                              Storyboard.TargetProperty="FontSize"
                                                              Duration="0:0:0.2"
@@ -101,8 +87,6 @@
         <!-- ListBoxItem Style -->
         <converters:MainMenuListWidthConverter x:Key="MainMenuListWidthConverter" />
         <Style x:Key="SidebarListBoxItemStyle" TargetType="ListBoxItem">
-            <EventSetter Event="MouseEnter" Handler="ListItem_OnMouseEnter"/>
-            <EventSetter Event="MouseLeave" Handler="ListItem_OnMouseLeave"/>
             <Setter Property="Template">
                 <Setter.Value>
                     <ControlTemplate TargetType="ListBoxItem">
@@ -111,7 +95,7 @@
                                           IsChecked="{Binding IsSelected, Mode=TwoWay, RelativeSource={RelativeSource TemplatedParent}}"
                                           Command="{Binding Command}"
                                           Width="{Binding ActualWidth,ElementName=SidebarListBox,Converter={StaticResource MainMenuListWidthConverter}}"
-                                          Style="{StaticResource MenuToggleButtonStyle}" 
+                                          Style="{DynamicResource MenuToggleButtonStyle}" 
                                           />
                             <VisualStateManager.VisualStateGroups>
                                 <VisualStateGroup x:Name="CommonStates">
@@ -120,10 +104,10 @@
                                         <Storyboard>
                                             <ColorAnimation Storyboard.TargetName="MenuItem"
                                                             Storyboard.TargetProperty="(MenuItem.Background).(SolidColorBrush.Color)"
-                                                            To="{StaticResource AccentBackgroundColor}" Duration="0:0:0.3" />
+                                                            To="#00000000" Duration="0:0:0.3" />
                                             <ColorAnimation Storyboard.TargetName="MenuItem"
                                                             Storyboard.TargetProperty="(MenuItem.Foreground).(SolidColorBrush.Color)"
-                                                            To="{StaticResource AccentForegroundColor}" Duration="0:0:0.3" />
+                                                            To="{DynamicResource AccentForegroundColor}" Duration="0:0:0.3" />
                                         </Storyboard>
                                     </VisualState>
                                     <!-- MouseOver State -->
@@ -131,10 +115,10 @@
                                         <Storyboard>
                                             <ColorAnimation Storyboard.TargetName="MenuItem"
                                                             Storyboard.TargetProperty="(MenuItem.Background).(SolidColorBrush.Color)"
-                                                            To="{StaticResource AccentOverlayColor}" Duration="0:0:0.3" />
+                                                            To="{DynamicResource AccentOverlayColor}" Duration="0:0:0.3" />
                                             <ColorAnimation Storyboard.TargetName="MenuItem"
                                                             Storyboard.TargetProperty="(MenuItem.Foreground).(SolidColorBrush.Color)"
-                                                            To="{StaticResource AccentForegroundColor}" Duration="0:0:0.3" />
+                                                            To="{DynamicResource AccentForegroundColor}" Duration="0:0:0.3" />
                                         </Storyboard>
                                     </VisualState>
                                     <!-- Selected State -->
@@ -142,10 +126,10 @@
                                         <Storyboard>
                                             <ColorAnimation Storyboard.TargetName="MenuItem"
                                                             Storyboard.TargetProperty="(MenuItem.Background).(SolidColorBrush.Color)"
-                                                            To="{StaticResource EmphasisHighlightColor}" Duration="0:0:0.3" />
+                                                            To="{DynamicResource AccentHighlightColor}" Duration="0:0:0.3" />
                                             <ColorAnimation Storyboard.TargetName="MenuItem"
                                                             Storyboard.TargetProperty="(MenuItem.Foreground).(SolidColorBrush.Color)"
-                                                            To="{StaticResource ForegroundColor}" Duration="0:0:0.3" />
+                                                            To="{DynamicResource AccentHighlightForegroundColor}" Duration="0:0:0.3" />
                                         </Storyboard>
                                     </VisualState>
                                 </VisualStateGroup>
@@ -155,65 +139,10 @@
                 </Setter.Value>
             </Setter>
         </Style>
-        <Style TargetType="Button" x:Key="OpenButtonStyle">
-            <Setter Property="Width" Value="30"/>
-            <Setter Property="Height" Value="30"/>
-            <Setter Property="Template">
-                <Setter.Value>
-                    <ControlTemplate>
-                        <Grid>
-                            <Border Background="{TemplateBinding Background}"
-                                    Width="{TemplateBinding ActualWidth}"
-                                    Height="{TemplateBinding ActualHeight}"
-                                    CornerRadius="15"
-                                    HorizontalAlignment="Center" VerticalAlignment="Center"/>
-                            <Border Background="#00000000"
-                                    Width="{TemplateBinding ActualWidth}"
-                                    Height="{TemplateBinding ActualHeight}"
-                                    CornerRadius="15" x:Name="Border"
-                                    HorizontalAlignment="Center" VerticalAlignment="Center"/>
-                            <TextBlock Text="&#xe63c;" Foreground="{TemplateBinding Foreground}"
-                                       FontFamily="{DynamicResource IconFont}"
-                                       FontSize="16" x:Name="TextBlock"
-                                       VerticalAlignment="Center" HorizontalAlignment="Center"/>
-                            <VisualStateManager.VisualStateGroups>
-                                <VisualStateGroup>
-                                    <VisualState x:Name="Normal">
-                                        <Storyboard>
-                                            <ColorAnimation Storyboard.TargetName="Border"
-                                                            Storyboard.TargetProperty="(Border.Background).(SolidColorBrush.Color)"
-                                                            Duration="0:0:0.2"
-                                                            To="Transparent"/>
-                                        </Storyboard>
-                                    </VisualState>
-                                    <VisualState x:Name="MouseOver">
-                                        <Storyboard>
-                                            <ColorAnimation Storyboard.TargetName="Border"
-                                                            Storyboard.TargetProperty="(Border.Background).(SolidColorBrush.Color)"
-                                                            Duration="0:0:0.2"
-                                                            To="{StaticResource HoverOverlayColor}"/>
-                                        </Storyboard>
-                                    </VisualState>
-                                    <VisualState x:Name="Pressed">
-                                        <Storyboard>
-                                            <ColorAnimation Storyboard.TargetName="Border"
-                                                            Storyboard.TargetProperty="(Border.Background).(SolidColorBrush.Color)"
-                                                            Duration="0:0:0.2"
-                                                            To="{StaticResource PressedOverlayColor}"/>
-                                        </Storyboard>
-                                    </VisualState>
-                                </VisualStateGroup>
 
-                            </VisualStateManager.VisualStateGroups>
-                        </Grid>
-                        
-                    </ControlTemplate>
-                </Setter.Value>
-            </Setter>
-        </Style>
     </base:BaseControl.Resources>
 
-    <Grid Background="{StaticResource  AccentBackgroundBrush}">
+    <Grid Style="{DynamicResource MainMenuGrid}">
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="Auto"/>
             <ColumnDefinition Width="Auto"/>
@@ -222,102 +151,78 @@
             <RowDefinition Height="Auto"/>
             <RowDefinition Height="*"/>
         </Grid.RowDefinitions>
-        <Grid.Effect>
-            <DropShadowEffect BlurRadius="15" ShadowDepth="0" Opacity="0.6" Color="{StaticResource ShadowColor}"/>
-        </Grid.Effect>
-        <Grid Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="2"
-              Height="40" Margin="-10,0">
 
-            <TextBlock 
-                   x:Name="TitleBlock"
+        <Grid Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="2" Height="40" Margin="-10,0">
+            <TextBlock x:Name="TitleBlock"
                    Text="{Binding Title }"
                    FontSize="18" FontFamily="华文行楷" TextAlignment="Center"
                    Foreground="{StaticResource AccentForegroundBrush}"
                    HorizontalAlignment="Center" VerticalAlignment="Bottom"
                    Margin="0"/>
         </Grid>
-        
+
         <Grid Grid.Column="0" Grid.Row="1" x:Name="ListGrid">
-            <!-- Items ListBox -->
             <ListBox x:Name="SidebarListBox"
-                     Margin="5" BorderThickness="0"
-                     ScrollViewer.VerticalScrollBarVisibility="Auto"
-                     Width="42" Background="Transparent"
-                     SelectionMode="Single"
-                     SelectionChanged="ListBox_SelectionChanged">
+                 Margin="5" BorderThickness="0"
+                 ScrollViewer.VerticalScrollBarVisibility="Auto"
+                 Width="42" Background="Transparent"
+                 SelectionMode="Single"
+                 SelectionChanged="ListBox_SelectionChanged">
                 <ListBox.ItemContainerStyle>
                     <StaticResource ResourceKey="SidebarListBoxItemStyle" />
                 </ListBox.ItemContainerStyle>
             </ListBox>
         </Grid>
+
         <Button Grid.Row="0" Grid.Column="1" Grid.RowSpan="2"
-                x:Name="Button"
-                Margin="-5,0,-15,0"
-                VerticalAlignment="Center"
-                Foreground="Black"
-                Background="White"
-                Click="Button_OnClick" 
-                Style="{DynamicResource OpenButtonStyle}">
+            x:Name="Button"
+            Margin="-5,0,-15,0"
+            VerticalAlignment="Center"
+            Click="Button_OnClick" 
+            Style="{DynamicResource OpenButtonStyle}">
             <Button.RenderTransform>
                 <RotateTransform Angle="0" CenterX="15" CenterY="15" />
             </Button.RenderTransform>
         </Button>
-        <!-- 状态机 -->
+
+
+
+        <!-- 保留 VisualStateManager 中的其他动画 -->
         <VisualStateManager.VisualStateGroups>
             <VisualStateGroup x:Name="OpenCloseStates">
                 <!-- Open 状态 -->
                 <VisualState x:Name="Open">
                     <Storyboard>
-                        <ColorAnimation Storyboard.TargetName="Button"
-                                        Storyboard.TargetProperty="(Button.Background).(SolidColorBrush.Color)"
-                                        Duration="0:0:0.2"
-                                        To="{StaticResource AccentOverlayColor}"/>
-                        <ColorAnimation Storyboard.TargetName="Button"
-                                        Storyboard.TargetProperty="(Button.Foreground).(SolidColorBrush.Color)"
-                                        Duration="0:0:0.2"
-                                        To="{StaticResource AccentForegroundColor}"/>
                         <DoubleAnimation Storyboard.TargetName="SidebarListBox"
-                                         Storyboard.TargetProperty="Width"
-                                         To="160" Duration="0:0:0.2"/>
+                                     Storyboard.TargetProperty="Width"
+                                     To="160" Duration="0:0:0.2"/>
                         <DoubleAnimation Storyboard.TargetName="Button"
-                                         Storyboard.TargetProperty="RenderTransform.Angle"
-                                         To="180" Duration="0:0:0.2" />
+                                     Storyboard.TargetProperty="RenderTransform.Angle"
+                                     To="180" Duration="0:0:0.2" />
                         <DoubleAnimation Storyboard.TargetName="TitleBlock"
-                                         Storyboard.TargetProperty="FontSize"
-                                         To="24" Duration="0:0:0.2"/>
-                        <!-- <ThicknessAnimation Storyboard.TargetName="TitleBlock" -->
-                        <!--                     Storyboard.TargetProperty="Margin" -->
-                        <!--                     To="40,13,0,2" Duration="0:0:0.2"/> -->
+                                     Storyboard.TargetProperty="FontSize"
+                                     To="24" Duration="0:0:0.2"/>
                     </Storyboard>
                 </VisualState>
 
                 <!-- Close 状态 -->
                 <VisualState x:Name="Close">
                     <Storyboard>
-                        <ColorAnimation Storyboard.TargetName="Button"
-                                        Storyboard.TargetProperty="(Button.Background).(SolidColorBrush.Color)"
-                                        Duration="0:0:0.2"
-                                        To="{StaticResource EmphasisHighlightColor}"/>
-                        <ColorAnimation Storyboard.TargetName="Button"
-                                        Storyboard.TargetProperty="(Button.Foreground).(SolidColorBrush.Color)"
-                                        Duration="0:0:0.2"
-                                        To="{StaticResource ForegroundColor}"/>
                         <DoubleAnimation Storyboard.TargetName="SidebarListBox"
-                                         Storyboard.TargetProperty="Width"
-                                         To="42" Duration="0:0:0.2"/>
+                                     Storyboard.TargetProperty="Width"
+                                     To="42" Duration="0:0:0.2"/>
                         <DoubleAnimation Storyboard.TargetName="Button"
-                                         Storyboard.TargetProperty="RenderTransform.Angle"
-                                         To="0" Duration="0:0:0.2" />
+                                     Storyboard.TargetProperty="RenderTransform.Angle"
+                                     To="0" Duration="0:0:0.2" />
                         <DoubleAnimation Storyboard.TargetName="TitleBlock"
-                                         Storyboard.TargetProperty="FontSize"
-                                         To="18" Duration="0:0:0.2"/>
-                        <!-- <ThicknessAnimation Storyboard.TargetName="TitleBlock" -->
-                        <!--                     Storyboard.TargetProperty="Margin" -->
-                        <!--                     To="10,15,0,5" Duration="0:0:0.2" /> -->
+                                     Storyboard.TargetProperty="FontSize"
+                                     To="18" Duration="0:0:0.2"/>
                     </Storyboard>
                 </VisualState>
             </VisualStateGroup>
         </VisualStateManager.VisualStateGroups>
     </Grid>
+
+
 </base:BaseControl>
 

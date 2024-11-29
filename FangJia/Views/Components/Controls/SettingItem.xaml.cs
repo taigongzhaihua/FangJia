@@ -15,12 +15,12 @@ public partial class SettingItem
     private new static readonly Logger Logger = LogManager.GetCurrentClassLogger();
     private readonly SettingService _settingService;
     private UIElement _control;
+
     public SettingItem()
     {
         InitializeComponent();
         SetBindings();
-        IEventAggregator eventAggregator = new EventAggregator();
-        _settingService = new SettingService(eventAggregator);
+        _settingService = ServiceLocator.GetService<SettingService>();
         _control = new UIElement();
     }
 
@@ -29,6 +29,7 @@ public partial class SettingItem
         TitleBlock.SetBinding(TextBlock.TextProperty, new Binding(nameof(Title)) { Source = this });
         TipBlock.SetBinding(TextBlock.TextProperty, new Binding(nameof(Tip)) { Source = this });
     }
+
     private void CreateControl()
     {
         switch (ControlType)
@@ -36,10 +37,7 @@ public partial class SettingItem
             case "TextBox":
                 var textBox = new TextBox();
                 textBox.SetBinding(TextBox.TextProperty, new Binding(nameof(Value)) { Source = this });
-                textBox.TextChanged += (_, _) =>
-                {
-                    _settingService.UpdateSetting(Key, Value);
-                };
+                textBox.TextChanged += (_, _) => { _settingService.UpdateSetting(Key, Value, Type.GetType(ValueType)!); };
                 _control = textBox;
                 break;
 
@@ -47,25 +45,15 @@ public partial class SettingItem
                 var comboBox = new ComboBox();
                 comboBox.SetBinding(ItemsControl.ItemsSourceProperty, new Binding(nameof(Options)) { Source = this });
                 comboBox.SetBinding(Selector.SelectedItemProperty, new Binding(nameof(Value)) { Source = this });
-                comboBox.SelectionChanged += (_, _) =>
-                {
-                    _settingService.UpdateSetting(Key, Value);
-                    Logger.Debug($"key = {Key}, value = {Value}");
-                };
+                comboBox.SelectionChanged += (_, _) => { _settingService.UpdateSetting(Key, Value, Type.GetType(ValueType)!); };
                 _control = comboBox;
                 break;
 
             case "CheckBox":
                 var checkBox = new CheckBox();
                 checkBox.SetBinding(ToggleButton.IsCheckedProperty, new Binding(nameof(Value)) { Source = this });
-                checkBox.Checked += (_, _) =>
-                {
-                    _settingService.UpdateSetting(Key, true);
-                };
-                checkBox.Unchecked += (_, _) =>
-                {
-                    _settingService.UpdateSetting(Key, false);
-                };
+                checkBox.Checked += (_, _) => { _settingService.UpdateSetting(Key, true, Type.GetType(ValueType)!); };
+                checkBox.Unchecked += (_, _) => { _settingService.UpdateSetting(Key, false, Type.GetType(ValueType)!); };
                 _control = checkBox;
                 break;
         }
@@ -81,11 +69,13 @@ public partial class SettingItem
                 default(string)
             )
         );
+
     public string Title
     {
         get => (string)GetValue(TitleProperty);
         set => SetValue(TitleProperty, value);
     }
+
     public static readonly DependencyProperty ControlTypeProperty =
         DependencyProperty.Register(
             nameof(ControlType),
@@ -104,6 +94,7 @@ public partial class SettingItem
                 }
             )
         );
+
     public string ControlType
     {
         get => (string)GetValue(ControlTypeProperty);
@@ -119,6 +110,7 @@ public partial class SettingItem
                 default(string)
             )
         );
+
     public string Tip
     {
         get => (string)GetValue(TipProperty);
@@ -134,6 +126,7 @@ public partial class SettingItem
                 default(List<string>)
             )
         );
+
     public List<string> Options
     {
         get => (List<string>)GetValue(OptionsProperty);
@@ -152,10 +145,10 @@ public partial class SettingItem
                 {
                     var settingItem = (SettingItem)o;
                     settingItem.Value = (string)settingItem._settingService.GetSettingValue(settingItem.Key);
-                    Logger.Debug($"key = {settingItem.Key}，value = {settingItem._settingService.GetSettingValue(settingItem.Key)}");
                 }
             )
         );
+
     public string Key
     {
         get => (string)GetValue(KeyProperty);
@@ -165,15 +158,32 @@ public partial class SettingItem
     public static readonly DependencyProperty ValueProperty =
         DependencyProperty.Register(
             nameof(Value),
+            typeof(object),
+            typeof(SettingItem),
+            new FrameworkPropertyMetadata(
+                default(object)
+            )
+        );
+
+    public object Value
+    {
+        get => GetValue(ValueProperty);
+        set => SetValue(ValueProperty, value);
+    }
+
+    public static readonly DependencyProperty ValueTypeProperty =
+        DependencyProperty.Register(
+            nameof(ValueType),
             typeof(string),
             typeof(SettingItem),
             new FrameworkPropertyMetadata(
                 default(string)
             )
         );
-    public string Value
+
+    public string ValueType
     {
-        get => (string)GetValue(ValueProperty);
-        set => SetValue(ValueProperty, value);
+        get => (string)GetValue(ValueTypeProperty);
+        set => SetValue(ValueTypeProperty, value);
     }
 }

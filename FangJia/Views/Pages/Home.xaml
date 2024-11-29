@@ -10,7 +10,7 @@
 <Page.DataContext>
     <pageViewModels:HomeViewModel/>
 </Page.DataContext>
-    <Grid Background="{DynamicResource BackgroundBrush}">
+    <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="1*"/>
             <RowDefinition Height="Auto"/>
@@ -21,7 +21,7 @@
                     VerticalAlignment="Center"
                     Margin="40,0">
             <TextBlock Text="&#xe611;"
-                       Foreground="{StaticResource ForegroundBrush}"
+                       Style="{DynamicResource DefaultText}"
                        FontSize="60"
                        FontFamily="{DynamicResource IconFont}"
                        VerticalAlignment="Center"/>
@@ -29,15 +29,15 @@
                 <TextBlock Text="太公摘花"
                            FontSize="20"
                            Margin="10,5"
-                           Foreground="{DynamicResource ForegroundBrush}"/>
+                           Style="{DynamicResource DefaultText}"/>
                 <TextBlock Text="你已坚持学习 365 天了"
                            FontSize="16"
                            Margin="10,5"
-                           Foreground="{DynamicResource AlertBrush}"/>
+                           Style="{DynamicResource AlertText}"/>
                 <TextBlock Text="今日任务 0/5"
                            FontSize="18"
                            Margin="10,5"
-                           Foreground="{StaticResource DangerBrush}"/>
+                           Style="{DynamicResource WarningText}"/>
             </StackPanel>
         </StackPanel>
         <Separator Grid.Row="1" 

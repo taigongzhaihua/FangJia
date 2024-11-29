@@ -14,9 +14,9 @@ public class FrameNavigationService : INavigationService
 {
     private readonly Frame _frame;
     private readonly Dictionary<string, string> _pageMappings;
-    private string _currentViewName;
-    private readonly Stack<string> _backNameStack = [];
-    private readonly Stack<string> _forwardNameStack = [];
+    private string? _currentViewName;
+    private readonly Stack<string?> _backNameStack = [];
+    private readonly Stack<string?> _forwardNameStack = [];
 
     /// <summary>
     /// 构造函数，初始化 FrameNavigationService 实例。
@@ -38,7 +38,7 @@ public class FrameNavigationService : INavigationService
         }
     }
 
-    public string CurrentViewName()
+    public string? CurrentViewName()
     {
         return _currentViewName;
     }

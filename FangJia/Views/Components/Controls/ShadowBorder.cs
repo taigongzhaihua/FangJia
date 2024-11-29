@@ -1,10 +1,12 @@
-﻿using System.Windows;
+﻿using System.Diagnostics.CodeAnalysis;
+using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media;
 using System.Windows.Media.Effects;
 
 namespace FangJia.Views.Components.Controls
 {
+    [SuppressMessage("ReSharper", "AssignNullToNotNullAttribute")]
     public class ShadowBorder : Border
     {
         // 默认的阴影效果，只有在必要时才创建
@@ -15,7 +17,6 @@ namespace FangJia.Views.Components.Controls
             // 只在需要时才初始化 DropShadowEffect
             _dropShadowEffect = CreateDefaultShadowEffect();
             Effect = _dropShadowEffect;
-            Background = new SolidColorBrush(Colors.White);
             BorderThickness = new Thickness(0);
         }
 
@@ -89,7 +90,7 @@ namespace FangJia.Views.Components.Controls
         {
             return new DropShadowEffect
             {
-                Color = Colors.DodgerBlue,
+                Color = (Color)Application.Current.Resources["ShadowColor"],
                 BlurRadius = 15,
                 ShadowDepth = 0,
                 Opacity = 0.2

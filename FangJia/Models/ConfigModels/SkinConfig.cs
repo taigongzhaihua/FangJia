@@ -52,6 +52,9 @@ public class SkinConfig
 
     // 强调色区域标记颜色，通常用于高亮显示文本或元素
     public string? AccentHighlightColor { get; set; }
+
+    // 强调区域标记前景色，通常用于高亮显示文本或元素
+    public string? AccentHighlightForegroundColor { get; set; }
     // 默认构造函数
     public SkinConfig()
     {
@@ -76,6 +79,7 @@ public class SkinConfig
         AlertColor = value["AlertColor"].ToString();
         WarningColor = value["WarningColor"].ToString();
         DangerColor = value["DangerColor"].ToString();
-        AccentHighlightColor = value["EmphasisHighlightColor"].ToString();
+        AccentHighlightColor = value["AccentHighlightColor"].ToString();
+        AccentHighlightForegroundColor = value["AccentHighlightForegroundColor"].ToString();
     }
 }

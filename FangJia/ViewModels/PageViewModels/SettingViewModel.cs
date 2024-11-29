@@ -9,7 +9,7 @@ using WinRT;
 
 namespace FangJia.ViewModels.PageViewModels;
 
-internal class SettingViewModel : BaseViewModel
+public partial class SettingViewModel : BaseViewModel
 {
     private new static readonly Logger Logger = LogManager.GetCurrentClassLogger();
     public SettingViewModel()
@@ -41,7 +41,6 @@ internal class SettingViewModel : BaseViewModel
                     Type = item["Type"].ToString()!,
                     ControlType = item["ControlType"].ToString()!,
                     ControlStyle = item["ControlStyle"].ToString()!,
-                    Default = item["Default"].ToString()!,
                     Options = [],
                     IsEnable = item["IsEnable"].As<bool>(),
                     Tip = item["Tip"].ToString()!

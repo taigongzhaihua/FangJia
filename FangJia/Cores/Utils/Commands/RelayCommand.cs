@@ -11,7 +11,7 @@ namespace FangJia.Cores.Utils.Commands;
 /// <param name="execute">命令的执行逻辑，不能为空。</param>
 /// <param name="canExecute">命令的可执行逻辑，可以为空，默认为总是可执行。</param>
 /// <exception cref="ArgumentNullException">当 <paramref name="execute"/> 为 null 时抛出。</exception>
-public class RelayCommand(Action<object> execute, Func<object, bool>? canExecute = null!) : ICommand
+public partial class RelayCommand(Action<object> execute, Func<object, bool>? canExecute = null!) : ICommand
 {
     // 保存命令的执行逻辑
     private readonly Action<object> _execute = execute ?? throw new ArgumentNullException(nameof(execute));

@@ -5,7 +5,6 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Controls.Primitives;
 using System.Windows.Data;
-using System.Windows.Input;
 
 namespace FangJia.Views.Components.Controls;
 
@@ -85,21 +84,5 @@ public partial class MainMenu
     {
         IsOpen = !IsOpen;
         VisualStateManager.GoToState(this, IsOpen ? "Open" : "Close", true);
-    }
-
-    private void ListItem_OnMouseEnter(object sender, MouseEventArgs e)
-    {
-        if (sender is ListBoxItem { IsSelected: false } && IsOpen == false)
-        {
-            VisualStateManager.GoToState(this, "Open", true);
-        }
-    }
-
-    private void ListItem_OnMouseLeave(object sender, MouseEventArgs e)
-    {
-        if (sender is ListBoxItem && IsOpen == false)
-        {
-            VisualStateManager.GoToState(this, "Close", true);
-        }
     }
 }
