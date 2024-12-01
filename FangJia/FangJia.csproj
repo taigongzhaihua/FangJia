@@ -1,15 +1,13 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
-
   <PropertyGroup>
     <OutputType>WinExe</OutputType>
-    <TargetFramework>net8.0-windows10.0.17763.0</TargetFramework>
+    <TargetFramework>net9.0-windows</TargetFramework>
     <Nullable>enable</Nullable>
     <ImplicitUsings>enable</ImplicitUsings>
     <UseWPF>true</UseWPF>
     <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
     <GeneratePackageOnBuild>False</GeneratePackageOnBuild>
   </PropertyGroup>
-
   <ItemGroup>
     <None Remove="Configs\pagesConfig.json" />
     <None Remove="Configs\SettingConfig.toml" />
@@ -17,22 +15,18 @@
     <None Remove="Configs\Themes\lightTheme.toml" />
     <None Remove="Fonts\iconfont.ttf" />
   </ItemGroup>
-
   <ItemGroup>
     <Folder Include="Cores\Utils\Behaviors\" />
     <Folder Include="Cores\Utils\Helpers\" />
     <Folder Include="DataAccess\" />
   </ItemGroup>
-
   <ItemGroup>
     <PackageReference Include="Newtonsoft.Json" Version="13.0.3" />
     <PackageReference Include="NLog" Version="5.3.4" />
     <PackageReference Include="Prism.Core" Version="9.0.537" />
     <PackageReference Include="Tomlyn" Version="0.17.0" />
     <PackageReference Include="Unity" Version="5.11.10" />
-    <PackageReference Include="Uno.UI" Version="5.5.76" />
   </ItemGroup>
-
   <ItemGroup>
     <EmbeddedResource Include="Configs\pagesConfig.json">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
@@ -47,13 +41,11 @@
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </EmbeddedResource>
   </ItemGroup>
-
   <ItemGroup>
     <Resource Include="Fonts\iconfont.ttf">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Resource>
   </ItemGroup>
-
   <ItemGroup>
     <Compile Update="Properties\Resources.Designer.cs">
       <DesignTime>True</DesignTime>
@@ -66,14 +58,12 @@
       <DependentUpon>Settings.settings</DependentUpon>
     </Compile>
   </ItemGroup>
-
   <ItemGroup>
     <EmbeddedResource Update="Properties\Resources.resx">
       <Generator>PublicResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
   </ItemGroup>
-
   <ItemGroup>
     <None Update="nlog.config">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
@@ -83,7 +73,9 @@
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
     </None>
   </ItemGroup>
-
-  <ProjectExtensions><VisualStudio><UserProperties configs_4pagesconfig_1json__JsonSchema="https://appsemble.app/api.json" /></VisualStudio></ProjectExtensions>
-
+  <ProjectExtensions>
+    <VisualStudio>
+      <UserProperties configs_4pagesconfig_1json__JsonSchema="https://appsemble.app/api.json" />
+    </VisualStudio>
+  </ProjectExtensions>
 </Project>

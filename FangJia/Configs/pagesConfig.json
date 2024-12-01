@@ -5,6 +5,10 @@
       "uri": "/Views/Pages/Home.xaml"
     },
     {
+      "name": "DataPage",
+      "uri": "/Views/Pages/Data.xaml"
+    },
+    {
       "name": "SettingPage",
       "uri": "/Views/Pages/Setting.xaml"
     }
@@ -16,10 +20,50 @@
       "PageName": "HomePage"
     },
     {
+      "Name": "数据",
+      "Icon": "\ue61a",
+      "PageName": "DataPage"
+    },
+    {
       "Name": "设置",
       "Icon": "\ue647",
       "PageName": "SettingPage"
     }
-
+  ],
+  "DataPages": [
+    {
+      "name": "FormulaPage",
+      "uri": "/Views/Pages/Data/Formulas.xaml"
+    },
+    {
+      "name": "MedicinePage",
+      "uri": "/Views/Pages/Data/Medicine.xaml"
+    },
+    {
+      "name": "ClassicPage",
+      "uri": "/Views/Pages/Data/Classic.xaml"
+    },
+    {
+      "name": "CasePage",
+      "uri": "/Views/Pages/Data/Case.xaml"
+    }
+  ],
+  "DataTabs": [
+    {
+      "Name": "方剂",
+      "PageName": "FormulaPage"
+    },
+    {
+      "Name": "药物",
+      "PageName": "MedicinePage"
+    },
+    {
+      "Name": "经典",
+      "PageName": "ClassicPage"
+    },
+    {
+      "Name": "医案",
+      "PageName": "CasePage"
+    }
   ]
 }

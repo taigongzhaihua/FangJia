@@ -1,5 +1,6 @@
 ﻿using FangJia.Cores.Services;
 using NLog;
+using System.Diagnostics.CodeAnalysis;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Controls.Primitives;
@@ -10,6 +11,7 @@ namespace FangJia.Views.Components.Controls;
 /// <summary>
 /// SettingItem.xaml 的交互逻辑
 /// </summary>
+[SuppressMessage("ReSharper", "UnusedMember.Local")]
 public partial class SettingItem
 {
     private new static readonly Logger Logger = LogManager.GetCurrentClassLogger();
@@ -42,10 +44,19 @@ public partial class SettingItem
                 break;
 
             case "ComboBox":
-                var comboBox = new ComboBox();
+                var comboBox = new ComboBox()
+                {
+                    Height = 24,
+                    HorizontalAlignment = HorizontalAlignment.Right,
+                    VerticalAlignment = VerticalAlignment.Center
+                };
                 comboBox.SetBinding(ItemsControl.ItemsSourceProperty, new Binding(nameof(Options)) { Source = this });
                 comboBox.SetBinding(Selector.SelectedItemProperty, new Binding(nameof(Value)) { Source = this });
-                comboBox.SelectionChanged += (_, _) => { _settingService.UpdateSetting(Key, Value, Type.GetType(ValueType)!); };
+                comboBox.SelectionChanged += (o, e) =>
+                {
+                    if (Value == _settingService.GetSettingValue(Key)) return;
+                    _settingService.UpdateSetting(Key, Value, Type.GetType(ValueType)!);
+                };
                 _control = comboBox;
                 break;
 
@@ -84,16 +95,18 @@ public partial class SettingItem
             new FrameworkPropertyMetadata(
                 default(string),
                 FrameworkPropertyMetadataOptions.BindsTwoWayByDefault,
-                (o, _) =>
-                {
-                    var settingItem = (SettingItem)o;
-                    settingItem.CreateControl();
-                    Grid.SetRow(settingItem._control, 0);
-                    Grid.SetColumn(settingItem._control, 1);
-                    settingItem.Grid.Children.Add(settingItem._control);
-                }
+                OnValueChanged
             )
         );
+
+    private static void OnValueChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
+    {
+        if (d is not SettingItem settingItem) return;
+        settingItem!.CreateControl();
+        Grid.SetRow(settingItem!._control!, 0);
+        Grid.SetColumn(settingItem!._control, 1);
+        settingItem.Grid.Children.Add(settingItem._control);
+    }
 
     public string ControlType
     {
@@ -141,13 +154,15 @@ public partial class SettingItem
             new FrameworkPropertyMetadata(
                 default(string),
                 FrameworkPropertyMetadataOptions.BindsTwoWayByDefault,
-                (o, _) =>
-                {
-                    var settingItem = (SettingItem)o;
-                    settingItem.Value = (string)settingItem._settingService.GetSettingValue(settingItem.Key);
-                }
+                OnKeyChanged
             )
         );
+
+    private static void OnKeyChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
+    {
+        if (d is not SettingItem settingItem) return;
+        settingItem.Value = settingItem._settingService.GetSettingValue(settingItem.Key);
+    }
 
     public string Key
     {

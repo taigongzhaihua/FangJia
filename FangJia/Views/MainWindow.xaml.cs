@@ -33,7 +33,7 @@ public partial class MainWindow
         var frameNavigationService = new FrameNavigationService(MainFrame, pageConfigs);
 
         // 初始化并绑定 ViewModel
-        var viewModel = new MainWindowViewModel();
+        var viewModel = ServiceLocator.GetService<MainWindowViewModel>();
         BindViewModel(viewModel, frameNavigationService);
 
         // 设置初始视图为 HomePage

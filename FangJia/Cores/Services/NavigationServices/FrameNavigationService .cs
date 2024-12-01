@@ -17,7 +17,7 @@ public class FrameNavigationService : INavigationService
     public FrameNavigationService(Frame frame, List<PageConfig> pageConfigs)
     {
         _frame = frame ?? throw new ArgumentNullException(nameof(frame));
-        _pageMappings = new Dictionary<string, string>();
+        _pageMappings = [];
 
         foreach (var config in pageConfigs)
         {

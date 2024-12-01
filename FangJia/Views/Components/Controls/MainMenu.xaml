@@ -34,7 +34,7 @@
         <!-- 菜单列表 -->
         <Grid Grid.Column="0" Grid.Row="1" x:Name="ListGrid">
             <ListBox x:Name="SidebarListBox"
-                     Margin="5" BorderThickness="0"
+                     Margin="8,0,0,10" BorderThickness="0"
                      ScrollViewer.VerticalScrollBarVisibility="Auto"
                      Width="42" Background="Transparent"
                      SelectionMode="Single"

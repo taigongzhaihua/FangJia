@@ -6,13 +6,13 @@
              xmlns:base="clr-namespace:FangJia.Cores.Base"
              xmlns:controls="clr-namespace:FangJia.Views.Components.Controls"
              mc:Ignorable="d"
-             Width="560">
+             Width="480">
     <Border CornerRadius="15"
             Padding="10" Margin="20"
-            BorderThickness="0.5">
+            BorderThickness="0.8">
         <Border.Style>
             <Style TargetType="Border">
-                <Setter Property="Background" Value="{StaticResource BackgroundBrush}"/>
+                <Setter Property="Background" Value="{StaticResource WeakAccentBackgroundBrush}"/>
                 <Setter Property="BorderBrush" Value="{StaticResource WeakAccentForegroundBrush}"></Setter>
             </Style>
         </Border.Style>
@@ -28,7 +28,7 @@
                        Margin="10"/>
             <ItemsControl x:Name="Items"
                           Grid.Row="1"
-                          Margin="20,0,20,10"
+                          Margin="0,0,0,10"
                           >
                 <ItemsControl.ItemsPanel>
                     <ItemsPanelTemplate>
@@ -42,8 +42,8 @@
                                               Tip="{Binding Tip,Mode=OneWay}"
                                               Options="{Binding Options,Mode=OneWay}"
                                               Key="{Binding Key,Mode=OneWay}"
-                                              ValueType="{Binding Type}"
-                                              Margin="10"/>
+                                              ValueType="{Binding Type,Mode=OneWay}"
+                                              Margin="10,5"/>
                     </DataTemplate>
                 </ItemsControl.ItemTemplate>
             </ItemsControl>

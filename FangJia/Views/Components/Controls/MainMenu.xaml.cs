@@ -1,6 +1,7 @@
 ﻿using FangJia.Models;
 using NLog;
 using System.Collections.ObjectModel;
+using System.Diagnostics.CodeAnalysis;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Controls.Primitives;
@@ -11,6 +12,7 @@ namespace FangJia.Views.Components.Controls;
 /// <summary>
 /// MainMenu.xaml 的交互逻辑
 /// </summary>
+[SuppressMessage("ReSharper", "UnusedMember.Local")]
 public partial class MainMenu
 {
     private new static readonly Logger Logger = LogManager.GetCurrentClassLogger();
@@ -84,5 +86,6 @@ public partial class MainMenu
     {
         IsOpen = !IsOpen;
         VisualStateManager.GoToState(this, IsOpen ? "Open" : "Close", true);
+
     }
 }

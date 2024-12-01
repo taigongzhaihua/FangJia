@@ -1,5 +1,6 @@
 ﻿using FangJia.Cores.Services;
-using FangJia.Views;
+using FangJia.ViewModels;
+using FangJia.ViewModels.PageViewModels;
 using System.Windows;
 using Unity;
 using Unity.Lifetime;
@@ -20,7 +21,11 @@ public partial class App
         container.RegisterType<SettingService>(new ContainerControlledLifetimeManager());
         container.RegisterType<SkinManagerService>(new ContainerControlledLifetimeManager());
 
-        container.RegisterType<MainWindow>();
+        container.RegisterType<MainWindowViewModel>(new ContainerControlledLifetimeManager());
+        container.RegisterType<DataViewModel>(new ContainerControlledLifetimeManager());
+        container.RegisterType<SettingViewModel>(new ContainerControlledLifetimeManager());
+        container.RegisterType<HomeViewModel>(new ContainerControlledLifetimeManager());
+        container.RegisterType<DataViewModel>(new ContainerControlledLifetimeManager());
 
         ServiceLocator.Initialize(container);
         ServiceLocator.GetService<SkinManagerService>().LoadSkinConfig(

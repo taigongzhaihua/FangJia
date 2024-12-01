@@ -21,8 +21,8 @@
         </Grid.ColumnDefinitions>
         <Grid Grid.Column="1" Grid.Row="0" Height="60" VerticalAlignment="Center">
             <Grid.RowDefinitions>
-                <RowDefinition />
-                <RowDefinition />
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="15"/>
             </Grid.RowDefinitions>
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="10"/>
@@ -32,18 +32,33 @@
                 <ColumnDefinition Width="Auto" />
                 <ColumnDefinition Width="Auto" />
             </Grid.ColumnDefinitions>
+            <StackPanel Grid.Column="1" Grid.Row="0" Grid.RowSpan="2"
+                        Orientation="Horizontal" VerticalAlignment="Center" Height="40"
+                        HorizontalAlignment="Center">
+                <Button  Content="&#xe63b;"
+                         Width="20" Height="20"
+                        ToolTip="后退" IsEnabled="{Binding ElementName=MainFrame,Path=CanGoBack}"
+                        Command="{Binding FrameBackCommand}"
+                        Style="{DynamicResource TitleButton}" 
+                        HorizontalContentAlignment="Center"
+                         VerticalContentAlignment="Center"
+                         HorizontalAlignment="Right"
+                         VerticalAlignment="Center"/>
+                <!-- 最大化/还原按钮 -->
+                <Button  Content="&#xe63c;"
+                         Width="20" Height="20"
+                        ToolTip="前进" IsEnabled="{Binding ElementName=MainFrame,Path=CanGoForward}"
+                        Command="{Binding FrameForwardCommand}"
+                        Style="{DynamicResource TitleButton}"
+                         VerticalContentAlignment="Center"
+                         HorizontalContentAlignment="Center"
+                         HorizontalAlignment="Right"
+                         VerticalAlignment="Center"/>
+            </StackPanel>
             <!-- 最小化按钮 -->
-            <Button Grid.Column="4" Grid.Row="1" Content="&#xe63b;" Width="40"
-                    ToolTip="后退" IsEnabled="{Binding ElementName=MainFrame,Path=CanGoBack}"
-                    Command="{Binding FrameBackCommand}"
-                    Style="{DynamicResource TitleButton}" />
-            <!-- 最大化/还原按钮 -->
-            <Button Grid.Column="5" Grid.Row="1" Content="&#xe63c;" Width="40"
-                    ToolTip="前进" IsEnabled="{Binding ElementName=MainFrame,Path=CanGoForward}"
-                    Command="{Binding FrameForwardCommand}"
-                    Style="{DynamicResource TitleButton}" />
+
             <!-- 页面标题 -->
-            <TextBlock Grid.Column="1" Grid.Row="0" Grid.ColumnSpan="2" Grid.RowSpan="2"
+            <TextBlock Grid.Column="2" Grid.Row="0" Grid.RowSpan="2"
                        Text="{Binding PageTitle}"
                        VerticalAlignment="Center" 
                        Style="{DynamicResource DefaultText}"
@@ -51,15 +66,18 @@
                        FontSize="20" FontWeight="Medium"/>
 
             <!-- 最小化按钮 -->
-            <Button Grid.Row="0" Grid.Column="3" Content="&#xe96f;" Width="40"
+            <Button Grid.Row="0" Grid.Column="3" Content="&#xe96f;"
+                    Width="40" Height="32"
                     Click="MinimizeButton_Click" ToolTip="最小化窗口"
                     Style="{DynamicResource TitleButton}" />
             <!-- 最大化/还原按钮 -->
-            <Button Grid.Row="0" Grid.Column="4" Content="&#xe600;" Width="40"
+            <Button Grid.Row="0" Grid.Column="4" Content="&#xe600;"
+                    Width="40" Height="32"
                     Click="Maximize_OnClick" ToolTip="最大化窗口"
                     Style="{DynamicResource TitleButton}" />
             <!-- 关闭按钮 -->
-            <Button Grid.Row="0" Grid.Column="5" Content="&#xe970;" Width="40"
+            <Button Grid.Row="0" Grid.Column="5" Content="&#xe970;"
+                    Width="40" Height="32"
                     Click="CloseButton_Click" ToolTip="关闭窗口"
                     Style="{DynamicResource CloseButton}" />
         </Grid>

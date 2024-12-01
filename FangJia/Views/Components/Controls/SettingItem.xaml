@@ -5,34 +5,27 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:base="clr-namespace:FangJia.Cores.Base"
              mc:Ignorable="d" 
-             MinHeight="55">
+             MinHeight="40">
     <Grid x:Name="Grid">
         <Grid.RowDefinitions>
             <RowDefinition Height="*"/>
-            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="16"/>
         </Grid.RowDefinitions>
         <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="80"/>
+            <ColumnDefinition Width="60"/>
             <ColumnDefinition Width="*"/>
         </Grid.ColumnDefinitions>
         <TextBlock x:Name="TitleBlock"
                    Grid.Column="0" Grid.Row="0"
-                   VerticalAlignment="Center" HorizontalAlignment="Left" TextAlignment="Justify"
-                   FontSize="14" FontWeight="DemiBold"
-                   Style="{DynamicResource DefaultText}">
-        </TextBlock>
+                   VerticalAlignment="Center" HorizontalAlignment="Right" TextAlignment="Justify"
+                   FontSize="14"
+                   Style="{DynamicResource DefaultText}"/>
 
         <TextBlock x:Name="TipBlock" 
                    Grid.Row="1" Grid.Column="1"
                    FontSize="10"
-                   
-                   >
-            <TextBlock.Style>
-                <Style TargetType="TextBlock">
-                    <Setter Property="Foreground" Value="{StaticResource WeakAccentForegroundBrush}"></Setter>
-                </Style>
-            </TextBlock.Style>
-        </TextBlock>
+                   VerticalAlignment="Center" HorizontalAlignment="Right"
+                   Style="{DynamicResource WeakAccentText}"/>
 
     </Grid>
 </base:BaseControl>

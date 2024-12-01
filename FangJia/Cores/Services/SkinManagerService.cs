@@ -19,6 +19,7 @@ public class SkinManagerService
     {
         eventAggregator.GetEvent<SettingChangedEvent>()
             .Subscribe(HandleSettingChanged);
+
     }
 
     private void HandleSettingChanged(SettingChangedEventArgs args)
@@ -27,7 +28,18 @@ public class SkinManagerService
         {
             // 加载新的皮肤配置
             LoadSkinConfig((string)args.NewValue);
-            UpdateColorAnimations(Application.Current.MainWindow!);
+
+
+            Window w = Application.Current.MainWindow!;
+
+            Application.Current.Dispatcher.Invoke(() =>
+            {
+                UpdateColorAnimations(w);
+            });
+
+
+
+
         }
     }
 

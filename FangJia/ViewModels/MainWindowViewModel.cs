@@ -55,15 +55,16 @@ public class MainWindowViewModel : BaseViewModel
         var configs = configService.GetConfig<MainMenuItemConfig>("MainMenuItems");
 
         // 初始化主菜单项集合
-        foreach (var item in configs!)
+        foreach (var item in configs)
         {
             ICommand command = new RelayCommand(
                 _ =>
                 {
+                    if (item.PageName == NavigationServices["MainFrame"].CurrentViewName()) return;
                     NavigationServices["MainFrame"].NavigateTo(item.PageName);
                     PageTitle = item.Name!;
                 });
-            MenuItems!.Add(new MainMenuItemData(item.Name, item.Icon, item.PageName, command));
+            MenuItems.Add(new MainMenuItemData(item.Name, item.Icon, item.PageName, command));
         }
 
         // 初始化命令
@@ -97,7 +98,7 @@ public class MainWindowViewModel : BaseViewModel
     /// </summary>
     private void UpdateMenuSelectedIndex()
     {
-        MenuSelectedIndex = MenuItems.IndexOf(MenuItems.FirstOrDefault(x => x.PageName == NavigationServices["MainFrame"].CurrentViewName())!);
+        MenuSelectedIndex = MenuItems.IndexOf(MenuItems.FirstOrDefault(x => NavigationServices["MainFrame"].CurrentViewName()!.Contains(x.PageName!))!);
     }
 
 

@@ -9,3 +9,6 @@ using System.Diagnostics.CodeAnalysis;
 [assembly: SuppressMessage("CodeQuality", "IDE0079:请删除不必要的忽略", Justification = "<挂起>", Scope = "type", Target = "~T:FangJia.Cores.Services.NavigationServices.FrameNavigationService")]
 [assembly: SuppressMessage("CodeQuality", "IDE0079:请删除不必要的忽略", Justification = "<挂起>", Scope = "type", Target = "~T:FangJia.Cores.Utils.Commands.RelayCommand")]
 [assembly: SuppressMessage("CodeQuality", "IDE0079:请删除不必要的忽略", Justification = "<挂起>", Scope = "type", Target = "~T:FangJia.Cores.Utils.Converters.MainMenuListWidthConverter")]
+[assembly: SuppressMessage("CodeQuality", "IDE0052:删除未读的私有成员", Justification = "<挂起>", Scope = "member", Target = "~F:FangJia.Views.Components.Controls.MainMenu.Logger")]
+[assembly: SuppressMessage("CodeQuality", "IDE0052:删除未读的私有成员", Justification = "<挂起>", Scope = "member", Target = "~F:FangJia.Views.Components.Controls.SettingItem.Logger")]
+[assembly: SuppressMessage("Usage", "CsWinRT1028:Class is not marked partial", Justification = "<挂起>", Scope = "type", Target = "~T:FangJia.ViewModels.MainWindowViewModel")]

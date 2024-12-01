@@ -5,7 +5,6 @@ using System.Collections.ObjectModel;
 using System.IO;
 using Tomlyn;
 using Tomlyn.Model;
-using WinRT;
 
 namespace FangJia.ViewModels.PageViewModels;
 
@@ -42,7 +41,7 @@ public partial class SettingViewModel : BaseViewModel
                     ControlType = item["ControlType"].ToString()!,
                     ControlStyle = item["ControlStyle"].ToString()!,
                     Options = [],
-                    IsEnable = item["IsEnable"].As<bool>(),
+                    IsEnable = (bool)item["IsEnable"],
                     Tip = item["Tip"].ToString()!
                 };
                 if (item.TryGetValue("Options", out var options))
