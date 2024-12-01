@@ -7,27 +7,29 @@
       xmlns:pageViewModels="clr-namespace:FangJia.ViewModels.PageViewModels"
       mc:Ignorable="d"
       d:DesignHeight="450" d:DesignWidth="800"
-      Title="方剂">
+      Title="方剂"
+      KeepAlive ="False">
     <Page.DataContext>
         <pageViewModels:DataFormulasViewModel />
     </Page.DataContext>
     <Grid Background="{DynamicResource WeakAccentBackgroundBrush}">
         <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="120" />
+            <ColumnDefinition Width="3*" />
             <!-- 左侧分类树 -->
-            <ColumnDefinition Width="80" />
-            <ColumnDefinition Width="*" />
+            <ColumnDefinition Width="2*" />
+            <ColumnDefinition Width="9*" />
             <!-- 右侧编辑区域 -->
         </Grid.ColumnDefinitions>
 
         <!-- 左侧分类树 -->
-        <TreeView Name="CategoryTree" Grid.Column="0" ItemsSource="{Binding Categories}"
+        <TreeView Name="CategoryTree" Grid.Column="0" ItemsSource="{Binding Categories,Mode=OneWay}"
                   SelectedItemChanged="CategoryTree_OnSelectedItemChanged"
                   Margin="-1,5,2,0" Padding="5"
                   BorderThickness="0" Background="{DynamicResource BackgroundBrush}">
             <TreeView.ItemTemplate>
                 <HierarchicalDataTemplate DataType="{x:Type dataModel:Category}"
-                                          ItemsSource="{Binding SubCategories}">
+                                          ItemsSource="{Binding SubCategories}"
+                                          >
                     <TextBlock Text="{Binding Name}"
                                FontSize="12" />
                 </HierarchicalDataTemplate>
@@ -35,7 +37,7 @@
         </TreeView>
 
         <ListBox Grid.Column="1"
-                 ItemsSource="{Binding SelectedCategory.Formulas}"
+                 ItemsSource="{Binding SelectedCategory.Formulas,Mode=OneWay}"
                  SelectedItem="{Binding SelectedFormula}"
                  DisplayMemberPath="Name"
                  Margin="2,5,-1,0" Padding="5"

@@ -37,17 +37,16 @@
                         HorizontalAlignment="Center">
                 <Button  Content="&#xe63b;"
                          Width="20" Height="20"
-                        ToolTip="后退" IsEnabled="{Binding ElementName=MainFrame,Path=CanGoBack}"
+                        ToolTip="后退" IsEnabled="{Binding IsBackEnabled}"
                         Command="{Binding FrameBackCommand}"
                         Style="{DynamicResource TitleButton}" 
                         HorizontalContentAlignment="Center"
                          VerticalContentAlignment="Center"
                          HorizontalAlignment="Right"
                          VerticalAlignment="Center"/>
-                <!-- 最大化/还原按钮 -->
                 <Button  Content="&#xe63c;"
                          Width="20" Height="20"
-                        ToolTip="前进" IsEnabled="{Binding ElementName=MainFrame,Path=CanGoForward}"
+                        ToolTip="前进" IsEnabled="{Binding IsForwardEnabled}"
                         Command="{Binding FrameForwardCommand}"
                         Style="{DynamicResource TitleButton}"
                          VerticalContentAlignment="Center"

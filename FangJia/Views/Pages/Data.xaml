@@ -5,7 +5,8 @@
       xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
       mc:Ignorable="d"
       d:DesignHeight="450" d:DesignWidth="800"
-      Title="DataPage">
+      Title="DataPage"
+      KeepAlive ="False">
 
     <Grid>
 
@@ -15,7 +16,7 @@
         </Grid.ColumnDefinitions>
         <ListBox x:Name="TabList"
                  Grid.Column="0"
-                 ItemsSource="{Binding TabItems}"
+                 ItemsSource="{Binding TabItems,Mode=OneWay}"
                  SelectedIndex="{Binding TabSelectedIndex}"
                  BorderThickness="0"
                  BorderBrush="{DynamicResource ForegroundBrush}"

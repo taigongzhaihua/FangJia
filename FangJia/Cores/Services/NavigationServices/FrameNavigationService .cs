@@ -13,6 +13,8 @@ public class FrameNavigationService : INavigationService
     private string? _currentViewName;
     private readonly Stack<string?> _backNameStack = new();
     private readonly Stack<string?> _forwardNameStack = new();
+    public bool CanGoBack => _backNameStack.Count > 0;
+    public bool CanGoForward => _forwardNameStack.Count > 0;
 
     public FrameNavigationService(Frame frame, List<PageConfig> pageConfigs)
     {
@@ -40,7 +42,7 @@ public class FrameNavigationService : INavigationService
             var currentContent = _frame.Content as UIElement;
 
             // 执行页面切换动画
-            StartPageTransitionAnimation(currentContent, uri, "Navigate");
+            StartPageTransitionAnimation(currentContent, uri);
 
             // 更新视图信息
             if (!string.IsNullOrEmpty(_currentViewName))
@@ -56,7 +58,7 @@ public class FrameNavigationService : INavigationService
         }
     }
 
-    private void StartPageTransitionAnimation(UIElement? currentContent, string uri, string type)
+    private void StartPageTransitionAnimation(UIElement? currentContent, string uri)
     {
         if (currentContent == null)
         {
@@ -67,11 +69,11 @@ public class FrameNavigationService : INavigationService
         else
         {
             // 执行当前页面的淡出动画
-            ApplyFadeOutAnimation(currentContent, uri, type);
+            ApplyFadeOutAnimation(currentContent, uri);
         }
     }
 
-    private void ApplyFadeOutAnimation(UIElement content, string uri, string type)
+    private void ApplyFadeOutAnimation(UIElement content, string uri)
     {
         var fadeOutAnimation = new DoubleAnimation
         {
@@ -82,18 +84,8 @@ public class FrameNavigationService : INavigationService
 
         fadeOutAnimation.Completed += (_, _) =>
         {
-            switch (type)
-            {
-                case "Back":
-                    _frame.GoBack();
-                    break;
-                case "Forward":
-                    _frame.GoForward();
-                    break;
-                case "Navigate":
-                    _frame.Navigate(new Uri(uri, UriKind.Relative));
-                    break;
-            }
+
+            _frame.Navigate(new Uri(uri, UriKind.Relative));
 
             // 在新页面加载完成后应用淡入动画
             var newContent = _frame.Content as UIElement;
@@ -121,13 +113,13 @@ public class FrameNavigationService : INavigationService
     /// </summary>
     public void GoBack()
     {
-        if (!_frame.CanGoBack) return;
+        if (!CanGoBack) return;
 
         // 获取当前页面的内容，用于淡出动画
         var currentContent = _frame.Content as UIElement;
         if (!_pageMappings.TryGetValue(_backNameStack.Peek()!, out var uri)) return;
         // 执行页面后退的动画
-        StartPageTransitionAnimation(currentContent, uri, "Back");
+        StartPageTransitionAnimation(currentContent, uri);
 
         // 更新视图信息
         _forwardNameStack.Push(CurrentViewName());
@@ -140,7 +132,7 @@ public class FrameNavigationService : INavigationService
     /// </summary>
     public void GoForward()
     {
-        if (!_frame.CanGoForward) return;
+        if (!CanGoForward) return;
 
         // 获取当前页面的内容，用于淡出动画
         var currentContent = _frame.Content as UIElement;
@@ -148,7 +140,7 @@ public class FrameNavigationService : INavigationService
         if (!_pageMappings.TryGetValue(_forwardNameStack.Peek()!, out var uri)) return;
 
         // 执行页面后退的动画
-        StartPageTransitionAnimation(currentContent, uri, "Forward");
+        StartPageTransitionAnimation(currentContent, uri);
 
         // 更新视图信息
         _backNameStack.Push(CurrentViewName());

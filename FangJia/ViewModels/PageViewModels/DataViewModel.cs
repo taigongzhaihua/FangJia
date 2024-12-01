@@ -55,6 +55,9 @@ public class DataViewModel : BaseViewModel
 
         PageTitle = TabItems[0].Name!;
     }
-
+    public void UpdateTabSelectedIndex()
+    {
+        TabSelectedIndex = TabItems.IndexOf(TabItems.FirstOrDefault(x => NavigationService.CurrentViewName()!.Contains(x.PageName!))!);
+    }
 
 }

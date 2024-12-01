@@ -35,6 +35,19 @@ public class MainWindowViewModel : BaseViewModel
         get => _pageTitle;
         set => SetProperty(ref _pageTitle, value);
     }
+    private bool _isBackEnabled;
+    public bool IsBackEnabled
+    {
+        get => _isBackEnabled;
+        set => SetProperty(ref _isBackEnabled, value);
+    }
+
+    private bool _isForwardEnabled;
+    public bool IsForwardEnabled
+    {
+        get => _isForwardEnabled;
+        private set => SetProperty(ref _isForwardEnabled, value);
+    }
 
     // 用于存储返回和前进命令
     public ICommand? FrameBackCommand { get; set; }
@@ -63,6 +76,7 @@ public class MainWindowViewModel : BaseViewModel
                     if (item.PageName == NavigationServices["MainFrame"].CurrentViewName()) return;
                     NavigationServices["MainFrame"].NavigateTo(item.PageName);
                     PageTitle = item.Name!;
+                    UpdateBackForwardEnable();
                 });
             MenuItems.Add(new MainMenuItemData(item.Name, item.Icon, item.PageName, command));
         }
@@ -70,6 +84,7 @@ public class MainWindowViewModel : BaseViewModel
         // 初始化命令
         InitCommands();
         PageTitle = MenuItems[0].Name!;
+
     }
 
     /// <summary>
@@ -83,6 +98,7 @@ public class MainWindowViewModel : BaseViewModel
                 NavigationServices["MainFrame"].GoBack();
                 UpdateMenuSelectedIndex();
                 PageTitle = MenuItems[MenuSelectedIndex].Name!;
+                UpdateBackForwardEnable();
             });
         FrameForwardCommand = new RelayCommand(
             _ =>
@@ -90,6 +106,7 @@ public class MainWindowViewModel : BaseViewModel
                 NavigationServices["MainFrame"].GoForward();
                 UpdateMenuSelectedIndex();
                 PageTitle = MenuItems[MenuSelectedIndex].Name!;
+                UpdateBackForwardEnable();
             });
     }
 
@@ -101,5 +118,10 @@ public class MainWindowViewModel : BaseViewModel
         MenuSelectedIndex = MenuItems.IndexOf(MenuItems.FirstOrDefault(x => NavigationServices["MainFrame"].CurrentViewName()!.Contains(x.PageName!))!);
     }
 
+    private void UpdateBackForwardEnable()
+    {
+        IsBackEnabled = NavigationServices["MainFrame"].CanGoBack;
+        IsForwardEnabled = NavigationServices["MainFrame"].CanGoForward;
+    }
 
 }

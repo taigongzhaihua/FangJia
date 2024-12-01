@@ -6,7 +6,8 @@
       xmlns:local="clr-namespace:FangJia.Views.Pages.Data"
       mc:Ignorable="d" 
       d:DesignHeight="450" d:DesignWidth="800"
-      Title="Case">
+      Title="Case"
+      KeepAlive ="False">
 
     <Grid>
         

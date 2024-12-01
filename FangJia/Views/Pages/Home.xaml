@@ -6,7 +6,8 @@
       xmlns:pageViewModels="clr-namespace:FangJia.ViewModels.PageViewModels"
       mc:Ignorable="d" 
       d:DesignHeight="450" d:DesignWidth="800"
-      Title="Home">
+      Title="Home"
+      KeepAlive ="False">
 <Page.DataContext>
     <pageViewModels:HomeViewModel/>
 </Page.DataContext>

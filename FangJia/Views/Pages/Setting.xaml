@@ -7,7 +7,8 @@
       xmlns:controls="clr-namespace:FangJia.Views.Components.Controls"
       mc:Ignorable="d" 
       MinHeight="450" MinWidth="600"
-      Title="Setting">
+      Title="Setting"
+      KeepAlive ="False">
     <Page.DataContext>
         <pageViewModels:SettingViewModel/>
     </Page.DataContext>

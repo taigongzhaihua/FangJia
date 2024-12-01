@@ -28,6 +28,7 @@ namespace FangJia.Views.Pages
 
             // 设置初始视图为 HomePage
             frameNavigationService.NavigateTo("FormulaPage");
+            viewModel.UpdateTabSelectedIndex();
         }
 
 
