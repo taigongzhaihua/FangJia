@@ -79,13 +79,14 @@ public class FrameNavigationService : INavigationService
         {
             From = 1,
             To = 0,
-            Duration = TimeSpan.FromSeconds(0.2)
+            Duration = TimeSpan.FromSeconds(0.3)
         };
 
         fadeOutAnimation.Completed += (_, _) =>
         {
 
             _frame.Navigate(new Uri(uri, UriKind.Relative));
+            if (_frame.CanGoBack) _frame.RemoveBackEntry();
 
             // 在新页面加载完成后应用淡入动画
             var newContent = _frame.Content as UIElement;
@@ -102,7 +103,7 @@ public class FrameNavigationService : INavigationService
         {
             From = 0,
             To = 1,
-            Duration = TimeSpan.FromSeconds(0.2)
+            Duration = TimeSpan.FromSeconds(0.3)
         };
 
         content.BeginAnimation(UIElement.OpacityProperty, fadeInAnimation);

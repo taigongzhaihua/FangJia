@@ -31,7 +31,7 @@
         </ListBox>
         <Frame x:Name="ContentFrame"
                Grid.Column="1" 
-               NavigationUIVisibility="Hidden"
+               
                BorderThickness="0,1,1,1"/>
     </Grid>
 </Page>

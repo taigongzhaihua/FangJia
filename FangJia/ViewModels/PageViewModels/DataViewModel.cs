@@ -25,13 +25,6 @@ public class DataViewModel : BaseViewModel
         get => _tabSelectedIndex;
         set => SetProperty(ref _tabSelectedIndex, value);
     }
-
-    private string _pageTitle = null!;
-    public string PageTitle
-    {
-        get => _pageTitle;
-        set => SetProperty(ref _pageTitle, value);
-    }
     public DataViewModel()
     {
         Logger.Info(message: "初始化主窗口viewmodel");
@@ -48,12 +41,9 @@ public class DataViewModel : BaseViewModel
                 {
                     if (item.PageName == NavigationService!.CurrentViewName()) return;
                     NavigationService.NavigateTo(item.PageName);
-                    PageTitle = item.Name!;
                 });
             TabItems.Add(new TabItem(item.Name, item.PageName, command));
         }
-
-        PageTitle = TabItems[0].Name!;
     }
     public void UpdateTabSelectedIndex()
     {
