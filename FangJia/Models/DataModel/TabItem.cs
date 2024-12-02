@@ -6,7 +6,7 @@ public class TabItem(string? name, string? pageName, ICommand command)
 {
 
 
-    protected bool Equals(MainMenuItemData other)
+    protected bool Equals(TabItem other)
     {
         return Name == other.Name && PageName == other.PageName && Equals(Command, other.Command);
     }
@@ -15,7 +15,7 @@ public class TabItem(string? name, string? pageName, ICommand command)
     {
         if (obj is null) return false;
         if (ReferenceEquals(this, obj)) return true;
-        return obj.GetType() == GetType() && Equals((MainMenuItemData)obj);
+        return obj.GetType() == GetType() && Equals((TabItem)obj);
     }
 
     public override int GetHashCode()
