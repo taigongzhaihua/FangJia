@@ -15,4 +15,8 @@ public static class ServiceLocator
     {
         return _container.Resolve<T>();
     }
+    public static T GetService<T>(string name)
+    {
+        return _container.Resolve<T>(name);
+    }
 }

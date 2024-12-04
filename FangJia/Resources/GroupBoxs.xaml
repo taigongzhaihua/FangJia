@@ -1,0 +1,39 @@
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    xmlns:controls="clr-namespace:FangJia.Views.Components.Controls">
+    <Style TargetType="GroupBox">
+        <!-- 设置背景和边框 -->
+        <Setter Property="Background" Value="{DynamicResource WeakAccentBackgroundBrush}" />
+        <!-- 设置圆角 -->
+
+        <!-- 设置标题的样式 -->
+        <Setter Property="Template">
+
+            <Setter.Value>
+                <ControlTemplate TargetType="GroupBox">
+                    <controls:ShadowBorder  Background="{DynamicResource BackgroundBrush}" 
+                                   Padding="20,10"
+                                   CornerRadius="8">
+                        <Grid>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="Auto" />
+                            <RowDefinition Height="Auto"/>
+                            <RowDefinition Height="*" />
+                        </Grid.RowDefinitions>
+                        
+                            <ContentPresenter ContentSource="Header" Grid.Row="0"
+                                              TextBlock.FontSize="16" TextBlock.FontWeight="Bold"
+                                              TextBlock.Foreground="{DynamicResource AccentHighlightBrush}"/>
+                        
+                        <Separator Grid.Row="1" 
+                                   Height="0.5" Margin="-10,10"
+                                   Background="Gray" />
+                            <ContentPresenter Grid.Row="2"/>
+                        
+                    </Grid>
+                    </controls:ShadowBorder>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+        </Style>
+</ResourceDictionary>

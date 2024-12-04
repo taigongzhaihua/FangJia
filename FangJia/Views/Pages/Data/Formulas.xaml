@@ -8,55 +8,61 @@
       mc:Ignorable="d"
       d:DesignHeight="450" d:DesignWidth="800"
       Title="方剂"
-      KeepAlive ="False">
+      KeepAlive="False">
     <Page.DataContext>
         <pageViewModels:DataFormulasViewModel />
     </Page.DataContext>
     <Grid Background="{DynamicResource WeakAccentBackgroundBrush}">
         <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="3*" />
-            <!-- 左侧分类树 -->
-            <ColumnDefinition Width="2*" />
-            <ColumnDefinition Width="9*" />
+            <ColumnDefinition Width="Auto" />
+
+            <ColumnDefinition Width="*" />
             <!-- 右侧编辑区域 -->
         </Grid.ColumnDefinitions>
 
-        <!-- 左侧分类树 -->
-        <TreeView Name="CategoryTree" Grid.Column="0" ItemsSource="{Binding Categories,Mode=OneWay}"
-                  SelectedItemChanged="CategoryTree_OnSelectedItemChanged"
-                  Margin="-1,5,2,0" Padding="5"
-                  BorderThickness="0" Background="{DynamicResource BackgroundBrush}">
-            <TreeView.ItemTemplate>
-                <HierarchicalDataTemplate DataType="{x:Type dataModel:Category}"
-                                          ItemsSource="{Binding SubCategories}"
-                                          >
-                    <TextBlock Text="{Binding Name}"
-                               FontSize="12" />
-                </HierarchicalDataTemplate>
-            </TreeView.ItemTemplate>
-        </TreeView>
 
-        <ListBox Grid.Column="1"
-                 ItemsSource="{Binding SelectedCategory.Formulas,Mode=OneWay}"
-                 SelectedItem="{Binding SelectedFormula}"
-                 DisplayMemberPath="Name"
-                 Margin="2,5,-1,0" Padding="5"
-                 BorderThickness="0" FontSize="12" Foreground="{DynamicResource ForegroundBrush}"
-                 Background="{DynamicResource BackgroundBrush}" />
-        <!-- 右侧编辑界面 -->
-        <StackPanel Grid.Column="2" Background="{DynamicResource BackgroundBrush}"
-                    Margin="5">
-            <TextBlock Text="方剂名称" />
-            <TextBox Text="{Binding SelectedFormula.Name}" />
+        <GroupBox Grid.Column="0" Header="药物" Margin="15,25,0,25">
+            <StackPanel Orientation="Horizontal">
+                <TreeView Name="CategoryTree" ItemsSource="{Binding Categories,Mode=OneWay}"
+                          SelectedItemChanged="CategoryTree_OnSelectedItemChanged"
+                          BorderThickness="0" Background="Transparent"
+                          Foreground="{DynamicResource ForegroundBrush}">
+                    <TreeView.ItemTemplate>
+                        <HierarchicalDataTemplate DataType="{x:Type dataModel:Category}"
+                                                  ItemsSource="{Binding SubCategories}">
+                            <TextBlock Text="{Binding Name}"
+                                       FontSize="12" 
+                                       Margin="5,3"/>
+                        </HierarchicalDataTemplate>
+                    </TreeView.ItemTemplate>
+                </TreeView>
+                <ListBox
+                    ItemsSource="{Binding SelectedCategory.Formulas,Mode=OneWay}"
+                    SelectedItem="{Binding SelectedFormula}"
+                    DisplayMemberPath="Name"
+                    Padding="5"
+                    BorderThickness="0" FontSize="12" Foreground="{DynamicResource ForegroundBrush}"
+                    Background="Transparent" />
+            </StackPanel>
 
-            <TextBlock Text="药物" />
-            <TextBox Text="{Binding SelectedFormula.Medicines}" />
+        </GroupBox>
 
-            <TextBlock Text="用途" />
-            <TextBox Text="{Binding SelectedFormula.Purpose}" />
+        <GroupBox Grid.Column="1" Margin="15,25"
+                  BorderThickness="0" Header="编辑">
+            <!-- 右侧编辑界面 -->
+            <StackPanel Margin="15">
+                <TextBlock Text="方剂名称" />
+                <TextBox Text="{Binding SelectedFormula.Name}" />
 
-            <Button Content="保存" Command="{Binding SaveFormulaCommand}" />
-            <Button Content="取消" Command="{Binding CancelEditFormulaCommand}" />
-        </StackPanel>
+                <TextBlock Text="药物" />
+                <TextBox Text="{Binding SelectedFormula.Medicines}" />
+
+                <TextBlock Text="用途" />
+                <TextBox Text="{Binding SelectedFormula.Purpose}" />
+
+                <Button Content="保存" Command="{Binding SaveFormulaCommand}" />
+                <Button Content="取消" Command="{Binding CancelEditFormulaCommand}" />
+            </StackPanel>
+        </GroupBox>
     </Grid>
 </Page>

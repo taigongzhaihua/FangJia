@@ -91,7 +91,7 @@ namespace FangJia.Views.Components.Controls
             return new DropShadowEffect
             {
                 Color = (Color)Application.Current.Resources["ShadowColor"],
-                BlurRadius = 15,
+                BlurRadius = 8,
                 ShadowDepth = 0,
                 Opacity = 0.2
             };

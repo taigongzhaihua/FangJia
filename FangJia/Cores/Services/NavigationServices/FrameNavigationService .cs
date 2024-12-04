@@ -8,19 +8,22 @@ namespace FangJia.Cores.Services.NavigationServices;
 
 public class FrameNavigationService : INavigationService
 {
-    private readonly Frame _frame;
-    private readonly Dictionary<string, string> _pageMappings;
+    private Frame _frame = null!;
+    private readonly Dictionary<string, string> _pageMappings = [];
     private string? _currentViewName;
     private readonly Stack<string?> _backNameStack = new();
     private readonly Stack<string?> _forwardNameStack = new();
     public bool CanGoBack => _backNameStack.Count > 0;
     public bool CanGoForward => _forwardNameStack.Count > 0;
 
-    public FrameNavigationService(Frame frame, List<PageConfig> pageConfigs)
+    public void SetFrame(Frame frame)
     {
-        _frame = frame ?? throw new ArgumentNullException(nameof(frame));
-        _pageMappings = [];
+        _frame = frame;
+    }
 
+    public void SetPageMappings(List<PageConfig> pageConfigs)
+    {
+        _pageMappings.Clear();
         foreach (var config in pageConfigs)
         {
             _pageMappings[config.Name!] = config.Uri!;
@@ -34,7 +37,7 @@ public class FrameNavigationService : INavigationService
 
     public void NavigateTo(string? viewName)
     {
-        if (viewName == CurrentViewName()) return;
+        if (viewName == CurrentViewName() && _frame.Content != null) return;
 
         if (_pageMappings.TryGetValue(viewName!, out var uri))
         {
@@ -63,50 +66,57 @@ public class FrameNavigationService : INavigationService
         if (currentContent == null)
         {
             _frame.Navigate(new Uri(uri, UriKind.Relative));
-            var newContent = _frame.Content as UIElement;
-            ApplyFadeInAnimation(newContent);
+
+            ApplyFadeInAnimation(_frame);  // 应用淡入动画
         }
         else
         {
             // 执行当前页面的淡出动画
-            ApplyFadeOutAnimation(currentContent, uri);
+            ApplyFadeOutAnimation(uri);
         }
     }
 
-    private void ApplyFadeOutAnimation(UIElement content, string uri)
+    private void ApplyFadeOutAnimation(string uri)
     {
         var fadeOutAnimation = new DoubleAnimation
         {
             From = 1,
             To = 0,
-            Duration = TimeSpan.FromSeconds(0.3)
+            Duration = TimeSpan.FromSeconds(0.2)
         };
 
         fadeOutAnimation.Completed += (_, _) =>
         {
 
             _frame.Navigate(new Uri(uri, UriKind.Relative));
-            if (_frame.CanGoBack) _frame.RemoveBackEntry();
+
 
             // 在新页面加载完成后应用淡入动画
-            var newContent = _frame.Content as UIElement;
-            ApplyFadeInAnimation(newContent);
+            ApplyFadeInAnimation(_frame);  // 应用淡入动画
+
+            if (_frame.CanGoBack) _frame.RemoveBackEntry();
         };
 
-        content.BeginAnimation(UIElement.OpacityProperty, fadeOutAnimation);
+        _frame.BeginAnimation(UIElement.OpacityProperty, fadeOutAnimation);
     }
 
     private static void ApplyFadeInAnimation(UIElement? content)
     {
         if (content == null) return;
+
+        // 通过 Storyboard 执行渐变动画，确保页面加载后才淡入
         var fadeInAnimation = new DoubleAnimation
         {
             From = 0,
             To = 1,
-            Duration = TimeSpan.FromSeconds(0.3)
+            Duration = TimeSpan.FromSeconds(0.2)  // 设置合适的持续时间
         };
+        Storyboard.SetTarget(fadeInAnimation, content);
+        Storyboard.SetTargetProperty(fadeInAnimation, new PropertyPath(UIElement.OpacityProperty));
 
-        content.BeginAnimation(UIElement.OpacityProperty, fadeInAnimation);
+        var storyboard = new Storyboard();
+        storyboard.Children.Add(fadeInAnimation);
+        storyboard.Begin();
     }
 
     /// <summary>

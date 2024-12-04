@@ -42,7 +42,7 @@
                         Style="{DynamicResource TitleButton}" 
                         HorizontalContentAlignment="Center"
                          VerticalContentAlignment="Center"
-                         HorizontalAlignment="Right"
+                         HorizontalAlignment="Center"
                          VerticalAlignment="Center"/>
                 <Button  Content="&#xe63c;"
                          Width="20" Height="20"
@@ -51,7 +51,7 @@
                         Style="{DynamicResource TitleButton}"
                          VerticalContentAlignment="Center"
                          HorizontalContentAlignment="Center"
-                         HorizontalAlignment="Right"
+                         HorizontalAlignment="Center"
                          VerticalAlignment="Center"/>
             </StackPanel>
             <!-- 最小化按钮 -->
@@ -80,7 +80,7 @@
                     Click="CloseButton_Click" ToolTip="关闭窗口"
                     Style="{DynamicResource CloseButton}" />
         </Grid>
-        <Frame Grid.Column="1" Grid.Row="1" x:Name="MainFrame"
+        <Frame Grid.Column="1" Grid.Row="1" x:Name="MainFrame" Margin="0"
                NavigationUIVisibility="Hidden"/>
         <controls:MainMenu Grid.Row="0"  Grid.Column="0" Grid.RowSpan="2"
                            MenuSelectedIndex="{Binding MenuSelectedIndex, Mode=TwoWay}"

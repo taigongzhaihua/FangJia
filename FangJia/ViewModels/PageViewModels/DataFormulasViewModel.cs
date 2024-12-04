@@ -63,15 +63,15 @@ public class DataFormulasViewModel : BaseViewModel
         get => _selectedFormula;
         set => SetProperty(ref _selectedFormula, value);
     }
-    private RelayCommand _saveFormulaCommand = null!;
-    public ICommand SaveFormulaCommand => _saveFormulaCommand ??= new RelayCommand(SaveFormula);
+    private readonly RelayCommand _saveFormulaCommand = new(SaveFormula);
+    public ICommand SaveFormulaCommand => _saveFormulaCommand;
 
     private static void SaveFormula(object commandParameter)
     {
     }
 
-    private RelayCommand _cancelEditFormulaCommand = null!;
-    public ICommand CancelEditFormulaCommand => _cancelEditFormulaCommand ??= new RelayCommand(CancelEditFormula);
+    private readonly RelayCommand _cancelEditFormulaCommand = new(CancelEditFormula);
+    public ICommand CancelEditFormulaCommand => _cancelEditFormulaCommand;
 
     private static void CancelEditFormula(object commandParameter)
     {

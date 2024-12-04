@@ -16,8 +16,6 @@ namespace FangJia.Cores.Services;
 [SuppressMessage("ReSharper", "UnusedMember.Global")]
 public sealed class ConfigurationService(string configFilePath)
 {
-    // 配置文件路径
-
     /// <summary>
     /// 从配置文件中读取所有配置项。
     /// </summary>

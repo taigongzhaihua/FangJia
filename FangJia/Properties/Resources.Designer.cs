@@ -63,9 +63,9 @@ namespace FangJia.Properties {
         /// <summary>
         ///   查找类似 Configs/pagesConfig.json 的本地化字符串。
         /// </summary>
-        public static string MainPagesConfigUri {
+        public static string PagesConfigUri {
             get {
-                return ResourceManager.GetString("MainPagesConfigUri", resourceCulture);
+                return ResourceManager.GetString("PagesConfigUri", resourceCulture);
             }
         }
     }

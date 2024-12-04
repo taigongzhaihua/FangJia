@@ -1,12 +1,14 @@
 ﻿using FangJia.Cores.Base;
 using FangJia.Cores.Interfaces;
 using FangJia.Cores.Services;
+using FangJia.Cores.Services.NavigationServices;
 using FangJia.Cores.Utils.Commands;
 using FangJia.Models;
 using FangJia.Models.ConfigModels;
 using NLog;
 using System.Collections.ObjectModel;
 using System.Windows.Input;
+using Unity;
 
 
 namespace FangJia.ViewModels;
@@ -16,7 +18,7 @@ public class MainWindowViewModel : BaseViewModel
     private new static readonly Logger Logger = LogManager.GetCurrentClassLogger();
 
     // 用于存储导航服务的字典
-    public Dictionary<string, INavigationService> NavigationServices = [];
+    private readonly INavigationService _navigationService;
 
     // 用于存储主菜单项的集合
     public ObservableCollection<MainMenuItemData> MenuItems { get; set; } = [];
@@ -59,13 +61,18 @@ public class MainWindowViewModel : BaseViewModel
     /// <remarks>
     /// 从配置文件中加载主菜单项配置，初始化主菜单项集合。
     /// </remarks>
-    public MainWindowViewModel()
+    public MainWindowViewModel([Dependency("MainFrameNavigationService")] INavigationService navigationService,
+        [Dependency("PagesConfigService")] ConfigurationService pageConfigurationService)
     {
+        _navigationService = navigationService;
+        if (_navigationService is FrameNavigationService frameNavigationService)
+        {
+            frameNavigationService.SetPageMappings(pageConfigurationService.GetConfig<PageConfig>("Pages"));
+        }
         Logger.Info(message: "初始化主窗口viewmodel");
 
         // 从配置文件中加载主菜单项配置
-        var configService = new ConfigurationService(Properties.Resources.MainPagesConfigUri);
-        var configs = configService.GetConfig<MainMenuItemConfig>("MainMenuItems");
+        var configs = pageConfigurationService.GetConfig<MainMenuItemConfig>("MainMenuItems");
 
         // 初始化主菜单项集合
         foreach (var item in configs)
@@ -73,8 +80,8 @@ public class MainWindowViewModel : BaseViewModel
             ICommand command = new RelayCommand(
                 _ =>
                 {
-                    if (item.PageName == NavigationServices["MainFrame"].CurrentViewName()) return;
-                    NavigationServices["MainFrame"].NavigateTo(item.PageName);
+                    if (item.PageName == _navigationService?.CurrentViewName()) return;
+                    _navigationService?.NavigateTo(item.PageName);
                     PageTitle = item.Name!;
                     UpdateBackForwardEnable();
                 });
@@ -95,7 +102,7 @@ public class MainWindowViewModel : BaseViewModel
         FrameBackCommand = new RelayCommand(
             _ =>
             {
-                NavigationServices["MainFrame"].GoBack();
+                _navigationService.GoBack();
                 UpdateMenuSelectedIndex();
                 PageTitle = MenuItems[MenuSelectedIndex].Name!;
                 UpdateBackForwardEnable();
@@ -103,7 +110,7 @@ public class MainWindowViewModel : BaseViewModel
         FrameForwardCommand = new RelayCommand(
             _ =>
             {
-                NavigationServices["MainFrame"].GoForward();
+                _navigationService.GoForward();
                 UpdateMenuSelectedIndex();
                 PageTitle = MenuItems[MenuSelectedIndex].Name!;
                 UpdateBackForwardEnable();
@@ -115,13 +122,13 @@ public class MainWindowViewModel : BaseViewModel
     /// </summary>
     private void UpdateMenuSelectedIndex()
     {
-        MenuSelectedIndex = MenuItems.IndexOf(MenuItems.FirstOrDefault(x => NavigationServices["MainFrame"].CurrentViewName()!.Contains(x.PageName!))!);
+        MenuSelectedIndex = MenuItems.IndexOf(MenuItems.FirstOrDefault(x => _navigationService.CurrentViewName()!.Contains(x.PageName!))!);
     }
 
     private void UpdateBackForwardEnable()
     {
-        IsBackEnabled = NavigationServices["MainFrame"].CanGoBack;
-        IsForwardEnabled = NavigationServices["MainFrame"].CanGoForward;
+        IsBackEnabled = _navigationService.CanGoBack;
+        IsForwardEnabled = _navigationService.CanGoForward;
     }
 
 }

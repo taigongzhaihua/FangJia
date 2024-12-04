@@ -18,12 +18,13 @@
   <ItemGroup>
     <Folder Include="Cores\Utils\Behaviors\" />
     <Folder Include="Cores\Utils\Helpers\" />
-    <Folder Include="DataAccess\" />
   </ItemGroup>
   <ItemGroup>
+    <PackageReference Include="Dapper" Version="2.1.35" />
     <PackageReference Include="Newtonsoft.Json" Version="13.0.3" />
     <PackageReference Include="NLog" Version="5.3.4" />
     <PackageReference Include="Prism.Core" Version="9.0.537" />
+    <PackageReference Include="System.Data.SQLite.Core" Version="1.0.119" />
     <PackageReference Include="Tomlyn" Version="0.17.0" />
     <PackageReference Include="Unity" Version="5.11.10" />
   </ItemGroup>

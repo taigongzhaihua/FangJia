@@ -15,7 +15,7 @@ public partial class SettingGroup
     public SettingGroup()
     {
         InitializeComponent();
-        TitleBlock.SetBinding(TextBlock.TextProperty, new Binding(nameof(Title)) { Source = this });
+        GroupBox.SetBinding(HeaderedContentControl.HeaderProperty, new Binding(nameof(Title)) { Source = this });
         Items.SetBinding(ItemsControl.ItemsSourceProperty, new Binding(nameof(ItemsSource)) { Source = this });
     }
 

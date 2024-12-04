@@ -117,7 +117,7 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <data name="MainPagesConfigUri" xml:space="preserve">
+  <data name="PagesConfigUri" xml:space="preserve">
     <value>Configs/pagesConfig.json</value>
     <comment>主窗口 页面配置文件 路径</comment>
   </data>

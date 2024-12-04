@@ -1,8 +1,11 @@
-﻿using FangJia.Cores.Services;
+﻿using FangJia.Cores.Interfaces;
+using FangJia.Cores.Services;
+using FangJia.Cores.Services.NavigationServices;
 using FangJia.ViewModels;
 using FangJia.ViewModels.PageViewModels;
 using System.Windows;
 using Unity;
+using Unity.Injection;
 using Unity.Lifetime;
 
 namespace FangJia;
@@ -20,12 +23,17 @@ public partial class App
         container.RegisterType<IEventAggregator, EventAggregator>(new ContainerControlledLifetimeManager());
         container.RegisterType<SettingService>(new ContainerControlledLifetimeManager());
         container.RegisterType<SkinManagerService>(new ContainerControlledLifetimeManager());
+        container.RegisterType<INavigationService, FrameNavigationService>("MainFrameNavigationService", new ContainerControlledLifetimeManager());
+        container.RegisterType<INavigationService, FrameNavigationService>("DataContentFrameNavigationService", new ContainerControlledLifetimeManager());
+        container.RegisterType<ConfigurationService>("PagesConfigService",
+            new InjectionConstructor(FangJia.Properties.Resources.PagesConfigUri));
 
-        container.RegisterType<MainWindowViewModel>(new ContainerControlledLifetimeManager());
-        container.RegisterType<DataViewModel>(new ContainerControlledLifetimeManager());
-        container.RegisterType<SettingViewModel>(new ContainerControlledLifetimeManager());
-        container.RegisterType<HomeViewModel>(new ContainerControlledLifetimeManager());
-        container.RegisterType<DataViewModel>(new ContainerControlledLifetimeManager());
+        container.RegisterType<MainWindowViewModel>(new HierarchicalLifetimeManager());
+        container.RegisterType<DataViewModel>(new HierarchicalLifetimeManager());
+        container.RegisterType<SettingViewModel>(new HierarchicalLifetimeManager());
+        container.RegisterType<HomeViewModel>(new HierarchicalLifetimeManager());
+        container.RegisterType<DataFormulasViewModel>(new HierarchicalLifetimeManager());
+
 
         ServiceLocator.Initialize(container);
         ServiceLocator.GetService<SkinManagerService>().LoadSkinConfig(

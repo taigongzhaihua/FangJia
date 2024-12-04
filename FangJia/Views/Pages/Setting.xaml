@@ -13,8 +13,9 @@
         <pageViewModels:SettingViewModel/>
     </Page.DataContext>
     <Grid>
-        <ScrollViewer VerticalScrollBarVisibility="Auto" Background="Transparent">
+        <ScrollViewer VerticalScrollBarVisibility="Auto" Background="{DynamicResource WeakAccentBackgroundBrush}">
             <ItemsControl ItemsSource="{Binding Groups,Mode=TwoWay}"
+                          Margin="20"
                           x:Name="ItemsControl">
                 <ItemsControl.ItemsPanel>
                     <ItemsPanelTemplate>

@@ -26,18 +26,18 @@ public partial class MainWindow
     /// </summary>
     private void InitializeServicesAndNavigation()
     {
-        // 加载页面配置
-        var pageConfigs = LoadPageConfigurations();
+
 
         // 初始化框架导航服务
-        var frameNavigationService = new FrameNavigationService(MainFrame, pageConfigs);
+        var frameNavigationService = ServiceLocator.GetService<INavigationService>("MainFrameNavigationService") as FrameNavigationService;
+        frameNavigationService?.SetFrame(MainFrame);
 
         // 初始化并绑定 ViewModel
         var viewModel = ServiceLocator.GetService<MainWindowViewModel>();
-        BindViewModel(viewModel, frameNavigationService);
 
+        DataContext = viewModel;
         // 设置初始视图为 HomePage
-        frameNavigationService.NavigateTo("HomePage");
+        frameNavigationService?.NavigateTo("HomePage");
     }
 
     /// <summary>
@@ -46,22 +46,8 @@ public partial class MainWindow
     /// <returns>页面配置的列表。</returns>
     private static List<PageConfig> LoadPageConfigurations()
     {
-        var configService = new ConfigurationService(Properties.Resources.MainPagesConfigUri);
+        var configService = new ConfigurationService(Properties.Resources.PagesConfigUri);
         return configService.GetConfig<PageConfig>("Pages");
-    }
-
-    /// <summary>
-    /// 将 ViewModel 绑定到当前窗口并设置导航服务。
-    /// </summary>
-    /// <param name="viewModel">要绑定的 ViewModel。</param>
-    /// <param name="navigationService">要添加到 ViewModel 的导航服务。</param>
-    private void BindViewModel(MainWindowViewModel viewModel, INavigationService navigationService)
-    {
-        // 将框架导航服务添加到 ViewModel 中
-        viewModel.NavigationServices.Add("MainFrame", navigationService);
-
-        // 设置数据上下文以进行绑定
-        DataContext = viewModel;
     }
 
     private void CloseButton_Click(object sender, RoutedEventArgs e)
