@@ -10,7 +10,7 @@
       Title="方剂"
       KeepAlive="False">
     <Page.DataContext>
-        <pageViewModels:DataFormulasViewModel />
+        <pageViewModels:DataFormulas />
     </Page.DataContext>
     <Grid Background="{DynamicResource WeakAccentBackgroundBrush}">
         <Grid.ColumnDefinitions>

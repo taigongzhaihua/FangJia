@@ -8,32 +8,39 @@
 
         <!-- 设置标题的样式 -->
         <Setter Property="Template">
-
             <Setter.Value>
                 <ControlTemplate TargetType="GroupBox">
-                    <controls:ShadowBorder  Background="{DynamicResource BackgroundBrush}" 
-                                   Padding="20,10"
-                                   CornerRadius="8">
+                    <controls:ShadowBorder Background="{DynamicResource BackgroundBrush}"
+                                           Padding="20,10"
+                                           CornerRadius="8">
                         <Grid>
-                        <Grid.RowDefinitions>
-                            <RowDefinition Height="Auto" />
-                            <RowDefinition Height="Auto"/>
-                            <RowDefinition Height="*" />
-                        </Grid.RowDefinitions>
-                        
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="Auto" />
+                                <RowDefinition Height="Auto" />
+                                <RowDefinition Height="*" />
+                            </Grid.RowDefinitions>
+
                             <ContentPresenter ContentSource="Header" Grid.Row="0"
                                               TextBlock.FontSize="16" TextBlock.FontWeight="Bold"
-                                              TextBlock.Foreground="{DynamicResource AccentHighlightBrush}"/>
-                        
-                        <Separator Grid.Row="1" 
-                                   Height="0.5" Margin="-10,10"
-                                   Background="Gray" />
-                            <ContentPresenter Grid.Row="2"/>
-                        
-                    </Grid>
+                                              TextBlock.Foreground="{DynamicResource AccentBackgroundBrush}" 
+                                              >
+                                <ContentPresenter.Effect>
+                                    <DropShadowEffect BlurRadius="15"
+                                                      Color="{DynamicResource AccentBackgroundColor}"
+                                                      ShadowDepth="3"
+                                                      Opacity="0.3"/>
+                                </ContentPresenter.Effect>
+                            </ContentPresenter>
+
+                            <Separator Grid.Row="1"
+                                       Height="0.5" Margin="-10,10"
+                                       Background="{DynamicResource WeakAccentForegroundBrush}" />
+                            <ContentPresenter Grid.Row="2" />
+
+                        </Grid>
                     </controls:ShadowBorder>
                 </ControlTemplate>
             </Setter.Value>
         </Setter>
-        </Style>
+    </Style>
 </ResourceDictionary>

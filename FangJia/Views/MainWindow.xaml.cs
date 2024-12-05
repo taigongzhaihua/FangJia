@@ -2,7 +2,6 @@
 using FangJia.Cores.Services;
 using FangJia.Cores.Services.NavigationServices;
 using FangJia.Models.ConfigModels;
-using FangJia.ViewModels;
 using NLog;
 using System.Diagnostics.CodeAnalysis;
 using System.Windows;
@@ -33,7 +32,7 @@ public partial class MainWindow
         frameNavigationService?.SetFrame(MainFrame);
 
         // 初始化并绑定 ViewModel
-        var viewModel = ServiceLocator.GetService<MainWindowViewModel>();
+        var viewModel = ServiceLocator.GetService<ViewModels.MainWindow>();
 
         DataContext = viewModel;
         // 设置初始视图为 HomePage

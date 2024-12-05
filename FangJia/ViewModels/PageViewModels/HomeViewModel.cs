@@ -2,7 +2,7 @@
 
 namespace FangJia.ViewModels.PageViewModels
 {
-    public partial class HomeViewModel : BaseViewModel
+    public partial class Home : ViewModelBase
     {
     }
 }

@@ -10,7 +10,7 @@
       Title="Setting"
       KeepAlive ="False">
     <Page.DataContext>
-        <pageViewModels:SettingViewModel/>
+        <pageViewModels:Setting/>
     </Page.DataContext>
     <Grid>
         <ScrollViewer VerticalScrollBarVisibility="Auto" Background="{DynamicResource WeakAccentBackgroundBrush}">

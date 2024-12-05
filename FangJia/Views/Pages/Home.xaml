@@ -9,7 +9,7 @@
       Title="Home"
       KeepAlive ="False">
 <Page.DataContext>
-    <pageViewModels:HomeViewModel/>
+    <pageViewModels:Home/>
 </Page.DataContext>
     <Grid>
         <Grid.RowDefinitions>

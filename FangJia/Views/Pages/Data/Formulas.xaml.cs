@@ -16,7 +16,7 @@ public partial class Formulas : Page
     }
     private void CategoryTree_OnSelectedItemChanged(object sender, RoutedPropertyChangedEventArgs<object> e)
     {
-        var viewModel = DataContext as DataFormulasViewModel;
+        var viewModel = DataContext as DataFormulas;
         if (e.NewValue is not Category category) return;
         viewModel!.SelectedCategory = category;
     }

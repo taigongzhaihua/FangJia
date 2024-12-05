@@ -29,6 +29,7 @@ public partial class App
 
         base.OnStartup(e);
 
+        // 检查是否是重启
         if (e.Args.Contains("ReStart"))
         {
             PipeService.OnAppRestarted();
@@ -61,34 +62,33 @@ public partial class App
         );
 
     }
+
+    /// <summary>
+    /// 注册服务
+    /// </summary>
+    /// <param name="container"></param>
     private static void RegisterServices(UnityContainer container)
     {
         // 注册长期生命周期服务
-        container.RegisterType<IEventAggregator, EventAggregator>(new ContainerControlledLifetimeManager());
-        container.RegisterType<SettingService>(new ContainerControlledLifetimeManager());
-        container.RegisterType<SkinManagerService>(new ContainerControlledLifetimeManager());
-        container.RegisterType<INavigationService, FrameNavigationService>(
-            "MainFrameNavigationService",
-            new ContainerControlledLifetimeManager()
-            );
-        container.RegisterType<INavigationService, FrameNavigationService>(
-            "DataContentFrameNavigationService",
-            new ContainerControlledLifetimeManager()
-            );
-        container.RegisterType<ConfigurationService>(
-            "PagesConfigService",
-            new ContainerControlledLifetimeManager(),
-            new InjectionConstructor(FangJia.Properties.Resources.PagesConfigUri)
-            );
+        container.RegisterType<IEventAggregator, EventAggregator>(new ContainerControlledLifetimeManager());    // 事件聚合器
+        container.RegisterType<SettingService>(new ContainerControlledLifetimeManager());                       // 设置服务
+        container.RegisterType<SkinManagerService>(new ContainerControlledLifetimeManager());                   // 皮肤管理服务
+        container.RegisterType<INavigationService, FrameNavigationService>(                                     // 主窗口导航服务
+            "MainFrameNavigationService", new ContainerControlledLifetimeManager());
+        container.RegisterType<INavigationService, FrameNavigationService>(                                     // 数据管理页面导航服务
+            "DataContentFrameNavigationService", new ContainerControlledLifetimeManager());
+        container.RegisterType<ConfigurationService>(                                                           // 页面配置服务
+            "PagesConfigService", new ContainerControlledLifetimeManager(),
+            new InjectionConstructor(FangJia.Properties.Resources.PagesConfigUri));
 
-        // 注册短期生命周期服务
-        container.RegisterType<DbManager>(new TransientLifetimeManager());
+        // 注册短期生命周期类型
+        container.RegisterType<DbManager>(new TransientLifetimeManager());          // 数据库管理类
 
         // 注册 ViewModel
-        container.RegisterType<MainWindowViewModel>(new HierarchicalLifetimeManager());
-        container.RegisterType<DataViewModel>(new HierarchicalLifetimeManager());
-        container.RegisterType<SettingViewModel>(new HierarchicalLifetimeManager());
-        container.RegisterType<HomeViewModel>(new HierarchicalLifetimeManager());
-        container.RegisterType<DataFormulasViewModel>(new HierarchicalLifetimeManager());
+        container.RegisterType<MainWindow>(new HierarchicalLifetimeManager());             // 主窗口 ViewModel
+        container.RegisterType<Data>(new HierarchicalLifetimeManager());                   // 数据管理页面 ViewModel
+        container.RegisterType<Setting>(new HierarchicalLifetimeManager());                // 设置页面 ViewModel
+        container.RegisterType<Home>(new HierarchicalLifetimeManager());                   // 主页 ViewModel
+        container.RegisterType<DataFormulas>(new HierarchicalLifetimeManager());           // 数据管理页面-方剂页 ViewModel
     }
 }

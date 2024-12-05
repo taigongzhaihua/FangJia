@@ -13,7 +13,7 @@ using Unity;
 
 namespace FangJia.ViewModels;
 
-public class MainWindowViewModel : BaseViewModel
+public class MainWindow : ViewModelBase
 {
     private new static readonly Logger Logger = LogManager.GetCurrentClassLogger();
 
@@ -61,7 +61,7 @@ public class MainWindowViewModel : BaseViewModel
     /// <remarks>
     /// 从配置文件中加载主菜单项配置，初始化主菜单项集合。
     /// </remarks>
-    public MainWindowViewModel(
+    public MainWindow(
         [Dependency("MainFrameNavigationService")] INavigationService navigationService,
         [Dependency("PagesConfigService")] ConfigurationService pageConfigurationService)
     {

@@ -6,9 +6,9 @@ using System.Windows.Input;
 
 namespace FangJia.ViewModels.PageViewModels;
 
-public class DataFormulasViewModel : BaseViewModel
+public class DataFormulas : ViewModelBase
 {
-    public DataFormulasViewModel()
+    public DataFormulas()
     {
         Categories =
         [
