@@ -1,15 +1,11 @@
 ﻿using NLog;
 using System.ComponentModel;
-using System.Diagnostics.CodeAnalysis;
 using System.Runtime.CompilerServices;
+using System.Windows.Controls;
 
 namespace FangJia.Cores.Base;
 
-/// <summary>
-/// BaseViewModel 类是所有 ViewModel 的基类，实现了 INotifyPropertyChanged 接口，用于在属性值发生变化时通知绑定。
-/// </summary>
-[SuppressMessage("ReSharper", "PartialTypeWithSinglePart")]
-public partial class BaseViewModel : INotifyPropertyChanged
+public class ControlBase : UserControl, INotifyPropertyChanged
 {
     /// <summary>
     /// NLog 日志记录器，用于记录调试信息。

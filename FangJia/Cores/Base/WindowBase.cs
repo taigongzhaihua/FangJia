@@ -14,7 +14,7 @@ namespace FangJia.Cores.Base;
 [SuppressMessage(category: "ReSharper", checkId: "InconsistentNaming")]
 [SuppressMessage(category: "ReSharper", checkId: "IdentifierTypo")]
 [SuppressMessage(category: "ReSharper", checkId: "UnusedMember.Local")]
-public partial class BaseWindow : Window
+public partial class WindowBase : Window
 {
     /// <summary>
     /// DWM 属性常量，用于设置窗口圆角的属性标识符
@@ -50,7 +50,7 @@ public partial class BaseWindow : Window
     /// <summary>
     /// BaseWindow 构造函数，初始化窗口组件并设置自定义样式
     /// </summary>
-    public BaseWindow()
+    public WindowBase()
     {
 
         SetWindowChrome(); // 设置窗口的自定义边框样式
