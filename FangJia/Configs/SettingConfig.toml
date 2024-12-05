@@ -10,7 +10,7 @@ ControlType = "ComboBox"
 ControlStyle = "ColorComboBox"
 Options = ["lightTheme", "darkTheme"]
 IsEnable = true
-Tip = "更换主题后部分部件不会立即生效，请重启应用"
+Tip = "更换主题后将自动重启应用，请确保已保存好数据"
 
 [[Groups.Items]]
 Name = "语言"

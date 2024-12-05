@@ -28,8 +28,10 @@ public class DataViewModel : BaseViewModel
         get => _tabSelectedIndex;
         set => SetProperty(ref _tabSelectedIndex, value);
     }
-    public DataViewModel([Dependency("DataContentFrameNavigationService")] INavigationService navigationService,
-        [Dependency("PagesConfigService")] ConfigurationService pageConfigurationService)
+    public DataViewModel(
+        [Dependency("DataContentFrameNavigationService")] INavigationService navigationService,
+        [Dependency("PagesConfigService")] ConfigurationService pageConfigurationService
+        )
     {
         _navigationService = navigationService;
         if (_navigationService is FrameNavigationService frameNavigationService)

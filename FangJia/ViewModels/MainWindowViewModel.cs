@@ -61,7 +61,8 @@ public class MainWindowViewModel : BaseViewModel
     /// <remarks>
     /// 从配置文件中加载主菜单项配置，初始化主菜单项集合。
     /// </remarks>
-    public MainWindowViewModel([Dependency("MainFrameNavigationService")] INavigationService navigationService,
+    public MainWindowViewModel(
+        [Dependency("MainFrameNavigationService")] INavigationService navigationService,
         [Dependency("PagesConfigService")] ConfigurationService pageConfigurationService)
     {
         _navigationService = navigationService;

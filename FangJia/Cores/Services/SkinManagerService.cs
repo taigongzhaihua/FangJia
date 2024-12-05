@@ -3,7 +3,6 @@ using FangJia.Models.ConfigModels;
 using System.IO;
 using System.Windows;
 using System.Windows.Media;
-using System.Windows.Media.Animation;
 using Tomlyn;
 
 namespace FangJia.Cores.Services;
@@ -14,36 +13,33 @@ public class SkinManagerService
     // 当前皮肤配置对象
     private SkinConfig? _currentSkinConfig;
 
-    // 私有构造函数，防止外部实例化
+    /// <summary>
+    /// 初始化皮肤管理服务。
+    /// </summary>
+    /// <param name="eventAggregator"></param>
     public SkinManagerService(IEventAggregator eventAggregator)
     {
         eventAggregator.GetEvent<SettingChangedEvent>()
             .Subscribe(HandleSettingChanged);
-
     }
 
+    /// <summary>
+    /// 处理设置更改事件。
+    /// </summary>
+    /// <param name="args"></param>
     private void HandleSettingChanged(SettingChangedEventArgs args)
     {
-        if (args.Key == "Theme")
-        {
-            // 加载新的皮肤配置
-            LoadSkinConfig((string)args.NewValue);
-
-
-            Window w = Application.Current.MainWindow!;
-
-            Application.Current.Dispatcher.Invoke(() =>
-            {
-                UpdateColorAnimations(w);
-            });
-
-
-
-
-        }
+        if (args.Key != "Theme") return;
+        // 加载新的皮肤配置
+        LoadSkinConfig((string)args.NewValue);
+        // 获取当前应用程序的路径
+        PipeService.RestartApp();
     }
 
-    // 加载皮肤配置
+    /// <summary>
+    /// 加载指定名称的皮肤配置。
+    /// </summary>
+    /// <param name="skinName"></param>
     public void LoadSkinConfig(string skinName)
     {
         // 从 TOML 文件加载配置
@@ -52,7 +48,11 @@ public class SkinManagerService
         ApplySkin();
     }
 
-    // 从文件加载皮肤配置
+    /// <summary>
+    /// 从文件加载皮肤配置。
+    /// </summary>
+    /// <param name="skinName"></param>
+    /// <returns></returns>
     private static SkinConfig LoadSkinFromFile(string skinName)
     {
         var filePath = $"Configs/Themes/{skinName}.toml";
@@ -61,7 +61,9 @@ public class SkinManagerService
         return new SkinConfig(Toml.Parse(tomlContent).ToModel());
     }
 
-    // 应用皮肤到资源字典
+    /// <summary>
+    /// 应用皮肤配置。
+    /// </summary>
     private void ApplySkin()
     {
         var mergedDictionaries = Application.Current.Resources.MergedDictionaries;
@@ -84,7 +86,10 @@ public class SkinManagerService
         }
     }
 
-    // 更新资源字典中的皮肤颜色
+    /// <summary>
+    /// 更新皮肤资源。
+    /// </summary>
+    /// <param name="skinResources"></param>
     private void UpdateSkinResources(ResourceDictionary skinResources)
     {
         if (_currentSkinConfig == null) return;
@@ -100,40 +105,8 @@ public class SkinManagerService
             if (!string.IsNullOrEmpty(colorValue))
             {
                 // 如果属性值有效，将其转换为 SolidColorBrush 并添加到资源字典中
-                skinResources[key] = new SolidColorBrush((Color)ColorConverter.ConvertFromString(colorValue)).Color;
+                skinResources[key] = (Color)ColorConverter.ConvertFromString(colorValue);
             }
-        }
-    }
-    // 遍历窗口中的所有元素，查找并更新所有ColorAnimation的目标值
-    public static void UpdateColorAnimations(DependencyObject root)
-    {
-        // 检查该元素是否是Storyboard
-        if (root is Storyboard storyboard)
-        {
-            // 遍历Storyboard中的所有子动画
-            foreach (var child in storyboard.Children)
-            {
-                if (child is ColorAnimation colorAnimation)
-                {
-                    // 获取ColorAnimation的目标资源键
-                    string resourceKey = colorAnimation.To.ToString()!; // 例如获取 "Red" 或资源名
-
-                    // 从当前资源字典中获取新的颜色值
-                    if (Application.Current.Resources[resourceKey] is Color newColor)
-                    {
-                        // 更新动画的目标值
-                        colorAnimation.To = newColor;
-                    }
-                }
-            }
-        }
-
-        // 递归遍历所有子元素
-        int childrenCount = VisualTreeHelper.GetChildrenCount(root);
-        for (int i = 0; i < childrenCount; i++)
-        {
-            DependencyObject child = VisualTreeHelper.GetChild(root, i);
-            UpdateColorAnimations(child);  // 递归调用
         }
     }
 }

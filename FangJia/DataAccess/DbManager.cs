@@ -4,11 +4,21 @@ using System.Data.SQLite;
 
 namespace FangJia.DataAccess;
 
-public class DbManager(string connectionString)
+public class DbManager
 {
     private static readonly Logger Logger = LogManager.GetCurrentClassLogger();
+    private string _connectionString = null!;
 
-    // 创建表的方法
+    public void SetConnection(string connectionString)
+    {
+        _connectionString = connectionString;
+    }
+
+    /// <summary>
+    /// 创建表，如果表不存在则创建
+    /// </summary>
+    /// <param name="tableName"></param>
+    /// <param name="columnsDefinitions"></param>
     public void CreateTableIfNotExists(string tableName, params (string, string)[] columnsDefinitions)
     {
         try
@@ -26,12 +36,17 @@ public class DbManager(string connectionString)
         }
     }
 
+    /// <summary>
+    /// 执行 SQL 语句
+    /// </summary>
+    /// <param name="sql"></param>
+    /// <param name="param"></param>
     public void Execute(string sql, object param = null!)
     {
         try
         {
             Logger.Debug($"执行 SQL: {sql}");
-            using var connection = new SQLiteConnection(connectionString);
+            using var connection = new SQLiteConnection(_connectionString);
             connection.Open();
             connection.Execute(sql, param);
             Logger.Info("SQL 执行成功");
@@ -43,14 +58,20 @@ public class DbManager(string connectionString)
         }
     }
 
-
-    // 通用查询方法
+    /// <summary>
+    /// 查询表
+    /// </summary>
+    /// <typeparam name="T"></typeparam>
+    /// <param name="tableName"></param>
+    /// <param name="whereClause"></param>
+    /// <param name="parameters"></param>
+    /// <returns></returns>
     public IEnumerable<T> Query<T>(string tableName, string whereClause = "", params object[] parameters)
     {
         try
         {
             Logger.Debug($"查询表 {tableName}");
-            using var connection = new SQLiteConnection(connectionString);
+            using var connection = new SQLiteConnection(_connectionString);
             connection.Open();
             var sql = $"SELECT * FROM {tableName} {whereClause}";
             var dynamicParameters = BuildDynamicParameters(parameters);
@@ -64,13 +85,21 @@ public class DbManager(string connectionString)
         }
     }
 
-    // 通用查询单个方法
+    /// <summary>
+    /// 查询表，获取单个记录
+    /// </summary>
+    /// <typeparam name="T"></typeparam>
+    /// <param name="tableName"></param>
+    /// <param name="whereClause"></param>
+    /// <param name="columnNames"></param>
+    /// <param name="parameters"></param>
+    /// <returns></returns>
     public T QuerySingleOrDefault<T>(string tableName, string whereClause, string[] columnNames, object parameters)
     {
         try
         {
             Logger.Info($"查询表 {tableName}，获取单个记录");
-            using var connection = new SQLiteConnection(connectionString);
+            using var connection = new SQLiteConnection(_connectionString);
             connection.Open();
 
             var sanitizedColumnNames =
@@ -86,13 +115,18 @@ public class DbManager(string connectionString)
         }
     }
 
-    // 通用插入方法
+    /// <summary>
+    /// 插入数据
+    /// </summary>
+    /// <param name="tableName"></param>
+    /// <param name="columnValues"></param>
+    /// <returns></returns>
     public int Insert(string tableName, params (string, object)[] columnValues)
     {
         try
         {
             Logger.Info($"向表 {tableName} 插入数据");
-            using var connection = new SQLiteConnection(connectionString);
+            using var connection = new SQLiteConnection(_connectionString);
             connection.Open();
             var columns = string.Join(", ", columnValues.Select(cv => cv.Item1));
             var values = string.Join(", ", columnValues.Select(cv => "@" + cv.Item1));
@@ -109,14 +143,19 @@ public class DbManager(string connectionString)
         }
     }
 
-    // 通用更新方法
-    public void Update(string tableName, (string, object)[] columnValues, string whereClause,
-        params object[] parameters)
+    /// <summary>
+    /// 更新数据
+    /// </summary>
+    /// <param name="tableName">表名</param>
+    /// <param name="columnValues"></param>
+    /// <param name="whereClause"></param>
+    /// <param name="parameters"></param>
+    public void Update(string tableName, (string, object)[] columnValues, string whereClause, params object[] parameters)
     {
         try
         {
             Logger.Info($"更新表 {tableName}");
-            using var connection = new SQLiteConnection(connectionString);
+            using var connection = new SQLiteConnection(_connectionString);
             connection.Open();
             var setClause = string.Join(", ", columnValues.Select(cv => $"{cv.Item1} = @{cv.Item1}"));
             var sql = $"UPDATE {tableName} SET {setClause} {whereClause}";
@@ -133,13 +172,18 @@ public class DbManager(string connectionString)
         }
     }
 
-    // 通用删除方法
+    /// <summary>
+    /// 删除数据
+    /// </summary>
+    /// <param name="tableName"></param>
+    /// <param name="whereClause"></param>
+    /// <param name="parameters"></param>
     public void Delete(string tableName, string whereClause, params object[] parameters)
     {
         try
         {
             Logger.Info($"从表 {tableName} 删除数据");
-            using var connection = new SQLiteConnection(connectionString);
+            using var connection = new SQLiteConnection(_connectionString);
             connection.Open();
             var sql = $"DELETE FROM {tableName} {whereClause}";
             var dynamicParameters = BuildDynamicParameters(parameters);
@@ -154,7 +198,11 @@ public class DbManager(string connectionString)
         }
     }
 
-    // 构建 DynamicParameters
+    /// <summary>
+    /// 构建动态参数
+    /// </summary>
+    /// <param name="parameters"></param>
+    /// <returns></returns>
     private static DynamicParameters BuildDynamicParameters(params object[] parameters)
     {
         var dynamicParameters = new DynamicParameters();
