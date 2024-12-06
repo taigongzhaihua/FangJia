@@ -1,0 +1,34 @@
+﻿<Page x:Class="FangJia.UI.Views.Pages.Setting"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+      xmlns:pageViewModels="clr-namespace:FangJia.UI.ViewModels.PageViewModels"
+      xmlns:controls1="clr-namespace:FangJia.UI.Views.Components.Controls"
+      mc:Ignorable="d" 
+      MinHeight="450" MinWidth="600"
+      Title="Setting"
+      KeepAlive ="False">
+    <Page.DataContext>
+        <pageViewModels:Setting/>
+    </Page.DataContext>
+    <Grid>
+        <ScrollViewer VerticalScrollBarVisibility="Auto" Background="{DynamicResource WeakAccentBackgroundBrush}">
+            <ItemsControl ItemsSource="{Binding Groups,Mode=TwoWay}"
+                          Margin="20"
+                          x:Name="ItemsControl">
+                <ItemsControl.ItemsPanel>
+                    <ItemsPanelTemplate>
+                        <StackPanel Orientation="Vertical"/>
+                    </ItemsPanelTemplate>
+                </ItemsControl.ItemsPanel>
+                <ItemsControl.ItemTemplate>
+                    <DataTemplate>
+                        <controls1:SettingGroup Title="{Binding Title,Mode=OneWay}"
+                                               ItemsSource="{Binding Items,Mode=OneWay}"/>
+                    </DataTemplate>
+                </ItemsControl.ItemTemplate>
+            </ItemsControl>
+        </ScrollViewer>
+    </Grid>
+</Page>

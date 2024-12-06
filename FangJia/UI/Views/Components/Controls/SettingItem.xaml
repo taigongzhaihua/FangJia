@@ -1,0 +1,31 @@
+﻿<base:ControlBase x:Class="FangJia.UI.Views.Components.Controls.SettingItem"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:base="clr-namespace:FangJia.UI.Base"
+             mc:Ignorable="d" 
+             MinHeight="50">
+    <Grid x:Name="Grid">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="18"/>
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="60"/>
+            <ColumnDefinition Width="*"/>
+        </Grid.ColumnDefinitions>
+        <TextBlock x:Name="TitleBlock"
+                   Grid.Column="0" Grid.Row="0"
+                   VerticalAlignment="Center" HorizontalAlignment="Right" TextAlignment="Justify"
+                   FontSize="14"
+                   Style="{DynamicResource DefaultText}"/>
+
+        <TextBlock x:Name="TipBlock" 
+                   Grid.Row="1" Grid.Column="1"
+                   FontSize="10"
+                   VerticalAlignment="Center" HorizontalAlignment="Right"
+                   Style="{DynamicResource WeakAccentText}"/>
+
+    </Grid>
+</base:ControlBase>

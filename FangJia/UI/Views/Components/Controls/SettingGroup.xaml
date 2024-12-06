@@ -1,0 +1,31 @@
+﻿<base:ControlBase x:Class="FangJia.UI.Views.Components.Controls.SettingGroup"
+                  xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                  xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                  xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+                  xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+                  xmlns:base="clr-namespace:FangJia.UI.Base"
+                  xmlns:controls1="clr-namespace:FangJia.UI.Views.Components.Controls"
+                  mc:Ignorable="d"
+                  Width="480">
+    <GroupBox x:Name="GroupBox">
+        <ItemsControl x:Name="Items"
+                      Margin="0,0,0,10">
+            <ItemsControl.ItemsPanel>
+                <ItemsPanelTemplate>
+                    <StackPanel Orientation="Vertical" IsItemsHost="True" />
+                </ItemsPanelTemplate>
+            </ItemsControl.ItemsPanel>
+            <ItemsControl.ItemTemplate>
+                <DataTemplate>
+                    <controls1:SettingItem Title="{Binding Name,Mode=OneWay}"
+                                          ControlType="{Binding ControlType,Mode=OneWay}"
+                                          Tip="{Binding Tip,Mode=OneWay}"
+                                          Options="{Binding Options,Mode=OneWay}"
+                                          Key="{Binding Key,Mode=OneWay}"
+                                          ValueType="{Binding Type,Mode=OneWay}"
+                                          Margin="10,5" />
+                </DataTemplate>
+            </ItemsControl.ItemTemplate>
+        </ItemsControl>
+    </GroupBox>
+</base:ControlBase>

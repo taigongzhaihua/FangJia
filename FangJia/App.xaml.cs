@@ -1,9 +1,9 @@
-﻿using FangJia.Cores.Interfaces;
-using FangJia.Cores.Services;
-using FangJia.Cores.Services.NavigationServices;
+﻿using FangJia.BusinessLogic.Interfaces;
+using FangJia.BusinessLogic.Services;
+using FangJia.BusinessLogic.Services.NavigationServices;
 using FangJia.DataAccess;
-using FangJia.ViewModels;
-using FangJia.ViewModels.PageViewModels;
+using FangJia.UI.ViewModels;
+using FangJia.UI.ViewModels.PageViewModels;
 using NLog;
 using System.Windows;
 using Unity;
@@ -85,7 +85,7 @@ public partial class App
         container.RegisterType<DbManager>(new TransientLifetimeManager());          // 数据库管理类
 
         // 注册 ViewModel
-        container.RegisterType<MainWindow>(new HierarchicalLifetimeManager());             // 主窗口 ViewModel
+        container.RegisterType<MainWindowViewModel>(new HierarchicalLifetimeManager());             // 主窗口 ViewModel
         container.RegisterType<Data>(new HierarchicalLifetimeManager());                   // 数据管理页面 ViewModel
         container.RegisterType<Setting>(new HierarchicalLifetimeManager());                // 设置页面 ViewModel
         container.RegisterType<Home>(new HierarchicalLifetimeManager());                   // 主页 ViewModel

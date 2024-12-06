@@ -1,0 +1,69 @@
+{
+  "Pages": [
+    {
+      "name": "HomePage",
+      "uri": "/UI/Views/Pages/Home.xaml"
+    },
+    {
+      "name": "DataPage",
+      "uri": "/UI/Views/Pages/Data.xaml"
+    },
+    {
+      "name": "SettingPage",
+      "uri": "/UI/Views/Pages/Setting.xaml"
+    }
+  ],
+  "MainMenuItems": [
+    {
+      "Name": "首页",
+      "Icon": "\ue695",
+      "PageName": "HomePage"
+    },
+    {
+      "Name": "数据",
+      "Icon": "\ue61a",
+      "PageName": "DataPage"
+    },
+    {
+      "Name": "设置",
+      "Icon": "\ue647",
+      "PageName": "SettingPage"
+    }
+  ],
+  "DataPages": [
+    {
+      "name": "FormulaPage",
+      "uri": "/UI/Views/Pages/Data/Formulas.xaml"
+    },
+    {
+      "name": "MedicinePage",
+      "uri": "/UI/Views/Pages/Data/Medicine.xaml"
+    },
+    {
+      "name": "ClassicPage",
+      "uri": "/UI/Views/Pages/Data/Classic.xaml"
+    },
+    {
+      "name": "CasePage",
+      "uri": "/UI/Views/Pages/Data/Case.xaml"
+    }
+  ],
+  "DataTabs": [
+    {
+      "Name": "方剂",
+      "PageName": "FormulaPage"
+    },
+    {
+      "Name": "药物",
+      "PageName": "MedicinePage"
+    },
+    {
+      "Name": "经典",
+      "PageName": "ClassicPage"
+    },
+    {
+      "Name": "医案",
+      "PageName": "CasePage"
+    }
+  ]
+}

@@ -61,11 +61,20 @@ namespace FangJia.Properties {
         }
         
         /// <summary>
-        ///   查找类似 Configs/pagesConfig.json 的本地化字符串。
+        ///   查找类似 Resources/Configs/pagesConfig.json 的本地化字符串。
         /// </summary>
         public static string PagesConfigUri {
             get {
                 return ResourceManager.GetString("PagesConfigUri", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 Resources/Configs/SettingConfig.toml 的本地化字符串。
+        /// </summary>
+        public static string SettingConfigUri {
+            get {
+                return ResourceManager.GetString("SettingConfigUri", resourceCulture);
             }
         }
     }

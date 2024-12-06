@@ -9,15 +9,16 @@
     <GeneratePackageOnBuild>False</GeneratePackageOnBuild>
   </PropertyGroup>
   <ItemGroup>
-    <None Remove="Configs\pagesConfig.json" />
-    <None Remove="Configs\SettingConfig.toml" />
-    <None Remove="Configs\Themes\darkTheme.toml" />
-    <None Remove="Configs\Themes\lightTheme.toml" />
-    <None Remove="Fonts\iconfont.ttf" />
+    <None Remove="Resources\Configs\pagesConfig.json" />
+    <None Remove="Resources\Configs\SettingConfig.toml" />
+    <None Remove="Resources\Configs\Themes\darkTheme.toml" />
+    <None Remove="Resources\Configs\Themes\lightTheme.toml" />
+    <None Remove="Resources\Fonts\iconfont.ttf" />
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="Cores\Utils\Behaviors\" />
-    <Folder Include="Cores\Utils\Helpers\" />
+    <Folder Include="UI\Behaviors\" />
+    <Folder Include="BusinessLogic\Helpers\" />
+    <Folder Include="UI\Views\Components\Dialogs\" />
   </ItemGroup>
   <ItemGroup>
     <PackageReference Include="Dapper" Version="2.1.35" />
@@ -29,21 +30,21 @@
     <PackageReference Include="Unity" Version="5.11.10" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Configs\pagesConfig.json">
+    <EmbeddedResource Include="Resources\Configs\pagesConfig.json">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </EmbeddedResource>
-    <EmbeddedResource Include="Configs\SettingConfig.toml">
+    <EmbeddedResource Include="Resources\Configs\SettingConfig.toml">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </EmbeddedResource>
-    <EmbeddedResource Include="Configs\Themes\darkTheme.toml">
+    <EmbeddedResource Include="Resources\Configs\Themes\darkTheme.toml">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </EmbeddedResource>
-    <EmbeddedResource Include="Configs\Themes\lightTheme.toml">
+    <EmbeddedResource Include="Resources\Configs\Themes\lightTheme.toml">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="Fonts\iconfont.ttf">
+    <Resource Include="Resources\Fonts\iconfont.ttf">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Resource>
   </ItemGroup>

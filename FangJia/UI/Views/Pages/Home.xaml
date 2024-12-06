@@ -1,0 +1,52 @@
+﻿<Page x:Class="FangJia.UI.Views.Pages.Home"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+      xmlns:pageViewModels1="clr-namespace:FangJia.UI.ViewModels.PageViewModels"
+      mc:Ignorable="d" 
+      d:DesignHeight="450" d:DesignWidth="800"
+      Title="Home"
+      KeepAlive ="False">
+<Page.DataContext>
+    <pageViewModels1:Home/>
+</Page.DataContext>
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="1*"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="2*"/>
+        </Grid.RowDefinitions>
+        <StackPanel Grid.Row="0" 
+                    Orientation="Horizontal"
+                    VerticalAlignment="Center"
+                    Margin="40,0">
+            <TextBlock Text="&#xe611;"
+                       Style="{DynamicResource DefaultText}"
+                       FontSize="60"
+                       FontFamily="{DynamicResource IconFont}"
+                       VerticalAlignment="Center"/>
+            <StackPanel Orientation="Vertical">
+                <TextBlock Text="太公摘花"
+                           FontSize="20"
+                           Margin="10,5"
+                           Style="{DynamicResource DefaultText}"/>
+                <TextBlock Text="你已坚持学习 365 天了"
+                           FontSize="16"
+                           Margin="10,5"
+                           Style="{DynamicResource AlertText}"/>
+                <TextBlock Text="今日任务 0/5"
+                           FontSize="18"
+                           Margin="10,5"
+                           Style="{DynamicResource WarningText}"/>
+            </StackPanel>
+        </StackPanel>
+        <Separator Grid.Row="1" 
+                   Height="0.5" Margin="30"
+                   Background="Gray" />
+
+        <Grid Grid.Row="2">
+
+        </Grid>
+    </Grid>
+</Page>
