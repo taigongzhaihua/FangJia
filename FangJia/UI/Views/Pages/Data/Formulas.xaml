@@ -4,13 +4,13 @@
       xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
       xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
       xmlns:dataModel1="clr-namespace:FangJia.BusinessLogic.Models.Data"
-      xmlns:pageViewModels1="clr-namespace:FangJia.UI.ViewModels.PageViewModels"
+      xmlns:pages="clr-namespace:FangJia.UI.ViewModels.Pages"
       mc:Ignorable="d"
       d:DesignHeight="450" d:DesignWidth="800"
       Title="方剂"
       KeepAlive="False">
     <Page.DataContext>
-        <pageViewModels1:DataFormulas />
+        <pages:DataFormulas />
     </Page.DataContext>
     <Grid Background="{DynamicResource WeakAccentBackgroundBrush}">
         <Grid.ColumnDefinitions>

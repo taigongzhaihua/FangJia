@@ -1,5 +1,4 @@
 ﻿using FangJia.BusinessLogic.Models.Config;
-using NLog;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Data;
@@ -11,7 +10,6 @@ namespace FangJia.UI.Views.Components.Controls;
 /// </summary>
 public partial class SettingGroup
 {
-    private new static readonly Logger Logger = LogManager.GetCurrentClassLogger();
     public SettingGroup()
     {
         InitializeComponent();

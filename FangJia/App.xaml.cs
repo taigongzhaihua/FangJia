@@ -3,7 +3,7 @@ using FangJia.BusinessLogic.Services;
 using FangJia.BusinessLogic.Services.NavigationServices;
 using FangJia.DataAccess;
 using FangJia.UI.ViewModels;
-using FangJia.UI.ViewModels.PageViewModels;
+using FangJia.UI.ViewModels.Pages;
 using NLog;
 using System.Windows;
 using Unity;
@@ -58,7 +58,7 @@ public partial class App
         // 初始化皮肤
         ServiceLocator.Initialize(container);
         ServiceLocator.GetService<SkinManagerService>().LoadSkinConfig(
-            ServiceLocator.GetService<SettingService>().GetSettingValue("Theme").ToString()!
+            SettingService.GetSettingValue("Theme").ToString()!
         );
 
     }

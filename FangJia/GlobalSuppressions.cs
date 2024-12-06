@@ -1,14 +1,6 @@
-﻿// This file is used by Code Analysis to maintain SuppressMessage
-// attributes that are applied to this project.
-// Project-level suppressions either have no target or are given
-// a specific target and scoped to a namespace, type, member, etc.
+﻿using System.Diagnostics.CodeAnalysis;
 
-using System.Diagnostics.CodeAnalysis;
-
-[assembly: SuppressMessage("CodeQuality", "IDE0079:请删除不必要的忽略", Justification = "<挂起>", Scope = "type", Target = "~T:FangJia.Cores.Services.ConfigurationService")]
-[assembly: SuppressMessage("CodeQuality", "IDE0079:请删除不必要的忽略", Justification = "<挂起>", Scope = "type", Target = "~T:FangJia.Cores.Services.NavigationServices.FrameNavigationService")]
-[assembly: SuppressMessage("CodeQuality", "IDE0079:请删除不必要的忽略", Justification = "<挂起>", Scope = "type", Target = "~T:FangJia.Cores.Utils.Commands.RelayCommand")]
-[assembly: SuppressMessage("CodeQuality", "IDE0079:请删除不必要的忽略", Justification = "<挂起>", Scope = "type", Target = "~T:FangJia.Cores.Utils.Converters.MainMenuListWidthConverter")]
-[assembly: SuppressMessage("CodeQuality", "IDE0052:删除未读的私有成员", Justification = "<挂起>", Scope = "member", Target = "~F:FangJia.Views.Components.Controls.MainMenu.Logger")]
-[assembly: SuppressMessage("CodeQuality", "IDE0052:删除未读的私有成员", Justification = "<挂起>", Scope = "member", Target = "~F:FangJia.Views.Components.Controls.SettingItem.Logger")]
-[assembly: SuppressMessage("Usage", "CsWinRT1028:Class is not marked partial", Justification = "<挂起>", Scope = "type", Target = "~T:FangJia.ViewModels.MainWindowViewModel")]
+[assembly: SuppressMessage("CodeQuality", "IDE0079:请删除不必要的忽略", Justification = "<挂起>", Scope = "type", Target = "~T:FangJia.BusinessLogic.Services.PipeService")]
+[assembly: SuppressMessage("CodeQuality", "IDE0079:请删除不必要的忽略", Justification = "<挂起>", Scope = "type", Target = "~T:FangJia.DataAccess.DbManager")]
+[assembly: SuppressMessage("CodeQuality", "IDE0079:请删除不必要的忽略", Justification = "<挂起>", Scope = "type", Target = "~T:FangJia.DataAccess.ConfigurationService")]
+[assembly: SuppressMessage("CodeQuality", "IDE0079:请删除不必要的忽略", Justification = "<挂起>", Scope = "type", Target = "~T:FangJia.BusinessLogic.Models.Utils.RelayCommand")]

@@ -1,12 +1,9 @@
-﻿using System.Diagnostics.CodeAnalysis;
-using System.Globalization;
+﻿using System.Globalization;
 using System.Windows;
 using System.Windows.Data;
 
 namespace FangJia.UI.Converters;
 
-[SuppressMessage("ReSharper", "NullnessAnnotationConflictWithJetBrainsAnnotations")]
-[SuppressMessage("ReSharper", "StringLiteralTypo")]
 public class StringToStyleConverter : IValueConverter
 {
     public object Convert(object value, Type targetType, object parameter, CultureInfo culture)

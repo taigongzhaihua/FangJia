@@ -24,10 +24,5 @@ public class SettingService(IEventAggregator eventAggregator)
         Properties.Settings.Default.Save();
     }
 
-    public object GetSettingValue(string key)
-    {
-        // 从设置中获取值
-        // 假设你有一个方法 `GetSetting` 来获取设置
-        return Properties.Settings.Default[key];
-    }
+    public static object GetSettingValue(string key) => Properties.Settings.Default[key];
 }

@@ -1,9 +1,11 @@
 ﻿using Dapper;
 using NLog;
 using System.Data.SQLite;
+using System.Diagnostics.CodeAnalysis;
 
 namespace FangJia.DataAccess;
 
+[SuppressMessage("ReSharper", "UnusedMember.Global")]
 public class DbManager
 {
     private static readonly Logger Logger = LogManager.GetCurrentClassLogger();

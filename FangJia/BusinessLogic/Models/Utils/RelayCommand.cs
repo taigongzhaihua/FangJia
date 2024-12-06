@@ -1,4 +1,5 @@
-﻿using System.Windows.Input;
+﻿using System.Diagnostics.CodeAnalysis;
+using System.Windows.Input;
 
 namespace FangJia.BusinessLogic.Models.Utils;
 
@@ -11,6 +12,7 @@ namespace FangJia.BusinessLogic.Models.Utils;
 /// <param name="execute">命令的执行逻辑，不能为空。</param>
 /// <param name="canExecute">命令的可执行逻辑，可以为空，默认为总是可执行。</param>
 /// <exception cref="ArgumentNullException">当 <paramref name="execute"/> 为 null 时抛出。</exception>
+[SuppressMessage("ReSharper", "UnusedMember.Global")]
 public class RelayCommand(Action<object> execute, Func<object, bool>? canExecute = null!) : ICommand
 {
     // 保存命令的执行逻辑
@@ -20,6 +22,7 @@ public class RelayCommand(Action<object> execute, Func<object, bool>? canExecute
     /// 当命令的可执行性发生变化时触发。
     /// </summary>
     public event EventHandler? CanExecuteChanged;
+
 
     /// <summary>
     /// 确定命令是否可以执行。

@@ -6,7 +6,7 @@ using System.IO;
 using Tomlyn;
 using Tomlyn.Model;
 
-namespace FangJia.UI.ViewModels.PageViewModels;
+namespace FangJia.UI.ViewModels.Pages;
 
 public class Setting : ViewModelBase
 {

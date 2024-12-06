@@ -4,37 +4,12 @@ using FangJia.UI.Base;
 using System.Collections.ObjectModel;
 using System.Windows.Input;
 
-namespace FangJia.UI.ViewModels.PageViewModels;
+namespace FangJia.UI.ViewModels.Pages;
 
 public class DataFormulas : ViewModelBase
 {
     public DataFormulas()
     {
-        Categories =
-        [
-            new Category
-            {
-                Name = "解表剂",
-                SubCategories =
-                [
-                    new Category
-                    {
-                        Name = "辛温解表",
-                        Formulas =
-                        [
-                            new Formula { Name = "葛根汤", Medicines = "葛根、麻黄", Purpose = "解表散寒" },
-                            new Formula { Name = "麻黄汤", Medicines = "麻黄、桂枝", Purpose = "解表散寒" }
-                        ]
-                    },
-
-                    new Category
-                    {
-                        Name = "辛凉解表",
-                        Formulas = [new Formula { Name = "白虎汤", Medicines = "知母、石膏", Purpose = "清热生津" }]
-                    }
-                ]
-            }
-        ];
     }
     private ObservableCollection<Category> _categories = [];
 

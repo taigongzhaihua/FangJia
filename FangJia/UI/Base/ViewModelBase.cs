@@ -1,6 +1,5 @@
 ﻿using NLog;
 using System.ComponentModel;
-using System.Diagnostics.CodeAnalysis;
 using System.Runtime.CompilerServices;
 
 namespace FangJia.UI.Base;
@@ -8,7 +7,6 @@ namespace FangJia.UI.Base;
 /// <summary>
 /// BaseViewModel 类是所有 ViewModel 的基类，实现了 INotifyPropertyChanged 接口，用于在属性值发生变化时通知绑定。
 /// </summary>
-[SuppressMessage("ReSharper", "PartialTypeWithSinglePart")]
 public partial class ViewModelBase : INotifyPropertyChanged
 {
     /// <summary>

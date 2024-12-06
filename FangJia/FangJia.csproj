@@ -7,6 +7,7 @@
     <UseWPF>true</UseWPF>
     <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
     <GeneratePackageOnBuild>False</GeneratePackageOnBuild>
+	  <CETCompat>false</CETCompat>
   </PropertyGroup>
   <ItemGroup>
     <None Remove="Resources\Configs\pagesConfig.json" />
@@ -16,7 +17,7 @@
     <None Remove="Resources\Fonts\iconfont.ttf" />
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="UI\Behaviors\" />
+    <Folder Include="BusinessLogic\Models\Behaviors\" />
     <Folder Include="BusinessLogic\Helpers\" />
     <Folder Include="UI\Views\Components\Dialogs\" />
   </ItemGroup>
@@ -80,4 +81,5 @@
       <UserProperties configs_4pagesconfig_1json__JsonSchema="https://appsemble.app/api.json" />
     </VisualStudio>
   </ProjectExtensions>
+	
 </Project>

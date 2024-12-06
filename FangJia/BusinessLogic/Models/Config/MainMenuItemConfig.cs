@@ -6,6 +6,5 @@
         public string? Icon { get; set; }
         public string? PageName { get; set; }
 
-
     }
 }

@@ -1,5 +1,5 @@
 ﻿using FangJia.BusinessLogic.Models.Data;
-using FangJia.UI.ViewModels.PageViewModels;
+using FangJia.UI.ViewModels.Pages;
 using System.Windows;
 using System.Windows.Controls;
 

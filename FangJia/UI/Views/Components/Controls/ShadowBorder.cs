@@ -1,12 +1,10 @@
-﻿using System.Diagnostics.CodeAnalysis;
-using System.Windows;
+﻿using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media;
 using System.Windows.Media.Effects;
 
 namespace FangJia.UI.Views.Components.Controls
 {
-    [SuppressMessage("ReSharper", "AssignNullToNotNullAttribute")]
     public class ShadowBorder : Border
     {
         // 默认的阴影效果，只有在必要时才创建

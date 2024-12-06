@@ -1,7 +1,5 @@
 ﻿using FangJia.BusinessLogic.Models;
-using NLog;
 using System.Collections.ObjectModel;
-using System.Diagnostics.CodeAnalysis;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Controls.Primitives;
@@ -12,10 +10,8 @@ namespace FangJia.UI.Views.Components.Controls;
 /// <summary>
 /// MainMenu.xaml 的交互逻辑
 /// </summary>
-[SuppressMessage("ReSharper", "UnusedMember.Local")]
 public partial class MainMenu
 {
-    private new static readonly Logger Logger = LogManager.GetCurrentClassLogger();
     public MainMenu()
     {
         InitializeComponent();

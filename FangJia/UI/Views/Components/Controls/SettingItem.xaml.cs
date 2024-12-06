@@ -1,6 +1,4 @@
 ﻿using FangJia.BusinessLogic.Services;
-using NLog;
-using System.Diagnostics.CodeAnalysis;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Controls.Primitives;
@@ -11,10 +9,8 @@ namespace FangJia.UI.Views.Components.Controls;
 /// <summary>
 /// SettingItem.xaml 的交互逻辑
 /// </summary>
-[SuppressMessage("ReSharper", "UnusedMember.Local")]
 public partial class SettingItem
 {
-    private new static readonly Logger Logger = LogManager.GetCurrentClassLogger();
     private readonly SettingService _settingService;
     private UIElement _control;
 
@@ -54,7 +50,7 @@ public partial class SettingItem
                 comboBox.SetBinding(Selector.SelectedItemProperty, new Binding(nameof(Value)) { Source = this });
                 comboBox.SelectionChanged += (o, e) =>
                 {
-                    if (Value == _settingService.GetSettingValue(Key)) return;
+                    if (Value == SettingService.GetSettingValue(Key)) return;
                     _settingService.UpdateSetting(Key, Value, Type.GetType(ValueType)!);
                 };
                 _control = comboBox;
@@ -161,7 +157,7 @@ public partial class SettingItem
     private static void OnKeyChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
     {
         if (d is not SettingItem settingItem) return;
-        settingItem.Value = settingItem._settingService.GetSettingValue(settingItem.Key);
+        settingItem.Value = SettingService.GetSettingValue(settingItem.Key);
     }
 
     public string Key

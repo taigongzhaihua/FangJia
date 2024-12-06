@@ -10,7 +10,7 @@ using System.Windows.Input;
 using Unity;
 using TabItem = FangJia.BusinessLogic.Models.Data.TabItem;
 
-namespace FangJia.UI.ViewModels.PageViewModels;
+namespace FangJia.UI.ViewModels.Pages;
 
 public class Data : ViewModelBase
 {
@@ -50,7 +50,7 @@ public class Data : ViewModelBase
             ICommand command = new RelayCommand(
                 _ =>
                 {
-                    if (item.PageName == _navigationService!.CurrentViewName()) return;
+                    if (item.PageName == _navigationService.CurrentViewName()) return;
                     _navigationService.NavigateTo(item.PageName);
                 });
             TabItems.Add(new TabItem(item.Name, item.PageName, command));

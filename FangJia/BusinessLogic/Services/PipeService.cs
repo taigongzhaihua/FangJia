@@ -1,5 +1,6 @@
 ﻿using NLog;
 using System.Diagnostics;
+using System.Diagnostics.CodeAnalysis;
 using System.IO;
 using System.IO.Pipes;
 using System.Runtime.InteropServices;
@@ -10,7 +11,8 @@ namespace FangJia.BusinessLogic.Services;
 /// <summary>
 /// 管道服务，用于实现单实例通信机制。
 /// </summary>
-public static class PipeService
+[SuppressMessage("ReSharper", "UnusedMember.Global")]
+public static partial class PipeService
 {
     private static readonly Logger Logger = LogManager.GetCurrentClassLogger();
     private const string PipeName = "FangJia";
@@ -212,16 +214,19 @@ public static class PipeService
             mainWindow.Focus();
 
             // 将窗口置于最前
-            var hwnd = new System.Windows.Interop.WindowInteropHelper(mainWindow).Handle;
+            var windowInteropHelper = new System.Windows.Interop.WindowInteropHelper(mainWindow);
+            windowInteropHelper.EnsureHandle();
+            var hwnd = windowInteropHelper.Handle;
             SetForegroundWindow(hwnd);
         });
     }
+
     /// <summary>
     /// 将窗口置于最前。
     /// </summary>
     /// <param name="hWnd">窗口句柄。</param>
-    [DllImport("user32.dll", CharSet = CharSet.Auto, SetLastError = true)]
+    [LibraryImport("user32.dll", SetLastError = true)]
     [return: MarshalAs(UnmanagedType.Bool)]
-    private static extern bool SetForegroundWindow(IntPtr hWnd);
+    private static partial void SetForegroundWindow(IntPtr hWnd);
 
 }
