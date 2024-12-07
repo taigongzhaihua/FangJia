@@ -21,7 +21,7 @@ namespace FangJia.UI.Views.Pages
             frameNavigationService?.SetFrame(ContentFrame);
 
             // 初始化并绑定 ViewModel
-            var viewModel = ServiceLocator.GetService<ViewModels.Pages.Data>();
+            var viewModel = ServiceLocator.GetService<ViewModels.Pages.DataViewModel>();
             DataContext = viewModel;
 
             // 设置初始视图为 HomePage

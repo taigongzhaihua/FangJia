@@ -4,6 +4,7 @@ using FangJia.BusinessLogic.Services.NavigationServices;
 using FangJia.DataAccess;
 using FangJia.UI.ViewModels;
 using FangJia.UI.ViewModels.Pages;
+using FangJia.UI.ViewModels.Pages.Data;
 using NLog;
 using System.Windows;
 using Unity;
@@ -80,15 +81,16 @@ public partial class App
         container.RegisterType<ConfigurationService>(                                                           // 页面配置服务
             "PagesConfigService", new ContainerControlledLifetimeManager(),
             new InjectionConstructor(FangJia.Properties.Resources.PagesConfigUri));
+        container.RegisterType<DataService>(new ContainerControlledLifetimeManager());
 
         // 注册短期生命周期类型
-        container.RegisterType<DbManager>(new TransientLifetimeManager());          // 数据库管理类
+        container.RegisterType<DbManager>(new ContainerControlledLifetimeManager());          // 数据库管理类
 
         // 注册 ViewModel
         container.RegisterType<MainWindowViewModel>(new HierarchicalLifetimeManager());             // 主窗口 ViewModel
-        container.RegisterType<Data>(new HierarchicalLifetimeManager());                   // 数据管理页面 ViewModel
-        container.RegisterType<Setting>(new HierarchicalLifetimeManager());                // 设置页面 ViewModel
-        container.RegisterType<Home>(new HierarchicalLifetimeManager());                   // 主页 ViewModel
-        container.RegisterType<DataFormulas>(new HierarchicalLifetimeManager());           // 数据管理页面-方剂页 ViewModel
+        container.RegisterType<DataViewModel>(new HierarchicalLifetimeManager());                   // 数据管理页面 ViewModel
+        container.RegisterType<SettingViewModel>(new HierarchicalLifetimeManager());                // 设置页面 ViewModel
+        container.RegisterType<HomeViewModel>(new HierarchicalLifetimeManager());                   // 主页 ViewModel
+        container.RegisterType<FormulasViewModel>(new HierarchicalLifetimeManager());           // 数据管理页面-方剂页 ViewModel
     }
 }

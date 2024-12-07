@@ -12,7 +12,7 @@ using TabItem = FangJia.BusinessLogic.Models.Data.TabItem;
 
 namespace FangJia.UI.ViewModels.Pages;
 
-public class Data : ViewModelBase
+public class DataViewModel : ViewModelBase
 {
 
     private new static readonly Logger Logger = LogManager.GetCurrentClassLogger();
@@ -28,7 +28,7 @@ public class Data : ViewModelBase
         get => _tabSelectedIndex;
         set => SetProperty(ref _tabSelectedIndex, value);
     }
-    public Data(
+    public DataViewModel(
         [Dependency("DataContentFrameNavigationService")] INavigationService navigationService,
         [Dependency("PagesConfigService")] ConfigurationService pageConfigurationService
         )

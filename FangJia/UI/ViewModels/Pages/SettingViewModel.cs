@@ -8,10 +8,10 @@ using Tomlyn.Model;
 
 namespace FangJia.UI.ViewModels.Pages;
 
-public class Setting : ViewModelBase
+public class SettingViewModel : ViewModelBase
 {
     private new static readonly Logger Logger = LogManager.GetCurrentClassLogger();
-    public Setting()
+    public SettingViewModel()
     {
         // 读取配置文件
         var tomlContent = File.ReadAllText(Properties.Resources.SettingConfigUri);

@@ -65,20 +65,22 @@ public class DbManager
     /// </summary>
     /// <typeparam name="T"></typeparam>
     /// <param name="tableName"></param>
+    /// <param name="columnNames"></param>
     /// <param name="whereClause"></param>
     /// <param name="parameters"></param>
     /// <returns></returns>
-    public IEnumerable<T> Query<T>(string tableName, string whereClause = "", params object[] parameters)
+    public IEnumerable<T> Query<T>(string tableName, string[] columnNames, string whereClause = "", object? parameters = null)
     {
         try
         {
             Logger.Debug($"查询表 {tableName}");
             using var connection = new SQLiteConnection(_connectionString);
             connection.Open();
-            var sql = $"SELECT * FROM {tableName} {whereClause}";
-            var dynamicParameters = BuildDynamicParameters(parameters);
+            var sanitizedColumnNames =
+                string.Join(", ", columnNames.Select(cn => cn.Replace("\"", "\"\""))); // 防止 SQL 注入
+            var sql = $"SELECT {sanitizedColumnNames} FROM {tableName} {whereClause}";
             Logger.Debug($"执行查询 SQL: {sql}");
-            return connection.Query<T>(sql, dynamicParameters);
+            return connection.Query<T>(sql, parameters);
         }
         catch (Exception ex)
         {
@@ -86,6 +88,7 @@ public class DbManager
             throw;
         }
     }
+
 
     /// <summary>
     /// 查询表，获取单个记录
@@ -96,7 +99,7 @@ public class DbManager
     /// <param name="columnNames"></param>
     /// <param name="parameters"></param>
     /// <returns></returns>
-    public T QuerySingleOrDefault<T>(string tableName, string whereClause, string[] columnNames, object parameters)
+    public T QuerySingleOrDefault<T>(string tableName, string whereClause, string[] columnNames, object? parameters = null)
     {
         try
         {
