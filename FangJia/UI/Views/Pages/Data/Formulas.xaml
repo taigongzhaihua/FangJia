@@ -4,17 +4,35 @@
       xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
       xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
       xmlns:dataModel="clr-namespace:FangJia.BusinessLogic.Models.Data"
+      xmlns:converters="clr-namespace:FangJia.UI.Converters"
       mc:Ignorable="d"
       d:DesignHeight="450" d:DesignWidth="800"
       Title="方剂"
       KeepAlive="False">
+    <Page.Resources>
+        <!-- 为 DataGridTextColumn 的 TextBlock 设置全局换行样式 -->
+        <Style x:Key="DataGridTextBlockStyle" TargetType="TextBlock">
+            <Setter Property="TextWrapping" Value="Wrap" />
+        </Style>
+        <Style TargetType="TextBox" x:Key="TextBoxStyle">
+            <Setter Property="TextWrapping" Value="Wrap" />
+            <Setter Property="AcceptsReturn" Value="True" />
+            <EventSetter Event="TextChanged" Handler="OnTextBoxTextChanged"/>
+            <EventSetter Event="Loaded" Handler="TextBox_Loaded"/>
+        </Style>
+        <converters:ByteToImageConverter x:Key="ByteToImageConverter" />
+    </Page.Resources>
     <Grid Background="{DynamicResource WeakAccentBackgroundBrush}">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="Auto"/>
+        </Grid.RowDefinitions>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="Auto" />
             <ColumnDefinition Width="*" />
             <!-- 右侧编辑区域 -->
         </Grid.ColumnDefinitions>
-        <GroupBox Grid.Column="0" Header="药物" Margin="15,25,0,25">
+        <GroupBox Grid.Column="0" Header="方剂" Margin="15,25,0,25">
             <StackPanel Orientation="Horizontal">
                 <TreeView Name="CategoryTree" ItemsSource="{Binding Categories,Mode=OneWay}"
                           SelectedItemChanged="CategoryTree_OnSelectedItemChanged"
@@ -24,32 +42,140 @@
                         <HierarchicalDataTemplate DataType="{x:Type dataModel:Category}"
                                                   ItemsSource="{Binding SubCategories}">
                             <TextBlock Text="{Binding Name}"
-                                       FontSize="12" 
-                                       Margin="5,3"/>
+                                       FontSize="12"
+                                       Margin="5,3" />
                         </HierarchicalDataTemplate>
                     </TreeView.ItemTemplate>
                 </TreeView>
                 <ListBox
-                    ItemsSource="{Binding Formulas,Mode=OneWay}"
+                    ItemsSource="{Binding Formulas}"
                     SelectedItem="{Binding SelectedFormula}"
                     DisplayMemberPath="Name"
                     Padding="5"
                     BorderThickness="0" FontSize="12" Foreground="{DynamicResource ForegroundBrush}"
-                    Background="Transparent" />
+                    Background="Transparent"
+                    MinWidth="40" MaxWidth="120"/>
             </StackPanel>
-
         </GroupBox>
 
-        <GroupBox Grid.Column="1" Margin="15,25"
+        <GroupBox Grid.Row="0" Grid.Column="1" Margin="15,25"
                   BorderThickness="0" Header="编辑">
             <!-- 右侧编辑界面 -->
-            <StackPanel Margin="15">
-                <TextBlock Text="方剂名称" />
-                <TextBox Text="{Binding SelectedFormula.Name}" />
+            <ScrollViewer VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility='Disabled'
+                          Margin="-10,-10,-10,0" Padding="15">
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="*" />
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition />
+                    </Grid.RowDefinitions>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="Auto" />
+                        <ColumnDefinition Width="*" />
+                    </Grid.ColumnDefinitions>
+                    <Image Grid.Row="12" Grid.Column="0" Grid.ColumnSpan="2"
+                           Source="{Binding SelectedFormula.FormulationImage.Image,Converter={StaticResource ByteToImageConverter}}"/>
+                    <TextBlock Text="名称：" Grid.Row="0" Grid.Column="0" VerticalAlignment="Top" />
+                    <TextBox Text="{Binding SelectedFormula.Name}"
+                             Grid.Row="0" Grid.Column="1" Margin="0,0,0,10"
+                             Style="{StaticResource TextBoxStyle}"/>
 
-                <Button Content="保存" Command="{Binding SaveFormulaCommand}" />
-                <Button Content="取消" Command="{Binding CancelEditFormulaCommand}" />
-            </StackPanel>
+                    <TextBlock Text="用法：" Grid.Row="1" Grid.Column="0" VerticalAlignment="Top" />
+                    <TextBox Text="{Binding SelectedFormula.Usage}"
+                             Grid.Row="1" Grid.Column="1" Margin="0,0,0,10"
+                             Style="{StaticResource TextBoxStyle}"/>
+
+                    <TextBlock Text="出处：" Grid.Row="2" Grid.Column="0" VerticalAlignment="Top" />
+                    <TextBox Text="{Binding SelectedFormula.Source}"
+                             Grid.Row="2" Grid.Column="1" Margin="0,0,0,10"
+                             Style="{StaticResource TextBoxStyle}"/>
+
+                    <TextBlock Text="功效：" Grid.Row="3" Grid.Column="0" VerticalAlignment="Top" />
+                    <TextBox Text="{Binding SelectedFormula.Effect}"
+                             Grid.Row="3" Grid.Column="1" Margin="0,0,0,10"
+                             Style="{StaticResource TextBoxStyle}"/>
+
+                    <TextBlock Text="主治：" Grid.Row="4" Grid.Column="0" VerticalAlignment="Top" />
+                    <TextBox Text="{Binding SelectedFormula.Indication}"
+                             Grid.Row="4" Grid.Column="1" Margin="0,0,0,10"
+                             Style="{StaticResource TextBoxStyle}"/>
+
+                    <TextBlock Text="病机：" Grid.Row="5" Grid.Column="0" VerticalAlignment="Top" />
+                    <TextBox Text="{Binding SelectedFormula.Disease}"
+                             Grid.Row="5" Grid.Column="1" Margin="0,0,0,10"
+                             Style="{StaticResource TextBoxStyle}"/>
+
+                    <TextBlock Text="运用：" Grid.Row="6" Grid.Column="0" VerticalAlignment="Top" />
+                    <TextBox Text="{Binding SelectedFormula.Application}"
+                             Grid.Row="6" Grid.Column="1" Margin="0,0,0,10"
+                             Style="{StaticResource TextBoxStyle}"/>
+
+                    <TextBlock Text="附方：" Grid.Row="7" Grid.Column="0" VerticalAlignment="Top" />
+                    <TextBox Text="{Binding SelectedFormula.Supplement}"
+                             Grid.Row="7" Grid.Column="1" Margin="0,0,0,10"
+                             Style="{StaticResource TextBoxStyle}"/>
+
+                    <TextBlock Text="方歌：" Grid.Row="8" Grid.Column="0" VerticalAlignment="Top" />
+                    <TextBox Text="{Binding SelectedFormula.Song}"
+                             Grid.Row="8" Grid.Column="1" Margin="0,0,0,10"
+                             Style="{StaticResource TextBoxStyle}" />
+
+                    <TextBlock Text="附注：" Grid.Row="9" Grid.Column="0" VerticalAlignment="Top" />
+                    <TextBox Text="{Binding SelectedFormula.Notes}" 
+                             Grid.Row="9" Grid.Column="1" Margin="0,0,0,10"
+                             Style="{StaticResource TextBoxStyle}"/>
+
+                    <TextBlock Text="组成：" Grid.Row="10" Grid.Column="0" VerticalAlignment="Top" />
+                    <StackPanel Grid.Row="11" Grid.Column="0" Orientation="Vertical">
+                        <Button x:Name="AddButton" Content="新增" Command="{Binding AddCompositionCommand}"
+                                VerticalAlignment="Bottom"/>
+                    </StackPanel>
+                    <DataGrid ItemsSource="{Binding SelectedFormula.Compositions}"
+                              Grid.Row="10" Grid.Column="1" Grid.RowSpan="2" Margin="0,0,0,10"
+                              AutoGenerateColumns="False" HorizontalScrollBarVisibility="Disabled" HeadersVisibility="Column"
+                              CanUserAddRows="False" CanUserDeleteRows="True">
+                        <DataGrid.Columns>
+                            <DataGridTextColumn Header="君臣佐使" Binding="{Binding Position}"
+                                                ElementStyle="{StaticResource DataGridTextBlockStyle}"
+                                                EditingElementStyle="{StaticResource TextBoxStyle}"
+                                                Width="Auto"/>
+                            <DataGridTextColumn Header="药物" Binding="{Binding DrugName}"
+                                                ElementStyle="{StaticResource DataGridTextBlockStyle}"
+                                                EditingElementStyle="{StaticResource TextBoxStyle}"
+                                                Width="Auto"/>
+                            <DataGridTextColumn Header="方中功效" Binding="{Binding Effect}"
+                                                ElementStyle="{StaticResource DataGridTextBlockStyle}"
+                                                EditingElementStyle="{StaticResource TextBoxStyle}"
+                                                Width="10*"/>
+                            <DataGridTextColumn Header="备注" Binding="{Binding Notes}"
+                                                ElementStyle="{StaticResource DataGridTextBlockStyle}"
+                                                EditingElementStyle="{StaticResource TextBoxStyle}"
+                                                Width="10*"/>
+                        </DataGrid.Columns>
+                    </DataGrid>
+
+                    <StackPanel Orientation="Horizontal" Grid.Row="13" Grid.ColumnSpan="2" Grid.Column="0"
+                                HorizontalAlignment="Right" Margin="0,10,0,0">
+                        <Button x:Name="SaveButton" Content="保存" Command="{Binding SaveFormulaCommand}" Margin="0,0,10,0" 
+                                IsEnabled="False"/>
+                        <Button Content="取消" Command="{Binding CancelEditFormulaCommand}" />
+                    </StackPanel>
+                </Grid>
+            </ScrollViewer>
         </GroupBox>
+        <Button Grid.Row="1" Grid.Column="0" Content="从中医方剂网导入数据" Command="{Binding GetFormulaFromZyfjCommand}"
+                Margin="10"
+                HorizontalAlignment="Center" VerticalAlignment="Center"/>
     </Grid>
 </Page>

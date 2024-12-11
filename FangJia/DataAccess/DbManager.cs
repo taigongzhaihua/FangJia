@@ -109,7 +109,7 @@ public class DbManager
 
             var sanitizedColumnNames =
                 string.Join(", ", columnNames.Select(cn => cn.Replace("\"", "\"\""))); // 防止 SQL 注入
-            var sql = $"SELECT {sanitizedColumnNames} FROM {tableName} {whereClause}";
+            var sql = $"SELECT {sanitizedColumnNames} FROM {tableName} {whereClause} LIMIT 1";
             Logger.Debug($"执行查询单个记录 SQL: {sql}");
             return connection.QuerySingleOrDefault<T>(sql, parameters)!;
         }

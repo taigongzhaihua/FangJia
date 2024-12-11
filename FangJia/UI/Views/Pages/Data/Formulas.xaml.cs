@@ -22,4 +22,28 @@ public partial class Formulas : Page
         if (e.NewValue is not Category category) return;
         viewModel!.SelectedCategory = category;
     }
+
+    private bool _isInitialized = false;
+
+    private void TextBox_Loaded(object sender, RoutedEventArgs e)
+    {
+        // 标志控件已初始化完成
+        _isInitialized = true;
+    }
+
+    private void OnTextBoxTextChanged(object sender, TextChangedEventArgs e)
+    {
+        if (!_isInitialized)
+            return;
+
+        if (sender is TextBox textBox && !string.IsNullOrWhiteSpace(textBox.Text))
+        {
+            SaveButton.IsEnabled = true;
+        }
+        else
+        {
+            SaveButton.IsEnabled = false;
+        }
+    }
+
 }

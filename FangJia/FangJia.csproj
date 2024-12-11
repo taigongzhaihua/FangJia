@@ -23,6 +23,7 @@
   </ItemGroup>
   <ItemGroup>
     <PackageReference Include="Dapper" Version="2.1.35" />
+    <PackageReference Include="HtmlAgilityPack" Version="1.11.71" />
     <PackageReference Include="Newtonsoft.Json" Version="13.0.3" />
     <PackageReference Include="NLog" Version="5.3.4" />
     <PackageReference Include="Prism.Core" Version="9.0.537" />
@@ -77,9 +78,7 @@
     </None>
   </ItemGroup>
   <ProjectExtensions>
-    <VisualStudio>
-      <UserProperties configs_4pagesconfig_1json__JsonSchema="https://appsemble.app/api.json" />
-    </VisualStudio>
+    <VisualStudio><UserProperties /></VisualStudio>
   </ProjectExtensions>
 	
 </Project>

@@ -1,5 +1,7 @@
 ﻿using FangJia.BusinessLogic.Interfaces;
+using FangJia.BusinessLogic.Models.Data;
 using FangJia.BusinessLogic.Services;
+using FangJia.BusinessLogic.Services.Crawlers;
 using FangJia.BusinessLogic.Services.NavigationServices;
 using FangJia.DataAccess;
 using FangJia.UI.ViewModels;
@@ -82,15 +84,21 @@ public partial class App
             "PagesConfigService", new ContainerControlledLifetimeManager(),
             new InjectionConstructor(FangJia.Properties.Resources.PagesConfigUri));
         container.RegisterType<DataService>(new ContainerControlledLifetimeManager());
-
-        // 注册短期生命周期类型
         container.RegisterType<DbManager>(new ContainerControlledLifetimeManager());          // 数据库管理类
+        container.RegisterType<ICrawler<Drug>, DrugCrawler>(                                  // 药物爬虫
+            "DrugCrawler", new ContainerControlledLifetimeManager());
+        container.RegisterType<ICrawler<Formulation>, FormulationCrawler>(                    // 方剂爬虫
+            "FormulationCrawler", new ContainerControlledLifetimeManager());
+        container.RegisterType<ICrawler<(string Category, string FormulaName)>, FangjiCrawler>(// 方剂、分类对照表爬虫
+            "FangjiCrawler", new ContainerControlledLifetimeManager());
+
 
         // 注册 ViewModel
         container.RegisterType<MainWindowViewModel>(new HierarchicalLifetimeManager());             // 主窗口 ViewModel
         container.RegisterType<DataViewModel>(new HierarchicalLifetimeManager());                   // 数据管理页面 ViewModel
         container.RegisterType<SettingViewModel>(new HierarchicalLifetimeManager());                // 设置页面 ViewModel
         container.RegisterType<HomeViewModel>(new HierarchicalLifetimeManager());                   // 主页 ViewModel
-        container.RegisterType<FormulasViewModel>(new HierarchicalLifetimeManager());           // 数据管理页面-方剂页 ViewModel
+        container.RegisterType<FormulasViewModel>(new HierarchicalLifetimeManager());               // 数据管理页面-方剂页 ViewModel
+        container.RegisterType<DrugViewModel>(new ContainerControlledLifetimeManager());                   // 数据管理页面-药物页 ViewModel
     }
 }

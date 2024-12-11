@@ -36,8 +36,8 @@
       "uri": "/UI/Views/Pages/Data/Formulas.xaml"
     },
     {
-      "name": "MedicinePage",
-      "uri": "/UI/Views/Pages/Data/Medicine.xaml"
+      "name": "DrugPage",
+      "uri": "/UI/Views/Pages/Data/Drug.xaml"
     },
     {
       "name": "ClassicPage",
@@ -55,7 +55,7 @@
     },
     {
       "Name": "药物",
-      "PageName": "MedicinePage"
+      "PageName": "DrugPage"
     },
     {
       "Name": "经典",
