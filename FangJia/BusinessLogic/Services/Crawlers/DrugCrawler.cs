@@ -4,6 +4,8 @@ using FangJia.BusinessLogic.Models.Data;
 using HtmlAgilityPack;
 using NLog;
 using System.Net.Http;
+using System.Text;
+using FangJia.BusinessLogic.Models;
 
 namespace FangJia.BusinessLogic.Services.Crawlers;
 
@@ -33,39 +35,54 @@ public class DrugCrawler : ICrawler<Drug>
     /// 5. 如果药品详细信息获取成功，将其添加到药品列表中。
     /// 6. 爬取完成后，记录总药品数量并返回药品列表。
     /// </remarks>
-    public async Task<List<Drug>> GetListAsync()
+    public async Task<List<Drug>> GetListAsync(IProgress<CrawlerProgress> progress)
     {
+        var progressReport = new CrawlerProgress(21, 0, true);
         // 初始化一个空的药品列表
         List<Drug> drugs = [];
+        progress.Report(progressReport);
         try
         {
             Logger.Info("Starting to crawl drug data...");
-
+            List<string> links = [];
             // 从第1页到第21页，依次获取每页的URL
             for (var i = 1; i <= 21; i++)
             {
                 var url = PageUrl + i;
-                Logger.Info($"Fetching page {i}: {url}");
+                var log = $@"Fetching page {i}: {url}";
+                Logger.Info(log);
+                progressReport.AddLog(log);
+                progress.Report(progressReport);
 
                 // 调用 GetLinksAsync 方法获取该页面上所有药品的链接
-                var links = await GetLinksAsync(url);
+                links = [..links, ..await GetLinksAsync(url)];
+                progressReport.TotalLength = links.Count + 21;
+                progressReport.UpdateProgress(i);
+                progress.Report(progressReport);
+            }
 
-                // 对于每个药品链接，调用 GetDrugDetailsAsync 方法获取药品的详细信息
-                foreach (var link in links)
+            // 对于每个药品链接，调用 GetDrugDetailsAsync 方法获取药品的详细信息
+            foreach (var link in links)
+            {
+                var log = $@"Fetching drug details from: {link}";
+                Logger.Info(log);
+                progressReport.AddLog(log);
+                var drug = await GetDrugDetailsAsync(link);
+
+                // 如果药品详细信息获取成功，将其添加到药品列表中
+                if (drug != null)
                 {
-                    Logger.Info($"Fetching drug details from: {link}");
-                    var drug = await GetDrugDetailsAsync(link);
-
-                    // 如果药品详细信息获取成功，将其添加到药品列表中
-                    if (drug != null)
-                    {
-                        drugs.Add(drug);
-                    }
+                    drugs.Add(drug);
                 }
+                progressReport.UpdateProgress(progressReport.CurrentProgress + 1);
+                progress.Report(progressReport);
             }
 
             // 爬取完成后，记录总药品数量
             Logger.Info($@"Crawling completed. Total drugs fetched: {drugs.Count}");
+            progressReport.AddLog($@"Crawling completed. Total drugs fetched: {drugs.Count}");
+            progressReport.IsRunning = false;
+            progress.Report(progressReport);
         }
         catch (Exception ex)
         {
@@ -110,7 +127,8 @@ public class DrugCrawler : ICrawler<Drug>
             if (nodes != null)
             {
                 // 对于每个节点，获取其 href 属性值，并拼接成完整的URL
-                links = nodes.Select(node => BaseUrl + node.GetAttributeValue("href", "")).ToList();
+                links = nodes.Select(node =>
+                    new StringBuilder().Append(BaseUrl).Append(node.GetAttributeValue("href", "")).ToString()).ToList();
             }
         }
         catch (Exception ex)
@@ -204,13 +222,13 @@ public class DrugCrawler : ICrawler<Drug>
             // 使用 HtmlAgilityPack 解析HTML内容，通过XPath选择器提取出包含药品图片的节点
             var imgNode =
                 document.DocumentNode.SelectSingleNode("//div[contains(@class, 'col-6 d-none d-lg-block')]/img");
-            Logger.Debug($"Image node found: {imgNode}");
+            Logger.Debug($"找到图片节点: {imgNode}");
 
             if (imgNode != null)
             {
                 // 获取图片节点的 src 属性值，并拼接成完整的URL
                 var imgUrl = imgNode.GetAttributeValue("src", "");
-                Logger.Debug($"Image URL = {imgUrl}");
+                Logger.Debug($"图片URL = {imgUrl}");
 
                 if (!string.IsNullOrWhiteSpace(imgUrl))
                 {
@@ -218,7 +236,7 @@ public class DrugCrawler : ICrawler<Drug>
                     imgUrl = imgUrl.StartsWith("http") ? imgUrl : BaseUrl + imgUrl;
 
                     // 使用 HttpClient 下载图片内容
-                    Logger.Info($"Fetching image: {imgUrl}");
+                    Logger.Info($"正在获取图片: {imgUrl}");
                     var imgBytes = await HttpClient.GetByteArrayAsync(imgUrl);
                     drugImage.Image = imgBytes;
                 }
@@ -226,13 +244,13 @@ public class DrugCrawler : ICrawler<Drug>
             else
             {
                 // 如果未找到图片节点，记录信息
-                Logger.Info("Cannot find image node: //div[contains(@class, 'col-6 d-none d-lg-block')]/img");
+                Logger.Info("未找到图片节点: //div[contains(@class, 'col-6 d-none d-lg-block')]/img");
             }
         }
         catch (Exception ex)
         {
             // 如果在过程中发生异常，记录错误信息
-            Logger.Error($"Error fetching image: {ex.Message}");
+            Logger.Error($"获取图片时发生错误: {ex.Message}");
         }
 
         // 返回包含图片信息的 DrugImage 对象

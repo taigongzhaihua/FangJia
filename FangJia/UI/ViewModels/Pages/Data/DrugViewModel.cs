@@ -5,6 +5,7 @@ using FangJia.BusinessLogic.Models.Data;
 using FangJia.BusinessLogic.Services;
 using System.Collections.ObjectModel;
 using System.Diagnostics.CodeAnalysis;
+using FangJia.BusinessLogic.Models;
 using Unity;
 
 namespace FangJia.UI.ViewModels.Pages.Data;
@@ -15,7 +16,7 @@ namespace FangJia.UI.ViewModels.Pages.Data;
 public partial class DrugViewModel(
     [Dependency("DrugCrawler")] ICrawler<Drug> drugCrawler,
     DataService dataService
-    ) : ObservableObject
+) : ObservableObject
 {
     /// <summary>
     /// 初始化数据任务
@@ -85,8 +86,13 @@ public partial class DrugViewModel(
     [RelayCommand]
     private async Task GetDrugsFromZyfj()
     {
-        var drugList = await drugCrawler.GetListAsync();
+         var progress = new Progress<CrawlerProgress>(p => Progress = p);
+        var drugList = await drugCrawler.GetListAsync(progress);
 
+        Progress = Progress.Reset();
+        
+        Progress = Progress with { TotalLength = drugList.Count ,IsRunning = true};
+        Progress = Progress.AddLog("正在保存数据...");
         foreach (var drug in drugList)
         {
             // 在本地 _drugList 中查找是否存在相同名称的 Drug
@@ -104,9 +110,14 @@ public partial class DrugViewModel(
                 // 如果不存在，插入新记录
                 await dataService.InsertDrug(drug);
             }
+            Progress = Progress.UpdateProgress(Progress.CurrentProgress + 1);
+            await Task.Delay(1);
         }
+        Progress =Progress.AddLog("数据保存完成。");
+        Progress =Progress.AddLog("正在初始化数据...");
 
         await InitDataTask();
+        Progress = Progress.Reset();
     }
 
     /// <summary>
@@ -117,12 +128,15 @@ public partial class DrugViewModel(
     /// <summary>
     /// 显示的药品列表
     /// </summary>
-    [ObservableProperty]
-    private ObservableCollection<Drug>? _showingDrugs;
+    [ObservableProperty] private ObservableCollection<Drug>? _showingDrugs;
 
     /// <summary>
     /// 选中的药品
     /// </summary>
-    [ObservableProperty]
-    private Drug? _selectedDrug;
+    [ObservableProperty] private Drug? _selectedDrug;
+    
+    /// <summary>
+    /// 爬虫进度
+    /// </summary>
+    [ObservableProperty] private CrawlerProgress _progress;
 }

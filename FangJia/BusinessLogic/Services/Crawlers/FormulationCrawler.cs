@@ -4,6 +4,7 @@ using HtmlAgilityPack;
 using NLog;
 using System.Collections.ObjectModel;
 using System.Net.Http;
+using FangJia.BusinessLogic.Models;
 
 namespace FangJia.BusinessLogic.Services.Crawlers;
 
@@ -13,25 +14,38 @@ public class FormulationCrawler : ICrawler<Formulation>
     private static readonly Logger Logger = LogManager.GetCurrentClassLogger();
     private const string BaseUrl = "https://www.zhongyifangji.com";
 
-    public async Task<List<Formulation>> GetListAsync()
+    public async Task<List<Formulation>> GetListAsync(IProgress<CrawlerProgress> progress)
     {
-        var formulations = new List<Formulation>();
+        List<Formulation> formulations = [];
+        CrawlerProgress crawlerProgress = new(0, 10, true);
+        List<string> links = [];
         for (var i = 1; i <= 10; i++)
         {
             var url = $"{BaseUrl}/prescription/index/p/{i}";
-            Logger.Info($"Fetching page {i}: {url}");
-            var links = await GetLinksAsync(url);
-
-            foreach (var link in links)
-            {
-                Logger.Info($"Fetching formulation details from: {link}");
-                var formulation = await GetFormulationDetailsAsync(link);
-                if (formulation != null)
-                {
-                    formulations.Add(formulation);
-                }
-            }
+            var logMessage = $"Fetching page {i}: {url}";
+            Logger.Info(logMessage);
+            crawlerProgress.AddLog(logMessage);
+            progress.Report(crawlerProgress);
+            links = [..links, ..await GetLinksAsync(url)];
+            crawlerProgress.UpdateProgress(crawlerProgress.CurrentProgress + 1);
+            crawlerProgress.TotalLength = links.Count + 10;
+            progress.Report(crawlerProgress);
         }
+
+        foreach (var link in links)
+        {
+            Logger.Info($"Fetching formulation details from: {link}");
+            crawlerProgress.AddLog($"Fetching formulation details from: {link}");
+            progress.Report(crawlerProgress);
+            var formulation = await GetFormulationDetailsAsync(link);
+            if (formulation != null)
+            {
+                formulations.Add(formulation);
+            }
+            crawlerProgress.UpdateProgress(crawlerProgress.CurrentProgress + 1);
+            progress.Report(crawlerProgress);
+        }
+
         Logger.Info($"Completed fetching formulations. Total count: {formulations.Count}");
         return formulations;
     }
@@ -56,6 +70,7 @@ public class FormulationCrawler : ICrawler<Formulation>
         {
             Logger.Error($"Error fetching links from {pageUrl}: {ex.Message}");
         }
+
         return links;
     }
 
@@ -116,6 +131,7 @@ public class FormulationCrawler : ICrawler<Formulation>
         {
             Logger.Error($"Error fetching image: {ex.Message}");
         }
+
         return null;
     }
 
@@ -139,6 +155,7 @@ public class FormulationCrawler : ICrawler<Formulation>
                 });
             }
         }
+
         Logger.Info($"Extracted {compositions.Count} compositions from formulation.");
         return compositions;
     }

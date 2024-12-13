@@ -5,6 +5,7 @@ using FangJia.BusinessLogic.Models.Data;
 using FangJia.BusinessLogic.Services;
 using System.Collections.ObjectModel;
 using System.Diagnostics.CodeAnalysis;
+using FangJia.BusinessLogic.Models;
 using Unity;
 
 namespace FangJia.UI.ViewModels.Pages.Data;
@@ -95,15 +96,18 @@ public partial class FormulasViewModel(
     [RelayCommand]
     private async Task GetFormulaFromZyfj()
     {
+        var progress = new Progress<CrawlerProgress>(p => Progress = p);
         // 从配方爬虫服务中异步获取配方列表
-        var list = await formulationFormulaCrawler.GetListAsync();
+        var list = await formulationFormulaCrawler.GetListAsync(progress);
         // 从方剂爬虫服务中异步获取方剂列表
-        var fangjiList = await fangjiCrawler.GetListAsync();
+        var fangjiList = await fangjiCrawler.GetListAsync(progress);
 
         // 从数据服务中异步获取本地数据库中的所有配方
         var formulationList = await _dataService!.GetFormulations();
         var formulations = formulationList.ToList();
-
+         Progress.Reset();
+         Progress = Progress.AddLog("开始保存数据...");
+         
         // 遍历从爬虫服务获取的配方列表
         foreach (var formulation in list)
         {
@@ -127,6 +131,8 @@ public partial class FormulasViewModel(
                 // 如果本地数据库中不存在相同名称的配方，则插入新配方
                 await _dataService.InsertFormulation(formulation);
             }
+            Progress = Progress.UpdateProgress(Progress.CurrentProgress+1)
+                .AddLog($"已保存 {formulation.Name}");
         }
     }
 
@@ -179,4 +185,9 @@ public partial class FormulasViewModel(
     /// 当该属性发生变化时，会触发相应的 UI 更新。
     /// </summary>
     [ObservableProperty] private Formulation _selectedFormula = null!;
+    
+    /// <summary>
+    /// 定义一个进度对象，用于显示配方数据获取的进度信息。
+    /// </summary>
+    [ObservableProperty] private CrawlerProgress _progress;
 }
