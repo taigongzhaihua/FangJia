@@ -6,15 +6,18 @@
       mc:Ignorable="d"
       d:DesignHeight="450" d:DesignWidth="800"
       Title="DataPage"
-      KeepAlive ="False"
-      >
+      KeepAlive="False">
 
+    <!-- 主网格布局 -->
     <Grid>
 
+        <!-- 列定义 -->
         <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="Auto"/>
-            <ColumnDefinition Width="*"/>
+            <ColumnDefinition Width="Auto" /> <!-- 自动宽度列 -->
+            <ColumnDefinition Width="*" /> <!-- 剩余宽度列 -->
         </Grid.ColumnDefinitions>
+
+        <!-- 左侧选项卡列表 -->
         <ListBox x:Name="TabList"
                  Grid.Column="0"
                  ItemsSource="{Binding TabItems,Mode=OneWay}"
@@ -25,11 +28,13 @@
                  Margin="0"
                  Background="{DynamicResource BackgroundBrush}"
                  ClipToBounds="False"
-                 SelectionChanged="ListBox_SelectionChanged">
+                 SelectionChanged="ListBox_SelectionChanged"> <!-- 选项卡选择改变事件 -->
             <ListBox.ItemContainerStyle>
-                <StaticResource ResourceKey="DataTabListItemStyle" />
+                <StaticResource ResourceKey="DataTabListItemStyle" /> <!-- 选项卡项样式 -->
             </ListBox.ItemContainerStyle>
         </ListBox>
+
+        <!-- 右侧内容框架 -->
         <Frame x:Name="ContentFrame"
                Grid.Column="1" />
     </Grid>

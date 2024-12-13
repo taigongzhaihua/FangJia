@@ -36,6 +36,7 @@ public partial class MainWindow
 
         DataContext = viewModel;
         // 设置初始视图为 HomePage
+        viewModel.Init();
         frameNavigationService?.NavigateTo("HomePage");
     }
 

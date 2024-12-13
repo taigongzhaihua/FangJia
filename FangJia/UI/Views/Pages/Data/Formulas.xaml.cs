@@ -14,7 +14,13 @@ public partial class Formulas : Page
     public Formulas()
     {
         InitializeComponent();
-        DataContext = ServiceLocator.GetService<FormulasViewModel>();
+        var viewModel = ServiceLocator.GetService<FormulasViewModel>();
+        DataContext = viewModel;
+        if (viewModel.Categories.Count > 0) return;
+        Loaded += async (_, _) =>
+        {
+            await viewModel.InitDataTask();
+        };
     }
     private void CategoryTree_OnSelectedItemChanged(object sender, RoutedPropertyChangedEventArgs<object> e)
     {

@@ -1,8 +1,8 @@
-﻿using FangJia.UI.Base;
+﻿using CommunityToolkit.Mvvm.ComponentModel;
 
 namespace FangJia.UI.ViewModels.Pages
 {
-    public class HomeViewModel : ViewModelBase
+    public class HomeViewModel : ObservableObject
     {
     }
 }

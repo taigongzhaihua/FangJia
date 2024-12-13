@@ -15,7 +15,7 @@ public class FangjiCrawler : ICrawler<(string Category, string FormulaName)>
         var results = new List<(string Category, string FormulaName)>();
         try
         {
-            Logger.Info("Starting to fetch data from URL: {0}", Url);
+            Logger.Info($"Starting to fetch data from URL: {Url}");
 
             // Download the webpage content
             using var httpClient = new HttpClient();
@@ -38,7 +38,7 @@ public class FangjiCrawler : ICrawler<(string Category, string FormulaName)>
             var h2Nodes = container.SelectNodes("./h2");
             if (h2Nodes != null)
             {
-                Logger.Info("Found {0} categories.", h2Nodes.Count);
+                Logger.Info($"Found {h2Nodes.Count} categories.");
                 foreach (var h2Node in h2Nodes)
                 {
                     var olNode = h2Node.SelectSingleNode("following-sibling::ol[1]");
@@ -55,7 +55,7 @@ public class FangjiCrawler : ICrawler<(string Category, string FormulaName)>
                         {
                             var formulaName = linkNode.InnerText.Trim();
                             results.Add((subCategory, formulaName));
-                            Logger.Info("Extracted: {0} - {1}", subCategory, formulaName);
+                            Logger.Info($"Extracted: {subCategory} - {formulaName}");
                         }
                     }
                 }

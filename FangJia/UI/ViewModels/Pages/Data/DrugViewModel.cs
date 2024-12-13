@@ -1,52 +1,91 @@
-﻿using FangJia.BusinessLogic.Interfaces;
+﻿using CommunityToolkit.Mvvm.ComponentModel;
+using CommunityToolkit.Mvvm.Input;
+using FangJia.BusinessLogic.Interfaces;
 using FangJia.BusinessLogic.Models.Data;
-using FangJia.BusinessLogic.Models.Utils;
 using FangJia.BusinessLogic.Services;
-using FangJia.UI.Base;
 using System.Collections.ObjectModel;
-using System.Windows.Input;
+using System.Diagnostics.CodeAnalysis;
 using Unity;
 
 namespace FangJia.UI.ViewModels.Pages.Data;
 
-public class DrugViewModel : ViewModelBase
+[SuppressMessage("ReSharper", "HeapView.ObjectAllocation")]
+[SuppressMessage("ReSharper", "HeapView.ObjectAllocation.Possible")]
+[SuppressMessage("ReSharper", "ClassNeverInstantiated.Global")]
+public partial class DrugViewModel(
+    [Dependency("DrugCrawler")] ICrawler<Drug> drugCrawler,
+    DataService dataService
+    ) : ObservableObject
 {
-    private readonly DataService _dataService;
-    private readonly ICrawler<Drug> _crawler;
-    public DrugViewModel(DataService dataService, [Dependency("DrugCrawler")] ICrawler<Drug> drugCrawler)
+    /// <summary>
+    /// 初始化数据任务
+    /// </summary>
+    /// <remarks>
+    /// 步骤：
+    /// 1. 从数据服务中获取药品列表
+    /// 2. 将获取到的药品列表赋值给 _drugList
+    /// 3. 将 _drugList 赋值给 ShowingDrugs 属性
+    /// </remarks>
+    public async Task InitDataTask()
     {
-        _dataService = dataService;
-        _drugList = new ObservableCollection<Drug>(_dataService.GetDrugs());
-        _crawler = drugCrawler;
+        _drugList = [.. await dataService.GetDrugs()];
+
         ShowingDrugs = _drugList;
-        SaveDrugCommand = new RelayCommand(_ =>
-        {
-            if (SelectedDrug!.Id > 0)
-            {
-                _dataService.UpdateDrug(SelectedDrug);
-            }
-            else
-            {
-                _dataService.InsertDrug(SelectedDrug);
-            }
-            _drugList = new ObservableCollection<Drug>(_dataService.GetDrugs());
-            ShowingDrugs = _drugList;
-        });
-        AddDrugCommand = new RelayCommand(_ =>
-        {
-            SelectedDrug = new Drug()
-            {
-                Id = -1,
-            };
-        });
-        GetDrugsFromZyfjCommand = new RelayCommand(GetDrugsFromZyfj);
-
-
     }
 
-    private async void GetDrugsFromZyfj(object _)
+    /// <summary>
+    /// 添加药品命令
+    /// </summary>
+    /// <remarks>
+    /// 步骤：
+    /// 1. 创建一个新的 Drug 对象，并将其 Id 设置为 -1
+    /// 2. 将新创建的 Drug 对象赋值给 SelectedDrug 属性
+    /// </remarks>
+    [RelayCommand]
+    private void AddDrug()
     {
-        var drugList = await _crawler.GetListAsync();
+        SelectedDrug = new Drug
+        {
+            Id = -1
+        };
+    }
+
+    /// <summary>
+    /// 保存药品命令
+    /// </summary>
+    /// <remarks>
+    /// 步骤：
+    /// 1. 检查 SelectedDrug 的 Id 是否大于 0
+    /// 2. 如果 Id 大于 0，调用数据服务的 UpdateDrug 方法更新药品
+    /// 3. 如果 Id 不大于 0，调用数据服务的 InsertDrug 方法插入药品
+    /// 4. 调用 InitDataTask 方法重新初始化数据
+    /// </remarks>
+    [RelayCommand]
+    private async Task SaveDrug()
+    {
+        if (SelectedDrug!.Id > 0)
+            await dataService.UpdateDrug(SelectedDrug);
+        else
+            await dataService.InsertDrug(SelectedDrug);
+        await InitDataTask();
+    }
+
+    /// <summary>
+    /// 从 Zyfj 获取药品命令
+    /// </summary>
+    /// <remarks>
+    /// 步骤：
+    /// 1. 调用 drugCrawler 的 GetListAsync 方法获取药品列表
+    /// 2. 遍历获取到的药品列表
+    /// 3. 在本地 _drugList 中查找是否存在相同名称的 Drug
+    /// 4. 如果存在，将 Id 赋值给 drug.Id 并更新数据库
+    /// 5. 如果不存在，插入新记录
+    /// 6. 调用 InitDataTask 方法重新初始化数据
+    /// </remarks>
+    [RelayCommand]
+    private async Task GetDrugsFromZyfj()
+    {
+        var drugList = await drugCrawler.GetListAsync();
 
         foreach (var drug in drugList)
         {
@@ -57,36 +96,33 @@ public class DrugViewModel : ViewModelBase
             {
                 // 如果存在，将 Id 赋值给 drug.Id 并更新数据库
                 drug.Id = existingDrug.Id;
-                _dataService.UpdateDrug(drug);
+
+                await dataService.UpdateDrug(drug);
             }
             else
             {
                 // 如果不存在，插入新记录
-                _dataService.InsertDrug(drug);
+                await dataService.InsertDrug(drug);
             }
         }
-        _drugList = new ObservableCollection<Drug>(_dataService.GetDrugs());
-        ShowingDrugs = _drugList;
+
+        await InitDataTask();
     }
 
+    /// <summary>
+    /// 药品列表
+    /// </summary>
     private ObservableCollection<Drug>? _drugList;
+
+    /// <summary>
+    /// 显示的药品列表
+    /// </summary>
+    [ObservableProperty]
     private ObservableCollection<Drug>? _showingDrugs;
 
-    public ObservableCollection<Drug>? ShowingDrugs
-    {
-        get => _showingDrugs;
-        set => SetProperty(ref _showingDrugs, value);
-    }
-
+    /// <summary>
+    /// 选中的药品
+    /// </summary>
+    [ObservableProperty]
     private Drug? _selectedDrug;
-
-    public Drug? SelectedDrug
-    {
-        get => _selectedDrug;
-        set => SetProperty(ref _selectedDrug, value);
-    }
-
-    public ICommand SaveDrugCommand { get; set; }
-    public ICommand AddDrugCommand { get; set; }
-    public ICommand GetDrugsFromZyfjCommand { get; private set; }
 }

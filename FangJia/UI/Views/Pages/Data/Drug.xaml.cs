@@ -11,6 +11,13 @@ public partial class Drug
     public Drug()
     {
         InitializeComponent();
-        DataContext = ServiceLocator.GetService<DrugViewModel>();
+
+        var viewModel = ServiceLocator.GetService<DrugViewModel>();
+        DataContext = viewModel;
+        if (viewModel.ShowingDrugs?.Count > 0) return;
+        Loaded += async (_, _) =>
+        {
+            await viewModel.InitDataTask();
+        };
     }
 }
