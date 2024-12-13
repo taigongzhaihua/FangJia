@@ -22,6 +22,14 @@ public static partial class PipeService
     /// 通知已存在的实例。
     /// 如果管道服务器已存在，则尝试连接，并发送消息通知它显示主窗口。
     /// </summary>
+    /// <remarks>
+    /// 实现步骤：
+    /// 1. 初始化连接状态为 false，并设置最大重试次数为 3。
+    /// 2. 进入循环，尝试连接到已存在的管道服务器。
+    /// 3. 如果连接成功，则向服务器发送 "SHOW" 消息，并设置连接状态为 true。
+    /// 4. 如果连接失败，则记录日志并重试，直到达到最大重试次数。
+    /// 5. 如果所有重试均失败，则记录错误日志并退出。
+    /// </remarks>
     public static void NotifyExistingInstance()
     {
         var connected = false;
@@ -62,6 +70,14 @@ public static partial class PipeService
     /// <summary>
     /// 当以重启状态启动应用程序时，通知已存在的实例关闭，保留新实例。
     /// </summary>
+    /// <remarks>
+    /// 实现步骤：
+    /// 1. 初始化连接状态为 false，并设置最大重试次数为 3。
+    /// 2. 进入循环，尝试连接到已存在的管道服务器。
+    /// 3. 如果连接成功，则向服务器发送 "RESTART" 消息，并设置连接状态为 true。
+    /// 4. 如果连接失败，则记录日志并重试，直到达到最大重试次数。
+    /// 5. 如果所有重试均失败，则记录错误日志并退出。
+    /// </remarks>
     public static void OnAppRestarted()
     {
         var connected = false;
@@ -103,6 +119,12 @@ public static partial class PipeService
     /// <summary>
     /// 重启应用程序。
     /// </summary>
+    /// <remarks>
+    /// 实现步骤：
+    /// 1. 获取当前应用程序的路径。
+    /// 2. 使用 Process.Start 启动新的应用程序实例，并传递 "ReStart" 参数。
+    /// 3. 调用 Application.Current.Shutdown 关闭当前实例。
+    /// </remarks>
     public static void RestartApp()
     {
         Logger.Info("准备重启应用程序...");
@@ -115,10 +137,22 @@ public static partial class PipeService
         });
         Application.Current.Shutdown();
     }
+
     /// <summary>
     /// 启动管道服务器。
     /// 持续监听管道连接，接收其他实例的消息并进行处理。
     /// </summary>
+    /// <remarks>
+    /// 实现步骤：
+    /// 1. 初始化 CancellationTokenSource 用于控制服务器停止。
+    /// 2. 进入循环，持续监听管道连接。
+    /// 3. 当客户端连接时，读取客户端发送的消息。
+    /// 4. 根据消息内容执行相应的操作：
+    ///    - 如果是 "SHOW" 消息，则显示主窗口。
+    ///    - 如果是 "RESTART" 消息，则关闭当前实例。
+    /// 5. 断开当前连接，准备接收下一个连接。
+    /// 6. 如果接收到取消令牌信号，则退出循环并停止服务器。
+    /// </remarks>
     public static void StartPipeServer()
     {
         _cancellationTokenSource = new CancellationTokenSource();
@@ -179,6 +213,12 @@ public static partial class PipeService
     /// 停止管道服务器。
     /// 通过取消令牌通知服务器退出。
     /// </summary>
+    /// <remarks>
+    /// 实现步骤：
+    /// 1. 调用 CancellationTokenSource.Cancel 方法通知服务器停止。
+    /// 2. 记录日志表示服务器已成功停止。
+    /// 3. 捕获并记录任何异常。
+    /// </remarks>
     public static void StopPipeServer()
     {
         try
@@ -197,6 +237,14 @@ public static partial class PipeService
     /// 显示主窗口。
     /// 当接收到 "SHOW" 消息时调用，用于激活和显示主窗口。
     /// </summary>
+    /// <remarks>
+    /// 实现步骤：
+    /// 1. 使用 Dispatcher.Invoke 确保在 UI 线程上执行操作。
+    /// 2. 获取当前应用程序的主窗口。
+    /// 3. 如果主窗口未初始化，则记录警告并返回。
+    /// 4. 显示主窗口，恢复窗口状态为正常，并激活窗口。
+    /// 5. 使用 SetForegroundWindow 将窗口置于最前。
+    /// </remarks>
     private static void ShowMainWindow()
     {
         Application.Current.Dispatcher.Invoke(() =>
@@ -228,5 +276,4 @@ public static partial class PipeService
     [LibraryImport("user32.dll", SetLastError = true)]
     [return: MarshalAs(UnmanagedType.Bool)]
     private static partial void SetForegroundWindow(IntPtr hWnd);
-
 }
