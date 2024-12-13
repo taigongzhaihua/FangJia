@@ -1,15 +1,12 @@
-﻿using System.Windows.Controls;
+﻿namespace FangJia.UI.Views.Pages;
 
-namespace FangJia.UI.Views.Pages
+/// <summary>
+/// Home.xaml 的交互逻辑
+/// </summary>
+public partial class Home
 {
-    /// <summary>
-    /// Home.xaml 的交互逻辑
-    /// </summary>
-    public partial class Home : Page
+    public Home()
     {
-        public Home()
-        {
-            InitializeComponent();
-        }
+        InitializeComponent();
     }
 }

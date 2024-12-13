@@ -9,7 +9,7 @@ namespace FangJia.UI.Views.Pages.Data;
 /// <summary>
 /// Formulas.xaml 的交互逻辑
 /// </summary>
-public partial class Formulas : Page
+public partial class Formulas
 {
     public Formulas()
     {
@@ -29,7 +29,7 @@ public partial class Formulas : Page
         viewModel!.SelectedCategory = category;
     }
 
-    private bool _isInitialized = false;
+    private bool _isInitialized;
 
     private void TextBox_Loaded(object sender, RoutedEventArgs e)
     {

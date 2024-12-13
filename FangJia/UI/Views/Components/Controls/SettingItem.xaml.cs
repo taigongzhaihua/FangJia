@@ -48,7 +48,7 @@ public partial class SettingItem
                 };
                 comboBox.SetBinding(ItemsControl.ItemsSourceProperty, new Binding(nameof(Options)) { Source = this });
                 comboBox.SetBinding(Selector.SelectedItemProperty, new Binding(nameof(Value)) { Source = this });
-                comboBox.SelectionChanged += (o, e) =>
+                comboBox.SelectionChanged += (_, _) =>
                 {
                     if (Value == SettingService.GetSettingValue(Key)) return;
                     _settingService.UpdateSetting(Key, Value, Type.GetType(ValueType)!);
@@ -98,9 +98,9 @@ public partial class SettingItem
     private static void OnValueChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
     {
         if (d is not SettingItem settingItem) return;
-        settingItem!.CreateControl();
-        Grid.SetRow(settingItem!._control!, 0);
-        Grid.SetColumn(settingItem!._control, 1);
+        settingItem.CreateControl();
+        Grid.SetRow(settingItem._control, 0);
+        Grid.SetColumn(settingItem._control, 1);
         settingItem.Grid.Children.Add(settingItem._control);
     }
 

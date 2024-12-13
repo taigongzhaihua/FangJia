@@ -1,4 +1,5 @@
-﻿using FangJia.BusinessLogic.Interfaces;
+﻿using System.Diagnostics.CodeAnalysis;
+using FangJia.BusinessLogic.Interfaces;
 using FangJia.BusinessLogic.Models.Config;
 using System.Windows;
 using System.Windows.Controls;
@@ -9,6 +10,7 @@ namespace FangJia.BusinessLogic.Services.NavigationServices;
 /// <summary>
 /// 提供页面导航服务的类，实现了 INavigationService 接口。
 /// </summary>
+[SuppressMessage("ReSharper", "ClassNeverInstantiated.Global")]
 public class FrameNavigationService : INavigationService
 {
     private Frame _frame = null!;
@@ -117,7 +119,7 @@ public class FrameNavigationService : INavigationService
     /// 实现步骤：
     /// 1. 检查当前页面内容是否为空。
     /// 2. 如果当前页面内容为空，直接导航到目标页面，并应用淡入动画。
-    /// 3. 如果当前页面内容不为空，执行当前页面的淡出动画，动画完成后导航到目标页面，并应用淡入动画。
+    /// 3. 如果当前页面内容不为空，执行当前页面的淡出动画，动画结束后导航到目标页面，并应用淡入动画。
     /// </remarks>
     private void StartPageTransitionAnimation(UIElement? currentContent, string uri)
     {

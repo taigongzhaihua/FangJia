@@ -7,7 +7,7 @@ namespace FangJia.UI.Converters
 {
     public class ByteToImageConverter : IValueConverter
     {
-        public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
+        public object Convert(object? value, Type targetType, object? parameter, CultureInfo culture)
         {
             if (value is not byte[] { Length: > 0 } imageData) return null!; // Return null for invalid input
             try
@@ -28,7 +28,7 @@ namespace FangJia.UI.Converters
             }
         }
 
-        public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
+        public object ConvertBack(object? value, Type targetType, object? parameter, CultureInfo culture)
         {
             throw new NotSupportedException("ByteToImageConverter does not support ConvertBack.");
         }
