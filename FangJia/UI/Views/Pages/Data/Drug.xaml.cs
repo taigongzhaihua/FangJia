@@ -8,16 +8,13 @@ namespace FangJia.UI.Views.Pages.Data;
 /// </summary>
 public partial class Drug
 {
-    public Drug()
-    {
-        InitializeComponent();
+	public Drug()
+	{
+		InitializeComponent();
 
-        var viewModel = ServiceLocator.GetService<DrugViewModel>();
-        DataContext = viewModel;
-        if (viewModel.ShowingDrugs?.Count > 0) return;
-        Loaded += async (_, _) =>
-        {
-            await viewModel.InitDataTask();
-        };
-    }
+		var viewModel = ServiceLocator.GetService<DrugViewModel>();
+		DataContext = viewModel;
+		if (viewModel.ShowingDrugs?.Count > 0) return;
+		Loaded += async (_, _) => await viewModel.InitDataTask();
+	}
 }

@@ -4,35 +4,39 @@ namespace FangJia.BusinessLogic.Models;
 
 public class MainMenuItem(string? name, string? icon, string? pageName, ICommand command)
 {
-    protected bool Equals(MainMenuItem other)
-    {
-        return Name == other.Name && Icon == other.Icon && PageName == other.PageName && Equals(Command, other.Command);
-    }
+	public string?   Name     { get; }      = name;
+	public string?   Icon     { get; }      = icon;
+	public string?   PageName { get; }      = pageName;
+	public ICommand? Command  { get; set; } = command;
 
-    public override bool Equals(object? obj)
-    {
-        if (obj is null) return false;
-        if (ReferenceEquals(this, obj)) return true;
-        return obj.GetType() == GetType() && Equals((MainMenuItem)obj);
-    }
+	public static bool operator ==(MainMenuItem left, MainMenuItem right)
+	{
+		return left.Name     == right.Name &&
+		       left.Icon     == right.Icon &&
+		       left.PageName == right.PageName;
+	}
 
-    public override int GetHashCode()
-    {
-        return HashCode.Combine(Name, Icon, PageName);
-    }
+	public static bool operator !=(MainMenuItem left, MainMenuItem right)
+	{
+		return !(left == right);
+	}
 
-    public string? Name { get; } = name;
-    public string? Icon { get; } = icon;
-    public string? PageName { get; } = pageName;
-    public ICommand? Command { get; set; } = command;
+	protected bool Equals(MainMenuItem other)
+	{
+		return Name     == other.Name &&
+		       Icon     == other.Icon &&
+		       PageName == other.PageName;
+	}
 
-    public static bool operator ==(MainMenuItem left, MainMenuItem right)
-    {
-        return left.Name == right.Name && left.Icon == right.Icon && left.PageName == right.PageName;
-    }
+	public override bool Equals(object? obj)
+	{
+		if (obj is null) return false;
+		if (ReferenceEquals(this, obj)) return true;
+		return obj.GetType() == GetType() && Equals((MainMenuItem)obj);
+	}
 
-    public static bool operator !=(MainMenuItem left, MainMenuItem right)
-    {
-        return !(left == right);
-    }
+	public override int GetHashCode()
+	{
+		return HashCode.Combine(Name, Icon, PageName);
+	}
 }

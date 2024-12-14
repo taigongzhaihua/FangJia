@@ -22,22 +22,22 @@
     <Color x:Key="AccentHighlightForegroundColor">Black</Color>
 
     <!-- 定义 SolidColorBrush -->
-    <SolidColorBrush x:Key="BackgroundBrush" Color="{DynamicResource BackgroundColor}"/>
-    <SolidColorBrush x:Key="ForegroundBrush" Color="{DynamicResource ForegroundColor}"/>
-    <SolidColorBrush x:Key="AccentBackgroundBrush" Color="{DynamicResource AccentBackgroundColor}"/>
-    <SolidColorBrush x:Key="AccentForegroundBrush" Color="{DynamicResource AccentForegroundColor}"/>
-    <SolidColorBrush x:Key="HoverOverlayBrush" Color="{DynamicResource HoverOverlayColor}"/>
-    <SolidColorBrush x:Key="PressedOverlayBrush" Color="{DynamicResource PressedOverlayColor}"/>
-    <SolidColorBrush x:Key="AccentOverlayBrush" Color="{DynamicResource AccentOverlayColor}"/>
-    <SolidColorBrush x:Key="SwitchOnBrush" Color="{DynamicResource SwitchOnColor}"/>
-    <SolidColorBrush x:Key="SwitchOffBrush" Color="{DynamicResource SwitchOffColor}"/>
-    <SolidColorBrush x:Key="ShadowBrush" Color="{DynamicResource ShadowColor}"/>
-    <SolidColorBrush x:Key="WeakAccentBackgroundBrush" Color="{DynamicResource WeakAccentBackgroundColor}"/>
-    <SolidColorBrush x:Key="WeakAccentForegroundBrush" Color="{DynamicResource WeakAccentForegroundColor}"/>
-    <SolidColorBrush x:Key="AlertBrush" Color="{DynamicResource AlertColor}"/>
-    <SolidColorBrush x:Key="WarningBrush" Color="{DynamicResource WarningColor}"/>
-    <SolidColorBrush x:Key="DangerBrush" Color="{DynamicResource DangerColor}"/>
-    <SolidColorBrush x:Key="AccentHighlightBrush" Color="{DynamicResource AccentHighlightColor}"/>
-    <SolidColorBrush x:Key="AccentHighlightForegroundBrush" Color="{DynamicResource AccentHighlightForegroundColor}"/>
+    <SolidColorBrush x:Key="BackgroundBrush" Color="{DynamicResource BackgroundColor}" />
+    <SolidColorBrush x:Key="ForegroundBrush" Color="{DynamicResource ForegroundColor}" />
+    <SolidColorBrush x:Key="AccentBackgroundBrush" Color="{DynamicResource AccentBackgroundColor}" />
+    <SolidColorBrush x:Key="AccentForegroundBrush" Color="{DynamicResource AccentForegroundColor}" />
+    <SolidColorBrush x:Key="HoverOverlayBrush" Color="{DynamicResource HoverOverlayColor}" />
+    <SolidColorBrush x:Key="PressedOverlayBrush" Color="{DynamicResource PressedOverlayColor}" />
+    <SolidColorBrush x:Key="AccentOverlayBrush" Color="{DynamicResource AccentOverlayColor}" />
+    <SolidColorBrush x:Key="SwitchOnBrush" Color="{DynamicResource SwitchOnColor}" />
+    <SolidColorBrush x:Key="SwitchOffBrush" Color="{DynamicResource SwitchOffColor}" />
+    <SolidColorBrush x:Key="ShadowBrush" Color="{DynamicResource ShadowColor}" />
+    <SolidColorBrush x:Key="WeakAccentBackgroundBrush" Color="{DynamicResource WeakAccentBackgroundColor}" />
+    <SolidColorBrush x:Key="WeakAccentForegroundBrush" Color="{DynamicResource WeakAccentForegroundColor}" />
+    <SolidColorBrush x:Key="AlertBrush" Color="{DynamicResource AlertColor}" />
+    <SolidColorBrush x:Key="WarningBrush" Color="{DynamicResource WarningColor}" />
+    <SolidColorBrush x:Key="DangerBrush" Color="{DynamicResource DangerColor}" />
+    <SolidColorBrush x:Key="AccentHighlightBrush" Color="{DynamicResource AccentHighlightColor}" />
+    <SolidColorBrush x:Key="AccentHighlightForegroundBrush" Color="{DynamicResource AccentHighlightForegroundColor}" />
 
 </ResourceDictionary>

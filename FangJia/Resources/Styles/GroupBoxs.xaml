@@ -22,13 +22,12 @@
 
                             <ContentPresenter ContentSource="Header" Grid.Row="0"
                                               TextBlock.FontSize="16" TextBlock.FontWeight="Bold"
-                                              TextBlock.Foreground="{DynamicResource AccentBackgroundBrush}" 
-                                              >
+                                              TextBlock.Foreground="{DynamicResource AccentBackgroundBrush}">
                                 <ContentPresenter.Effect>
                                     <DropShadowEffect BlurRadius="15"
                                                       Color="{DynamicResource AccentBackgroundColor}"
                                                       ShadowDepth="3"
-                                                      Opacity="0.3"/>
+                                                      Opacity="0.3" />
                                 </ContentPresenter.Effect>
                             </ContentPresenter>
 

@@ -19,21 +19,21 @@
                                 VerticalAlignment="Center"
                                 HorizontalAlignment="Center">
                             <Border x:Name="border"
-                                Background="#00000000"
-                                BorderThickness="0"
-                                Width="{TemplateBinding ActualWidth}"
-                                Height="{TemplateBinding ActualHeight}"
-                                HorizontalAlignment="Center"
-                                VerticalAlignment="Center">
+                                    Background="#00000000"
+                                    BorderThickness="0"
+                                    Width="{TemplateBinding ActualWidth}"
+                                    Height="{TemplateBinding ActualHeight}"
+                                    HorizontalAlignment="Center"
+                                    VerticalAlignment="Center">
                                 <ContentControl x:Name="contentControl"
-                                            Content="{TemplateBinding Content}"
-                                            ContentTemplate="{TemplateBinding ContentTemplate}"
-                                            VerticalAlignment="Center"
-                                            HorizontalAlignment="Center"
-                                            HorizontalContentAlignment="Center"
-                                            VerticalContentAlignment="Center"
-                                            Height="{TemplateBinding FontSize}"
-                                            Foreground="{TemplateBinding Foreground}" />
+                                                Content="{TemplateBinding Content}"
+                                                ContentTemplate="{TemplateBinding ContentTemplate}"
+                                                VerticalAlignment="Center"
+                                                HorizontalAlignment="Center"
+                                                HorizontalContentAlignment="Center"
+                                                VerticalContentAlignment="Center"
+                                                Height="{TemplateBinding FontSize}"
+                                                Foreground="{TemplateBinding Foreground}" />
                             </Border>
                         </Border>
 
@@ -171,41 +171,43 @@
         </Setter>
     </Style>
     <Style TargetType="Button" x:Key="OpenButtonStyle">
-        <Setter Property="Background" Value="{StaticResource AccentHighlightBrush}"/>
-        <Setter Property="Foreground" Value="{StaticResource AccentHighlightForegroundBrush}"/>
-        <Setter Property="Width" Value="30"/>
-        <Setter Property="Height" Value="30"/>
+        <Setter Property="Background" Value="{StaticResource AccentHighlightBrush}" />
+        <Setter Property="Foreground" Value="{StaticResource AccentHighlightForegroundBrush}" />
+        <Setter Property="Width" Value="30" />
+        <Setter Property="Height" Value="30" />
 
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="Button">
                     <Grid>
                         <Border Background="{TemplateBinding Background}"
-                            Width="{TemplateBinding ActualWidth}"
-                            Height="{TemplateBinding ActualHeight}"
-                            CornerRadius="15"
-                            HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                                Width="{TemplateBinding ActualWidth}"
+                                Height="{TemplateBinding ActualHeight}"
+                                CornerRadius="15"
+                                HorizontalAlignment="Center" VerticalAlignment="Center" />
                         <Border Background="#00000000"
-                            Width="{TemplateBinding ActualWidth}"
-                            Height="{TemplateBinding ActualHeight}"
-                            CornerRadius="15" x:Name="Border"
-                            HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                                Width="{TemplateBinding ActualWidth}"
+                                Height="{TemplateBinding ActualHeight}"
+                                CornerRadius="15" x:Name="Border"
+                                HorizontalAlignment="Center" VerticalAlignment="Center" />
                         <TextBlock Text="&#xe63c;" Foreground="{TemplateBinding Foreground}"
-                               FontFamily="{DynamicResource IconFont}"
-                               FontSize="16" x:Name="TextBlock"
-                               VerticalAlignment="Center" HorizontalAlignment="Center"/>
+                                   FontFamily="{DynamicResource IconFont}"
+                                   FontSize="16" x:Name="TextBlock"
+                                   VerticalAlignment="Center" HorizontalAlignment="Center" />
                     </Grid>
 
                     <!-- 使用 Trigger 替代 VisualState -->
                     <ControlTemplate.Triggers>
                         <!-- MouseOver State -->
                         <Trigger Property="IsMouseOver" Value="True">
-                            <Setter TargetName="Border" Property="Background" Value="{Binding Source={StaticResource HoverOverlayBrush}}" />
+                            <Setter TargetName="Border" Property="Background"
+                                    Value="{Binding Source={StaticResource HoverOverlayBrush}}" />
                         </Trigger>
 
                         <!-- Pressed State -->
                         <Trigger Property="IsPressed" Value="True">
-                            <Setter TargetName="Border" Property="Background" Value="{Binding Source={StaticResource PressedOverlayBrush}}" />
+                            <Setter TargetName="Border" Property="Background"
+                                    Value="{Binding Source={StaticResource PressedOverlayBrush}}" />
                         </Trigger>
 
                         <!-- Normal State -->
