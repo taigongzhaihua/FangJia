@@ -7,6 +7,7 @@ using FangJia.BusinessLogic.Services.NavigationServices;
 using FangJia.DataAccess;
 using NLog;
 using System.Collections.ObjectModel;
+using System.Diagnostics.CodeAnalysis;
 using System.Windows.Input;
 using Unity;
 
@@ -19,6 +20,7 @@ namespace FangJia.UI.ViewModels;
 /// 该方法负责从配置文件中加载主菜单项配置，并初始化主菜单项集合。
 /// 同时，它还会设置页面映射并更新页面标题和导航按钮的状态。
 /// </remarks>
+[SuppressMessage("ReSharper", "ClassNeverInstantiated.Global")]
 public partial class MainWindowViewModel(
 	[Dependency("MainFrameNavigationService")]
 	INavigationService navigationService,
