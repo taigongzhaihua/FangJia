@@ -14,11 +14,11 @@ public class FormulationCrawler : ICrawler<Formulation>
 	private static readonly Logger     Logger     = LogManager.GetCurrentClassLogger();
 	private const           string     BaseUrl    = "https://www.zhongyifangji.com";
 
-	public async Task<List<Formulation>> GetListAsync(IProgress<CrawlerProgress> progress)
+	public async Task<List<Formulation>> GetListAsync(IProgress<CrawlerProgress?> progress)
 	{
 		List<Formulation> formulations    = [];
 		List<string>      links           = [];
-		CrawlerProgress   crawlerProgress = new(0, 10, true);
+		CrawlerProgress?  crawlerProgress = new(0, 10, true);
 		for (var i = 1; i <= 10; i++)
 		{
 			var url        = $"{BaseUrl}/prescription/index/p/{i}";

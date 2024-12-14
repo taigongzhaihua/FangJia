@@ -31,7 +31,7 @@ public class FangjiCrawler : ICrawler<(string Category, string FormulaName)>
 	/// 6. 对于每个方剂，提取分类和名称信息。
 	/// 7. 将分类和名称信息添加到结果列表中。
 	/// </remarks>
-	public async Task<List<(string Category, string FormulaName)>> GetListAsync(IProgress<CrawlerProgress> progress)
+	public async Task<List<(string Category, string FormulaName)>> GetListAsync(IProgress<CrawlerProgress?> progress)
 	{
 		var results = new List<(string Category, string FormulaName)>();
 		try

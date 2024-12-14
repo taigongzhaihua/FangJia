@@ -35,7 +35,7 @@ public class DrugCrawler : ICrawler<Drug>
 	/// 5. 如果药品详细信息获取成功，将其添加到药品列表中。
 	/// 6. 爬取完成后，记录总药品数量并返回药品列表。
 	/// </remarks>
-	public async Task<List<Drug>> GetListAsync(IProgress<CrawlerProgress> progress)
+	public async Task<List<Drug>> GetListAsync(IProgress<CrawlerProgress?> progress)
 	{
 		var progressReport = new CrawlerProgress(21, 0, true);
 		// 初始化一个空的药品列表

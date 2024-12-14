@@ -99,7 +99,7 @@ public partial class FormulasViewModel(
 	[RelayCommand]
 	private async Task GetFormulaFromZyfj()
 	{
-		var progress = new Progress<CrawlerProgress>(p => Progress = p);
+		var progress = new Progress<CrawlerProgress?>(p => Progress = p);
 		// 从配方爬虫服务中异步获取配方列表
 		var list = await formulationFormulaCrawler.GetListAsync(progress);
 		// 从方剂爬虫服务中异步获取方剂列表
@@ -193,5 +193,5 @@ public partial class FormulasViewModel(
 	/// <summary>
 	/// 定义一个进度对象，用于显示配方数据获取的进度信息。
 	/// </summary>
-	[ObservableProperty] private CrawlerProgress _progress;
+	[ObservableProperty] private CrawlerProgress? _progress;
 }

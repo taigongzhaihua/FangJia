@@ -31,3 +31,4 @@ ControlStyle = "DefaultComboBox"
 Options = ["微软雅黑", "宋体", "黑体", "Arial"]
 IsEnable = true
 Tip = "选择应用的默认字体"
+
