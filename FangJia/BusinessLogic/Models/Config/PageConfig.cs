@@ -1,5 +1,8 @@
-﻿namespace FangJia.BusinessLogic.Models.Config;
+﻿using System.Diagnostics.CodeAnalysis;
 
+namespace FangJia.BusinessLogic.Models.Config;
+
+[SuppressMessage("ReSharper", "UnusedAutoPropertyAccessor.Global")]
 public class PageConfig
 {
 	public string? Name { get; set; } // 页面名称，用于标识页面

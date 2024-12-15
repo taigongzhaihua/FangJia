@@ -190,10 +190,15 @@
             <TextBlock Grid.Column="3" Grid.Row="0"
                        Text="{Binding Progress.TotalLength,Mode=OneWay}"
                        VerticalAlignment="Center" />
-            <ProgressBar Grid.Column="0" Grid.Row="1" Grid.ColumnSpan="4"
+            <ProgressBar Grid.Column="0" Grid.Row="1" Grid.ColumnSpan="4" Margin="5"
                          Maximum="{Binding Progress.TotalLength,Mode=OneWay}"
                          Value="{Binding Progress.CurrentProgress,Mode=OneWay}"
-                         ToolTip="{Binding Progress.LatestLog,Mode=OneWay}" />
+                         ToolTip="{Binding Progress.LatestLog,Mode=OneWay}" 
+                         Background="{DynamicResource WeakAccentBackgroundBrush}"
+                         Foreground="{DynamicResource AccentBackgroundBrush}"
+                         BorderBrush="{DynamicResource AccentHighlightBrush}"
+                         BorderThickness="1" Cursor="Arrow"
+                         Height="10"/>
         </Grid>
     </Grid>
 </Page>

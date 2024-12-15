@@ -1,6 +1,7 @@
 ﻿// 皮肤配置类，存储与应用程序皮肤相关的颜色信息
 
 using Tomlyn.Model;
+// ReSharper disable UnusedAutoPropertyAccessor.Global
 
 namespace FangJia.BusinessLogic.Models.Config;
 

@@ -44,7 +44,7 @@ public partial class App
 
 		// 步骤2：检查是否已经有一个实例在运行
 		// 创建一个命名互斥体，以确保只有一个应用程序实例在运行。
-		new Mutex(true, MutexName, out var createdNew);
+		var mutex = new Mutex(true, MutexName, out var createdNew);
 		if (!createdNew)
 		{
 			// 如果互斥体已经存在，则说明已经有一个实例在运行。

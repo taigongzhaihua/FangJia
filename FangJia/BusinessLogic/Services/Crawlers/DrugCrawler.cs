@@ -1,4 +1,5 @@
-﻿using System.Diagnostics.CodeAnalysis;
+﻿using System.Collections.Concurrent;
+using System.Diagnostics.CodeAnalysis;
 using FangJia.BusinessLogic.Interfaces;
 using FangJia.BusinessLogic.Models.Data;
 using HtmlAgilityPack;
@@ -16,10 +17,12 @@ namespace FangJia.BusinessLogic.Services.Crawlers;
 public class DrugCrawler : ICrawler<Drug>
 {
 	// 
-	private static readonly HttpClient HttpClient = new();
-	private static readonly Logger     Logger     = LogManager.GetCurrentClassLogger();
-	private const           string     BaseUrl    = "https://www.zhongyifangji.com";
-	private const           string     PageUrl    = "https://www.zhongyifangji.com/materials/index/p/";
+	private static readonly HttpClient                 HttpClient = new();
+	private static readonly Logger                     Logger     = LogManager.GetCurrentClassLogger();
+	private const           string                     BaseUrl    = "https://www.zhongyifangji.com";
+	private const           string                     PageUrl    = "https://www.zhongyifangji.com/materials/index/p/";
+	private                 IProgress<CrawlerProgress> _progress  = null!;
+	private                 CrawlerProgress            _progressReport;
 
 	/// <summary>
 	/// 获取药品列表的异步方法。
@@ -37,62 +40,91 @@ public class DrugCrawler : ICrawler<Drug>
 	/// </remarks>
 	public async Task<List<Drug>> GetListAsync(IProgress<CrawlerProgress> progress)
 	{
-		var progressReport = new CrawlerProgress(21, 0, true);
+		_progress       = progress;
+		_progressReport = new CrawlerProgress(21, 0, true);
+		_progress.Report(_progressReport);
+
 		// 初始化一个空的药品列表
-		List<Drug> drugs = [];
-		progress.Report(progressReport);
+		ConcurrentBag<Drug> drugs = new();
+
 		try
 		{
-			Logger.Info("Starting to crawl drug data...");
-			List<string> links = [];
+			Logger.Info("开始爬取药品数据...");
+
 			// 从第1页到第21页，依次获取每页的URL
-			for (var i = 1; i <= 21; i++)
-			{
-				var url = PageUrl + i;
-				var log = $@"Fetching page {i}: {url}";
-				Logger.Info(log);
-				progressReport.AddLog(log);
-				progress.Report(progressReport);
+			var pageUrls = Enumerable.Range(1, 21).Select(i => $"{PageUrl}{i}").ToList();
 
-				// 调用 GetLinksAsync 方法获取该页面上所有药品的链接
-				links                      = [..links, ..await GetLinksAsync(url)];
-				progressReport.TotalLength = links.Count + 21;
-				progressReport.UpdateProgress(i);
-				progress.Report(progressReport);
-			}
+			// 并发获取每页的所有药品链接
+			var linkTasks = pageUrls.Select(async url =>
+			                                {
+				                                var pageNumber = url.Split('/').Last();
+				                                var log        = $"正在获取第 {pageNumber} 页: {url}";
+				                                Logger.Info(log);
+				                                _progressReport.AddLog(log);
+				                                _progress.Report(_progressReport);
 
-			// 对于每个药品链接，调用 GetDrugDetailsAsync 方法获取药品的详细信息
-			foreach (var link in links)
-			{
-				var log = $@"Fetching drug details from: {link}";
-				Logger.Info(log);
-				progressReport.AddLog(log);
-				var drug = await GetDrugDetailsAsync(link);
+				                                // 调用 GetLinksAsync 方法获取该页面上所有药品的链接
+				                                return await GetLinksAsync(url);
+			                                }).ToList();
 
-				// 如果药品详细信息获取成功，将其添加到药品列表中
-				if (drug != null)
-				{
-					drugs.Add(drug);
-				}
+			// 等待所有链接获取任务完成
+			var linkResults = await Task.WhenAll(linkTasks);
 
-				progressReport.UpdateProgress(progressReport.CurrentProgress + 1);
-				progress.Report(progressReport);
-			}
+			// 将所有链接合并到一个列表中
+			var links = linkResults.SelectMany(l => l).ToList();
+			_progressReport.TotalLength = links.Count + 21;
+			_progressReport.UpdateProgress(21);
+			_progress.Report(_progressReport);
+
+			// 使用 SemaphoreSlim 限制并发线程数为30
+			var semaphore = new SemaphoreSlim(30);
+
+			// 并发获取每个药品的详细信息
+			var drugTasks = links.Select(async link =>
+			                             {
+				                             await semaphore.WaitAsync(); // 等待获取信号量
+				                             try
+				                             {
+					                             var log = $"正在获取药品详细信息: {link}";
+					                             Logger.Info(log);
+					                             _progressReport.AddLog(log);
+					                             _progress.Report(_progressReport);
+
+					                             var drug = await GetDrugDetailsAsync(link);
+
+					                             // 如果药品详细信息获取成功，将其添加到药品列表中
+					                             if (drug != null)
+					                             {
+						                             drugs.Add(drug);
+					                             }
+
+					                             _progressReport.UpdateProgress(_progressReport.CurrentProgress + 1);
+					                             _progressReport.AddLog($"获取 {drug?.Name ?? "未知"} 信息完毕");
+					                             _progress.Report(_progressReport);
+				                             }
+				                             finally
+				                             {
+					                             semaphore.Release(); // 释放信号量
+				                             }
+			                             }).ToList();
+
+			// 等待所有药品详细信息获取任务完成
+			await Task.WhenAll(drugTasks);
 
 			// 爬取完成后，记录总药品数量
-			Logger.Info($@"Crawling completed. Total drugs fetched: {drugs.Count}");
-			progressReport.AddLog($@"Crawling completed. Total drugs fetched: {drugs.Count}");
-			progressReport.IsRunning = false;
-			progress.Report(progressReport);
+			Logger.Info($"爬取完成。共获取药品数量: {drugs.Count}");
+			_progressReport.AddLog($"爬取完成。共获取药品数量: {drugs.Count}");
+			_progressReport.IsRunning = false;
+			_progress.Report(_progressReport);
 		}
 		catch (Exception ex)
 		{
 			// 记录爬取过程中的错误
-			Logger.Error($"Error during crawling: {ex.Message}");
+			Logger.Error($"爬取过程中发生错误: {ex.Message}");
 		}
 
 		// 返回药品列表
-		return drugs;
+		return drugs.ToList();
 	}
 
 	/// <summary>
@@ -112,7 +144,7 @@ public class DrugCrawler : ICrawler<Drug>
 	/// 7. 返回链接列表。
 	/// 8. 如果在过程中发生异常，记录错误信息并返回空的链接列表。
 	/// </remarks>
-	private static async Task<List<string>> GetLinksAsync(string pageUrl)
+	private async Task<List<string>> GetLinksAsync(string pageUrl)
 	{
 		// 初始化一个空的链接列表
 		List<string> links = [];
@@ -135,12 +167,14 @@ public class DrugCrawler : ICrawler<Drug>
 					                            .Append(node.GetAttributeValue("href", ""))
 					                            .ToString()
 					).ToList();
+				_progressReport.AddLog($@"在页面 {pageUrl} 上找到 {links.Count} 个链接");
+				_progress.Report(_progressReport);
 			}
 		}
 		catch (Exception ex)
 		{
 			// 如果在过程中发生异常，记录错误信息
-			Logger.Error($@"Error fetching links from {pageUrl}: {ex.Message}");
+			Logger.Error($@"从 {pageUrl} 获取链接时发生错误: {ex.Message}");
 		}
 
 		// 返回链接列表
@@ -163,7 +197,7 @@ public class DrugCrawler : ICrawler<Drug>
 	/// 6. 返回包含药品详细信息的 <see cref="Drug"/> 对象。
 	/// 7. 如果在过程中发生异常，记录错误信息并返回 null。
 	/// </remarks>
-	private static async Task<Drug?> GetDrugDetailsAsync(string url)
+	private async Task<Drug?> GetDrugDetailsAsync(string url)
 	{
 		try
 		{
@@ -218,7 +252,7 @@ public class DrugCrawler : ICrawler<Drug>
 	/// 5. 返回包含图片信息的 <see cref="DrugImage"/> 对象。
 	/// 6. 如果在过程中发生异常，记录错误信息并返回空的 <see cref="DrugImage"/> 对象。
 	/// </remarks>
-	private static async Task<DrugImage> GetDrugImageAsync(HtmlDocument document)
+	private async Task<DrugImage> GetDrugImageAsync(HtmlDocument document)
 	{
 		// 初始化一个新的 DrugImage 对象
 		var drugImage = new DrugImage();
@@ -234,7 +268,7 @@ public class DrugCrawler : ICrawler<Drug>
 			{
 				// 获取图片节点的 src 属性值，并拼接成完整的URL
 				var imgUrl = imgNode.GetAttributeValue("src", "");
-				Logger.Debug($"图片URL = {imgUrl}");
+//				Logger.Debug($"图片URL = {imgUrl}");
 
 				if (!string.IsNullOrWhiteSpace(imgUrl))
 				{
@@ -243,6 +277,7 @@ public class DrugCrawler : ICrawler<Drug>
 
 					// 使用 HttpClient 下载图片内容
 					Logger.Info($"正在获取图片: {imgUrl}");
+					_progress.Report(_progressReport.AddLog($"正在获取图片: {imgUrl}"));
 					var imgBytes = await HttpClient.GetByteArrayAsync(imgUrl);
 					drugImage.Image = imgBytes;
 				}

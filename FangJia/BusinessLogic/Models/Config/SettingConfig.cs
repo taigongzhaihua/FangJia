@@ -1,5 +1,9 @@
-﻿namespace FangJia.BusinessLogic.Models.Config;
+﻿using System.Diagnostics.CodeAnalysis;
+// ReSharper disable UnusedAutoPropertyAccessor.Global
 
+namespace FangJia.BusinessLogic.Models.Config;
+
+[SuppressMessage("ReSharper", "UnusedAutoPropertyAccessor.Global")]
 public class Group
 {
 	public string?     Title { get; set; }

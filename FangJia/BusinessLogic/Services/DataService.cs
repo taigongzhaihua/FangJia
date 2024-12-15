@@ -1,4 +1,5 @@
-﻿using System.Diagnostics.CodeAnalysis;
+﻿using System.Collections.ObjectModel;
+using System.Diagnostics.CodeAnalysis;
 using FangJia.BusinessLogic.Models.Data;
 using FangJia.DataAccess;
 using NLog;
@@ -228,55 +229,78 @@ public class DataService
 	/// 3. 对于每个方剂，查询其组成和图片，并将其附加到方剂对象中。
 	/// 4. 返回包含所有方剂的集合。
 	/// </remarks>
-	public async Task<IEnumerable<Formulation>> GetFormulationsByCategoryNameAsync(string? categoryName)
-	{
-		try
-		{
-			// 查询 "Category" 表，获取与给定分类名称匹配的一级或二级分类的ID
-			var categoryIds =
-				(await _dbManager.QueryAsync<int>
-					 ("Category",
-					  ["Id"],
-					  "WHERE FirstCategory = @CategoryName OR SecondCategory = @CategoryName",
-					  new { CategoryName = categoryName })
-				).ToList();
+public async Task<IEnumerable<Formulation>> GetFormulationsByCategoryNameAsync(string? categoryName)
+{
+    try
+    {
+        Logger.Info($"开始根据分类名称 {categoryName} 获取方剂");
 
-			// 如果没有找到匹配的分类ID，返回空集合
-			if (categoryIds.Count == 0) return [];
+        // Step 1: 查询 Category 表，获取与分类名称匹配的一级或二级分类的ID
+        var categoryIds = (await _dbManager.QueryAsync<int>(
+            "Category",
+            ["Id"],
+            "WHERE FirstCategory = @CategoryName OR SecondCategory = @CategoryName",
+            new { CategoryName = categoryName }
+        )).ToList();
 
-			// 查询 "Formulation" 表，获取与这些分类ID关联的所有方剂
-			var formulations =
-				(await _dbManager.QueryAsync<Formulation>
-					 ("Formulation",
-					  ["*"],
-					  "WHERE CategoryId IN @CategoryIds",
-					  new { CategoryIds = categoryIds }
-					 )
-				).ToList();
+        // 如果没有找到匹配的分类ID，返回空集合
+        if (categoryIds.Count == 0)
+        {
+            Logger.Warn($"分类名称 {categoryName} 未找到对应的分类ID");
+            return [];
+        }
 
-			// 遍历每个方剂，查询其组成和图片，并将其附加到方剂对象中
-			foreach (var formulation in formulations)
-			{
-				formulation.Compositions = [.. await GetFormulationCompositions(formulation.Id)];
-				formulation.FormulationImage =
-					(await _dbManager.QuerySingleOrDefaultAsync<FormulationImage>
-						 ("FormulationImage",
-						  "WHERE FormulationId = @FormulationId",
-						  ["*"],
-						  new { FormulationId = formulation.Id })
-					)!;
-			}
+        // Step 2: 查询 Formulation 表，获取与这些分类ID关联的所有方剂
+        var formulations = (await _dbManager.QueryAsync<Formulation>(
+            "Formulation",
+            ["*"],
+            "WHERE CategoryId IN @CategoryIds",
+            new { CategoryIds = categoryIds }
+        )).ToList();
 
-			// 返回包含所有方剂的集合
-			return formulations;
-		}
-		catch (Exception ex)
-		{
-			// 记录错误日志，并重新抛出异常
-			Logger.Error(ex, $"根据分类名称 {categoryName} 获取方剂时发生错误");
-			throw;
-		}
-	}
+        if (formulations.Count == 0)
+        {
+            Logger.Warn($"分类名称 {categoryName} 未找到任何方剂");
+            return formulations;
+        }
+
+        // 获取所有 FormulationId
+        var formulationIds = formulations.Select(f => f.Id).ToArray();
+
+        // Step 3: 批量查询所有组成
+        var compositions = (await _dbManager.QueryAsync<FormulationComposition>(
+            "FormulationComposition",
+            ["*"],
+            "WHERE FormulationId IN @FormulationIds",
+            new { FormulationIds = formulationIds }
+        )).ToLookup(c => c.FormulationId);
+
+        // Step 4: 批量查询所有图片
+        var formulationImages = (await _dbManager.QueryAsync<FormulationImage>(
+            "FormulationImage",
+            ["*"],
+            "WHERE FormulationId IN @FormulationIds",
+            new { FormulationIds = formulationIds }
+        )).ToDictionary(img => img.FormulationId);
+
+        // Step 5: 将组成和图片附加到对应的方剂对象
+        foreach (var formulation in formulations)
+        {
+            formulation.Compositions     = new ObservableCollection<FormulationComposition>(compositions[formulation.Id].ToList());
+            formulation.FormulationImage = formulationImages.GetValueOrDefault(formulation.Id)!;
+        }
+
+        Logger.Info($"成功根据分类名称 {categoryName} 获取 {formulations.Count} 个方剂");
+        return formulations;
+    }
+    catch (Exception ex)
+    {
+        // 记录错误日志，并重新抛出异常
+        Logger.Error(ex, $"根据分类名称 {categoryName} 获取方剂时发生错误");
+        throw;
+    }
+}
+
 
 	/// <summary>
 	/// 异步获取所有药物及其相关图片。
@@ -291,23 +315,50 @@ public class DataService
 	/// </remarks>
 	public async Task<IEnumerable<Drug>> GetDrugs()
 	{
-		// 查询 "Drug" 表，获取所有药物记录
-		var drugList = await _dbManager.QueryAsync<Drug>("Drug", ["*"]);
-		var drugs    = drugList.ToList();
-
-		// 遍历每个药物，查询其关联的图片，并将其附加到药物对象中
-		foreach (var drug in drugs)
+		try
 		{
-			drug.DrugImage = (await _dbManager.QuerySingleOrDefaultAsync<DrugImage>
-				                  ("DrugImage",
-				                   "WHERE DrugId = @DrugId",
-				                   ["*"],
-				                   new { DrugId = drug.Id }))!;
-		}
+			Logger.Info("开始获取药物列表及其图片信息");
 
-		// 返回包含所有药物及其图片的集合
-		return drugs;
+			// Step 1: 查询 Drug 表获取所有药物记录
+			var drugList = (await _dbManager.QueryAsync<Drug>("Drug", ["*"])).ToList();
+
+			if (!drugList.Any())
+			{
+				Logger.Warn("未查询到任何药物数据");
+				return drugList;
+			}
+
+			// Step 2: 构建一个查询所有图片的 DrugId 条件
+			var drugIds             = drugList.Select(d => d.Id).ToArray();
+			var drugIdsPlaceholders = string.Join(", ", drugIds.Select((_, index) => $"@DrugId{index}"));
+			var whereClause         = $"WHERE DrugId IN ({drugIdsPlaceholders})";
+
+			// Step 3: 构建参数对象
+			var parameters = drugIds
+			                 .Select((id, index) => new KeyValuePair<string, object>($"DrugId{index}", id))
+			                 .ToDictionary(kvp => kvp.Key, kvp => kvp.Value);
+
+			// Step 4: 一次性查询所有药物图片
+			var drugImages =
+				(await _dbManager.QueryAsync<DrugImage>("DrugImage", ["*"], whereClause, parameters))
+				.ToDictionary(img => img.DrugId);
+
+			// Step 5: 将图片附加到对应的药物对象
+			foreach (var drug in drugList)
+			{
+				drug.DrugImage = drugImages.GetValueOrDefault(drug.Id)!;
+			}
+
+			Logger.Info("成功获取所有药物及其图片信息");
+			return drugList;
+		}
+		catch (Exception ex)
+		{
+			Logger.Error(ex, "获取药物列表时发生错误");
+			throw;
+		}
 	}
+
 
 	/// <summary>
 	/// 异步获取所有方剂及其组成。
