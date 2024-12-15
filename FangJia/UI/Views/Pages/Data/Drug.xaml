@@ -4,7 +4,7 @@
       xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
       xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
       xmlns:converters="clr-namespace:FangJia.UI.Converters"
-
+      x:Name="Page"
       mc:Ignorable="d"
       d:DesignHeight="450" d:DesignWidth="800"
       Title="Medicine">
@@ -14,7 +14,7 @@
             <Setter Property="AcceptsReturn" Value="True" />
         </Style>
         <converters:ByteToImageConverter x:Key="ByteToImageConverter" />
-        <BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter"></BooleanToVisibilityConverter>
+        <BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter" />
     </Page.Resources>
     <Grid Background="{DynamicResource WeakAccentBackgroundBrush}">
         <Grid.RowDefinitions>
@@ -32,10 +32,10 @@
                 ItemsSource="{Binding ShowingDrugs}"
                 SelectedItem="{Binding SelectedDrug}"
                 BorderThickness="0" FontSize="12" Foreground="{DynamicResource ForegroundBrush}"
-                Background="Transparent" >
+                Background="Transparent">
                 <ListView.ItemsPanel>
                     <ItemsPanelTemplate>
-                        <VirtualizingStackPanel  Orientation="Vertical" HorizontalAlignment="Stretch"/>
+                        <VirtualizingStackPanel Orientation="Vertical" HorizontalAlignment="Stretch" />
                     </ItemsPanelTemplate>
                 </ListView.ItemsPanel>
                 <ListView.Resources>
@@ -44,7 +44,9 @@
                 </ListView.Resources>
                 <ListView.ItemTemplate>
                     <DataTemplate>
+                        <!-- ReSharper disable Xaml.BindingWithContextNotResolved -->
                         <TextBlock Text="{Binding Name}" />
+                        <!-- ReSharper restore Xaml.BindingWithContextNotResolved -->
                     </DataTemplate>
                 </ListView.ItemTemplate>
                 <ListView.Template>
@@ -154,36 +156,44 @@
                 </Grid>
             </ScrollViewer>
         </GroupBox>
-        <Button Grid.Row="1" Grid.Column="0" Content="从中医方剂网导入数据" Command="{Binding GetDrugsFromZyfjCommand}"
-                Margin="10"
-                HorizontalAlignment="Center" VerticalAlignment="Center" />
-        <Grid Grid.Column="1" Grid.Row="1"
+        <Button Grid.Row="1" Grid.Column="0" Content="爬虫"  Margin="10"
+                Click="ButtonBase_OnClick">
+            <Button.ContextMenu>
+                <ContextMenu x:Name="CrawlerMenu">
+                    <MenuItem Header="中医方剂网" Command="{Binding GetDrugsFromZyfjCommand}" />
+                </ContextMenu>
+            </Button.ContextMenu>
+        </Button>
+        <!-- <Button Grid.Row="1" Grid.Column="0" Content="从中医方剂网导入数据" Command="{Binding GetDrugsFromZyfjCommand}" -->
+        <!--          Margin="10" -->
+        <!--         HorizontalAlignment="Center" VerticalAlignment="Center" /> -->
+        <Grid Grid.Column="1" Grid.Row="1" Margin="10"
               Visibility="{Binding Progress.IsRunning,Converter={StaticResource BooleanToVisibilityConverter}}">
             <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="*"/>
-                <ColumnDefinition Width="Auto"/>
-                <ColumnDefinition Width="Auto"/>
-                <ColumnDefinition Width="Auto"/>
+                <ColumnDefinition Width="*" />
+                <ColumnDefinition Width="Auto" />
+                <ColumnDefinition Width="Auto" />
+                <ColumnDefinition Width="Auto" />
             </Grid.ColumnDefinitions>
             <Grid.RowDefinitions>
-                <RowDefinition />
-                <RowDefinition />
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
             </Grid.RowDefinitions>
-            <TextBlock Grid.Column="0" Grid.Row="0" 
+            <TextBlock Grid.Column="0" Grid.Row="0"
                        Text="{Binding Progress.LatestLog,Mode=OneWay}" VerticalAlignment="Center" />
-            <TextBlock Grid.Column="1" Grid.Row="0" 
-                       Text="{Binding Progress.CurrentProgress,Mode=OneWay}" 
+            <TextBlock Grid.Column="1" Grid.Row="0"
+                       Text="{Binding Progress.CurrentProgress,Mode=OneWay}"
                        VerticalAlignment="Center" />
-            <TextBlock Grid.Column="2" Grid.Row="0" 
-                       Text="/" 
+            <TextBlock Grid.Column="2" Grid.Row="0"
+                       Text="/"
                        VerticalAlignment="Center" />
-            <TextBlock Grid.Column="3" Grid.Row="0" 
-                       Text="{Binding Progress.TotalLength,Mode=OneWay}" 
+            <TextBlock Grid.Column="3" Grid.Row="0"
+                       Text="{Binding Progress.TotalLength,Mode=OneWay}"
                        VerticalAlignment="Center" />
-            <ProgressBar Grid.Column="0" Grid.Row="1" Grid.ColumnSpan="4" 
+            <ProgressBar Grid.Column="0" Grid.Row="1" Grid.ColumnSpan="4"
                          Maximum="{Binding Progress.TotalLength,Mode=OneWay}"
                          Value="{Binding Progress.CurrentProgress,Mode=OneWay}"
-                         ToolTip="{Binding Progress.LatestLog,Mode=OneWay}"/>
+                         ToolTip="{Binding Progress.LatestLog,Mode=OneWay}" />
         </Grid>
     </Grid>
 </Page>

@@ -83,13 +83,13 @@ public partial class DrugViewModel(
 	[RelayCommand]
 	private async Task GetDrugsFromZyfj()
 	{
-		var progress = new Progress<CrawlerProgress?>(p => Progress = p);
-		var        drugList = await drugCrawler.GetListAsync(progress);
+		var progress = new Progress<CrawlerProgress>(p => Progress = p);
+		var drugList = await drugCrawler.GetListAsync(progress);
 
-		Progress              = Progress?.Reset();
-		Progress!.TotalLength = drugList.Count;
-		Progress.IsRunning    = true;
-		Progress              = Progress.AddLog("正在保存数据...");
+		Progress = Progress.Reset();
+		Progress = Progress with { TotalLength = drugList.Count };
+		Progress = Progress with { IsRunning = true };
+		Progress = Progress.AddLog("正在保存数据...");
 		foreach (var drug in drugList)
 		{
 			// 在本地 _drugList 中查找是否存在相同名称的 Drug
@@ -108,15 +108,15 @@ public partial class DrugViewModel(
 				await dataService.InsertDrug(drug);
 			}
 
-			Progress = Progress?.UpdateProgress(Progress.CurrentProgress + 1);
+			Progress = Progress.UpdateProgress(Progress.CurrentProgress + 1);
 			await Task.Delay(1);
 		}
 
-		Progress = Progress?.AddLog("数据保存完成。");
-		Progress = Progress?.AddLog("正在初始化数据...");
+		Progress = Progress.AddLog("数据保存完成。");
+		Progress = Progress.AddLog("正在初始化数据...");
 
 		await InitDataTask();
-		Progress = Progress?.Reset();
+		Progress = Progress.Reset();
 	}
 
 	/// <summary>
@@ -137,5 +137,5 @@ public partial class DrugViewModel(
 	/// <summary>
 	/// 爬虫进度
 	/// </summary>
-	[ObservableProperty] private CrawlerProgress? _progress;
+	[ObservableProperty] private CrawlerProgress _progress = new(0, 0, false);
 }

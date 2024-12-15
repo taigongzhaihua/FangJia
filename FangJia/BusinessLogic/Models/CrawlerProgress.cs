@@ -4,26 +4,18 @@ namespace FangJia.BusinessLogic.Models;
 
 [SuppressMessage("ReSharper", "UnusedAutoPropertyAccessor.Global")]
 [SuppressMessage("ReSharper", "CollectionNeverQueried.Global")]
-public class CrawlerProgress
+public struct CrawlerProgress(int totalLength, int currentProgress, bool isRunning) : IEquatable<CrawlerProgress>
 {
-	public int          TotalLength     { get; set; }         // 总长度
-	public int          CurrentProgress { get; private set; } // 当前进度
-	public List<string> LogList         { get; }              // 日志列表
-	public string       LatestLog       { get; set; }         // 最新日志
-	public bool         IsRunning       { get; set; }         // 是否运行中
+	public int          TotalLength     { get; set; } = totalLength;     // 总长度
+	public int          CurrentProgress { get; set; } = currentProgress; // 当前进度
+	public List<string> LogList         { get; }      = [];              // 日志列表
+	public string       LatestLog       { get; set; } = string.Empty;    // 最新日志
+	public bool         IsRunning       { get; set; } = isRunning;       // 是否运行中
 
 	// 构造函数
-	public CrawlerProgress(int totalLength, int currentProgress, bool isRunning)
-	{
-		TotalLength     = totalLength;
-		CurrentProgress = currentProgress;
-		LogList         = [];
-		LatestLog       = string.Empty;
-		IsRunning       = isRunning;
-	}
-	
+
 	// 更新最新日志
-	public CrawlerProgress? AddLog(string log)
+	public CrawlerProgress AddLog(string log)
 	{
 		LogList.Add(log);
 		LatestLog = log;
@@ -31,7 +23,7 @@ public class CrawlerProgress
 	}
 
 	// 更新进度
-	public CrawlerProgress? UpdateProgress(int newProgress)
+	public CrawlerProgress UpdateProgress(int newProgress)
 	{
 		if (newProgress > TotalLength)
 		{
@@ -43,7 +35,7 @@ public class CrawlerProgress
 	}
 
 	// 重置进度
-	public CrawlerProgress? Reset()
+	public CrawlerProgress Reset()
 	{
 		CurrentProgress = 0;
 		TotalLength     = 0;
@@ -82,5 +74,24 @@ public class CrawlerProgress
 		}
 
 		return hashCode.ToHashCode();
+	}
+
+	public static bool operator ==(CrawlerProgress left, CrawlerProgress right)
+	{
+		return left.Equals(right);
+	}
+
+	public static bool operator !=(CrawlerProgress left, CrawlerProgress right)
+	{
+		return !(left == right);
+	}
+
+	public bool Equals(CrawlerProgress other)
+	{
+		return TotalLength     == other.TotalLength     &&
+		       CurrentProgress == other.CurrentProgress &&
+		       IsRunning       == other.IsRunning       &&
+		       LatestLog       == other.LatestLog       &&
+		       LogList.Equals(other.LogList) ;
 	}
 }

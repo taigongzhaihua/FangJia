@@ -30,11 +30,11 @@ public partial class WindowBase : Window
 		/// 默认圆角设置，取决于系统设置
 		/// </summary>
 		DWMWCP_DEFAULT = 0,
-		
+
 		/// <summary>
 		/// 使用圆角
 		/// </summary>
-		DWMWCP_ROUND = 2 ,
+		DWMWCP_ROUND = 2,
 
 		/// <summary>
 		/// 使用小圆角
@@ -50,8 +50,10 @@ public partial class WindowBase : Window
 	/// <param name="attrValue">属性值</param>
 	/// <param name="attrSize">属性大小</param>
 	[LibraryImport(libraryName: "dwmapi.dll", SetLastError = true)]
-	private static partial void DwmSetWindowAttribute(IntPtr hwnd, int attr, ref DwmWindowCornerPreference attrValue,
-	                                                  int    attrSize);
+	private static partial void DwmSetWindowAttribute(IntPtr                        hwnd,
+	                                                  int                           attr,
+	                                                  ref DwmWindowCornerPreference attrValue,
+	                                                  int                           attrSize);
 
 	/// <summary>
 	/// BaseWindow 构造函数，初始化窗口组件并设置自定义样式
@@ -76,7 +78,7 @@ public partial class WindowBase : Window
 		                   {
 			                   ResizeBorderThickness = new Thickness(uniformLength: 5), // 设置窗口的可调整边框厚度
 			                   CaptionHeight         = 0,                               // 设置标题栏的高度为 0，隐藏默认标题栏
-							   CornerRadius          = new CornerRadius(15)             // 设置窗口的圆角半径
+			                   CornerRadius          = new CornerRadius(15)             // 设置窗口的圆角半径
 		                   };
 		WindowChrome.SetWindowChrome(window: this, chrome: windowChrome); // 应用自定义的 WindowChrome 到窗口
 	}

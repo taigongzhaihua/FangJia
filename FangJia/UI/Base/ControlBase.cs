@@ -10,7 +10,7 @@ public class ControlBase : UserControl, INotifyPropertyChanged
     /// <summary>
     /// NLog 日志记录器，用于记录调试信息。
     /// </summary>
-    protected static readonly Logger Logger = LogManager.GetCurrentClassLogger();
+    private static readonly Logger Logger = LogManager.GetCurrentClassLogger();
 
     /// <summary>
     /// 属性变化通知事件，当绑定的属性值发生变化时触发。

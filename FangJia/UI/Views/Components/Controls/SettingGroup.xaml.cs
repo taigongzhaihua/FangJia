@@ -10,40 +10,34 @@ namespace FangJia.UI.Views.Components.Controls;
 /// </summary>
 public partial class SettingGroup
 {
-    public SettingGroup()
-    {
-        InitializeComponent();
-        GroupBox.SetBinding(HeaderedContentControl.HeaderProperty, new Binding(nameof(Title)) { Source = this });
-        Items.SetBinding(ItemsControl.ItemsSourceProperty, new Binding(nameof(ItemsSource)) { Source = this });
-    }
+	public SettingGroup()
+	{
+		InitializeComponent();
+		GroupBox.SetBinding(HeaderedContentControl.HeaderProperty, new Binding(nameof(Title)) { Source = this });
+		Items.SetBinding(ItemsControl.ItemsSourceProperty, new Binding(nameof(ItemsSource)) { Source   = this });
+	}
 
-    public static readonly DependencyProperty TitleProperty =
-        DependencyProperty.Register(
-            nameof(Title),
-            typeof(string),
-            typeof(SettingGroup),
-            new FrameworkPropertyMetadata(
-                default(string)
-                )
-            );
-    public string Title
-    {
-        get => (string)GetValue(TitleProperty);
-        set => SetValue(TitleProperty, value);
-    }
+	public static readonly DependencyProperty TitleProperty =
+		DependencyProperty.Register(nameof(Title),
+		                            typeof(string),
+		                            typeof(SettingGroup),
+		                            new FrameworkPropertyMetadata(default(string)));
 
-    public static readonly DependencyProperty ItemsSourceProperty =
-        DependencyProperty.Register(
-            nameof(ItemsSource),
-            typeof(List<Item>),
-            typeof(SettingGroup),
-            new FrameworkPropertyMetadata(
-                new List<Item>()
-                )
-            );
-    public List<Item> ItemsSource
-    {
-        get => (List<Item>)GetValue(ItemsSourceProperty);
-        set => SetValue(ItemsSourceProperty, value);
-    }
+	public string Title
+	{
+		get => (string)GetValue(TitleProperty);
+		set => SetValue(TitleProperty, value);
+	}
+
+	public static readonly DependencyProperty ItemsSourceProperty =
+		DependencyProperty.Register(nameof(ItemsSource),
+		                            typeof(List<Item>),
+		                            typeof(SettingGroup),
+		                            new FrameworkPropertyMetadata(new List<Item>()));
+
+	public List<Item> ItemsSource
+	{
+		get => (List<Item>)GetValue(ItemsSourceProperty);
+		set => SetValue(ItemsSourceProperty, value);
+	}
 }
