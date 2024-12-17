@@ -225,6 +225,74 @@
             </Setter.Value>
         </Setter>
     </Style>
+    <Style TargetType="Button">
+        <Setter Property="Background" Value="{DynamicResource ButtonBgBrush}" />
+        <Setter Property="Foreground" Value="{DynamicResource ButtonFgBrush}" />
+        <Setter Property="FontSize" Value="11pt" />
+        <Setter Property="FontFamily" Value="微软雅黑" />
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="Button">
+                    <Grid>
+                        <Border Background="{TemplateBinding Background}"
+                                Width="{TemplateBinding Width}"
+                                Height="{TemplateBinding Height}"
+                                CornerRadius="4">
+                            <Border x:Name="border"
+                                    Background="Transparent" Padding="5"
+                                    CornerRadius="4"
+                                    Width="{TemplateBinding Width}"
+                                    Height="{TemplateBinding Height}"
+                                    >
+                                <ContentPresenter HorizontalAlignment="Center"
+                                                  VerticalAlignment="Center" />
+                            </Border>
+                        </Border>
+                        <!-- 定义视觉状态 -->
+                        <VisualStateManager.VisualStateGroups>
+                            <VisualStateGroup x:Name="CommonStates">
+                                <VisualState x:Name="Normal">
+                                    <Storyboard>
+                                        <ColorAnimation Storyboard.TargetName="border"
+                                                        Storyboard.TargetProperty="(Border.Background).(SolidColorBrush.Color)"
+                                                        Duration="0:0:0.3"
+                                                        To="Transparent" />
+                                    </Storyboard>
+                                </VisualState>
 
+                                <VisualState x:Name="MouseOver">
+                                    <Storyboard>
+                                        <!-- 这里直接将背景设为更深的颜色 -->
+                                        <ColorAnimation Storyboard.TargetName="border"
+                                                        Storyboard.TargetProperty="(Border.Background).(SolidColorBrush.Color)"
+                                                        Duration="0:0:0.3"
+                                                        To="{StaticResource ButtonHoverMask}" />
+                                    </Storyboard>
+                                </VisualState>
+                                <VisualState x:Name="Pressed">
+                                    <Storyboard>
+                                        <!-- 这里直接将背景设为更深的颜色 -->
+                                        <ColorAnimation Storyboard.TargetName="border"
+                                                        Storyboard.TargetProperty="(Border.Background).(SolidColorBrush.Color)"
+                                                        Duration="0:0:0.3"
+                                                        To="{StaticResource ButtonPressedMask}" />
+                                    </Storyboard>
+                                </VisualState>
+                                <VisualState x:Name="Disabled">
+                                    <Storyboard>
+                                        <!-- 这里直接将背景设为更深的颜色 -->
+                                        <ColorAnimation Storyboard.TargetName="border"
+                                                        Storyboard.TargetProperty="(Border.Background).(SolidColorBrush.Color)"
+                                                        Duration="0:0:0.3"
+                                                        To="DarkGray" />
+                                    </Storyboard>
+                                </VisualState>
+                            </VisualStateGroup>
+                        </VisualStateManager.VisualStateGroups>
+                    </Grid>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
 
 </ResourceDictionary>

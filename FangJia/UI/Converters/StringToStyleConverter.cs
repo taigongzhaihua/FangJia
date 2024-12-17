@@ -11,7 +11,7 @@ public class StringToStyleConverter : IValueConverter
         // 确保 value 是 string 类型，并且不为空
         if (value is string styleKey && !string.IsNullOrEmpty(styleKey))
         {
-            // 从资源字典中获取对应的 Style
+            // 从资源字典中获取对应的 ControlStyle
             return (Application.Current.Resources[styleKey] as Style)!;
         }
         return null!;

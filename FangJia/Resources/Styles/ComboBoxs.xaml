@@ -1,0 +1,169 @@
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    xmlns:converters="clr-namespace:FangJia.UI.Converters">
+    <Style TargetType="ComboBox" x:Key="DefaultComboBox">
+        <Setter Property="Background" Value="{StaticResource ToggleButtonBgBrush}" />
+        <Setter Property="BorderThickness" Value="0" />
+        <Setter Property="Foreground" Value="{StaticResource ToggleButtonHoverFgBrush}" />
+        <Setter Property="FontSize" Value="14" />
+        <Setter Property="Padding" Value="5,0,0,0" />
+        <Setter Property="Height" Value="30" />
+        <Setter Property="MinWidth" Value="100" />
+        <Setter Property="MinHeight" Value="30" />
+        <Setter Property="VerticalContentAlignment" Value="Center" />
+        <Setter Property="HorizontalContentAlignment" Value="Left" />
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="ComboBox">
+                    <Grid>
+                        <ToggleButton x:Name="ToggleButton"
+                                      BorderBrush="{TemplateBinding BorderBrush}"
+                                      BorderThickness="{TemplateBinding BorderThickness}"
+                                      Background="{TemplateBinding Background}"
+                                      Foreground="{TemplateBinding Foreground}"
+                                      Padding="{TemplateBinding Padding}"
+                                      Height="{TemplateBinding Height}"
+                                      MinWidth="{TemplateBinding MinWidth}"
+                                      MinHeight="{TemplateBinding MinHeight}"
+                                      VerticalContentAlignment="{TemplateBinding VerticalContentAlignment}"
+                                      HorizontalContentAlignment="{TemplateBinding HorizontalContentAlignment}"
+                                      Focusable="False"
+                                      IsChecked="{Binding IsDropDownOpen, Mode=TwoWay, RelativeSource={RelativeSource TemplatedParent}}" />
+                        <ContentPresenter Name="ContentSite"
+                                          IsHitTestVisible="False"
+                                          Content="{TemplateBinding SelectionBoxItem}"
+                                          ContentTemplate="{TemplateBinding SelectionBoxItemTemplate}"
+                                          ContentTemplateSelector="{TemplateBinding ItemTemplateSelector}"
+                                          Margin="2,5"
+                                          VerticalAlignment="Center"
+                                          HorizontalAlignment="Center"/>
+                        <Popup x:Name="Popup"
+                               Placement="Right"  Margin="15"
+                               IsOpen="{TemplateBinding IsDropDownOpen}"
+                               AllowsTransparency="True"
+                               Focusable="False"
+                               PopupAnimation="Slide">
+                            <Border x:Name="DropDownBorder" CornerRadius="5"
+                                    Background="{StaticResource WindowBgBrush}"
+                                    BorderBrush="{StaticResource TransparentButtonBorderBrush}"
+                                    BorderThickness="1.5">
+                                <ScrollViewer x:Name="DropDownScrollViewer">
+                                    <ItemsPresenter />
+                                </ScrollViewer>
+                            </Border>
+                        </Popup>
+                    </Grid>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+    <converters:StringToBrushConverter x:Key="StringToBrushConverter" />
+    <Style TargetType="ComboBox" x:Key="ColorComboBox">
+        <Setter Property="Background" Value="{StaticResource ToggleButtonBgBrush}" />
+        <Setter Property="BorderThickness" Value="0" />
+        <Setter Property="Foreground" Value="{StaticResource ToggleButtonFgBrush}" />
+        <Setter Property="FontSize" Value="14" />
+        <Setter Property="Padding" Value="5,0,0,0" />
+        <Setter Property="Height" Value="30" />
+        <Setter Property="MinWidth" Value="100" />
+        <Setter Property="MinHeight" Value="30" />
+        <Setter Property="VerticalContentAlignment" Value="Center" />
+        <Setter Property="HorizontalContentAlignment" Value="Left" />
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="ComboBox">
+                    <Grid>
+                        <ToggleButton x:Name="ToggleButton"
+                                      BorderBrush="{TemplateBinding BorderBrush}"
+                                      BorderThickness="{TemplateBinding BorderThickness}"
+                                      Background="{TemplateBinding Background}"
+                                      Foreground="{Binding Foreground,Mode=TwoWay,RelativeSource={RelativeSource TemplatedParent}}"
+                                      Padding="{TemplateBinding Padding}"
+                                      Height="{TemplateBinding Height}"
+                                      MinWidth="{TemplateBinding MinWidth}"
+                                      MinHeight="{TemplateBinding MinHeight}"
+                                      VerticalContentAlignment="{TemplateBinding VerticalContentAlignment}"
+                                      HorizontalContentAlignment="{TemplateBinding HorizontalContentAlignment}"
+                                      Focusable="False"
+                                      IsChecked="{Binding IsDropDownOpen, Mode=TwoWay, RelativeSource={RelativeSource TemplatedParent}}" />
+
+                        <ContentPresenter Name="ContentSite"
+                                          IsHitTestVisible="False"
+                                          Content="{TemplateBinding SelectionBoxItem}"
+                                          ContentTemplate="{TemplateBinding SelectionBoxItemTemplate}"
+                                          ContentTemplateSelector="{TemplateBinding ItemTemplateSelector}"
+                                          VerticalAlignment="Center"
+                                          HorizontalAlignment="Left"/>
+
+                        <Popup x:Name="Popup"
+                               Placement="Right"
+                               IsOpen="{TemplateBinding IsDropDownOpen}"
+                               AllowsTransparency="True"
+                               Focusable="False"
+                               PopupAnimation="Slide">
+                            <Border x:Name="DropDownBorder" CornerRadius="5" Margin="15"
+                                    Background="{StaticResource ListItemBgBrush}"
+                                    BorderBrush="{StaticResource TransparentButtonBorderBrush}"
+                                    BorderThickness="1.5">
+                                <ScrollViewer x:Name="DropDownScrollViewer">
+                                    <ItemsPresenter />
+                                </ScrollViewer>
+                            </Border>
+                        </Popup>
+                    </Grid>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+        <Setter Property="ItemTemplate">
+            <Setter.Value>
+                <ItemContainerTemplate>
+                    <Grid Height="19" Margin="0,2,10,2">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="Auto" />
+                            <ColumnDefinition Width="*" />
+                        </Grid.ColumnDefinitions>
+                        <Rectangle Grid.Column="0" Height="15" Width="15" Margin="10,0"
+                                   Fill="{Binding Converter={StaticResource StringToBrushConverter}}" />
+                        <TextBlock Grid.Column="1" Text="{Binding}" VerticalAlignment="Center"  HorizontalAlignment="Center"
+                                   />
+                    </Grid>
+                </ItemContainerTemplate>
+            </Setter.Value>
+        </Setter>
+        
+    </Style>
+    <Style TargetType="ComboBoxItem">
+        <Setter Property="Foreground" Value="{StaticResource ListItemFgBrush}"/>
+        <Setter Property="Margin" Value="5"></Setter>
+        <!-- 基础模板 -->
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="ComboBoxItem">
+                    <Border x:Name="border"
+                            Background="{StaticResource ListItemBgBrush}"
+                            Padding="4"
+                            CornerRadius="4">
+                        <ContentPresenter TextBlock.Foreground="{TemplateBinding Foreground}"/>
+                    </Border>
+                    <!-- 触发器 -->
+                    <ControlTemplate.Triggers>
+                        <!-- 鼠标悬停 -->
+                        <Trigger Property="IsMouseOver" Value="True">
+                            <Setter TargetName="border" Property="Background" Value="{StaticResource ListItemHoverBgBrush}" />
+                             <Setter Property="Foreground" Value="{StaticResource ListItemHoverFgBrush}" />
+                        </Trigger>
+                        <!-- 选中状态 -->
+                        <Trigger Property="IsSelected" Value="True">
+                            <Setter TargetName="border" Property="Background" Value="{StaticResource ListItemSelectedBgBrush}" />
+                            <Setter Property="Foreground" Value="{StaticResource ListItemSelectedFgBrush}" />
+                        </Trigger>
+                        <!-- 禁用状态 -->
+                        <Trigger Property="IsEnabled" Value="False">
+                            <Setter TargetName="border" Property="Opacity" Value="0.5" />
+                        </Trigger>
+                    </ControlTemplate.Triggers>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+</ResourceDictionary>

@@ -3,6 +3,7 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Controls.Primitives;
 using System.Windows.Data;
+using FangJia.UI.Converters;
 
 namespace FangJia.UI.Views.Components.Controls;
 
@@ -48,6 +49,12 @@ public partial class SettingItem
 				               };
 				comboBox.SetBinding(ItemsControl.ItemsSourceProperty, new Binding(nameof(Options)) { Source = this });
 				comboBox.SetBinding(Selector.SelectedItemProperty,    new Binding(nameof(Value)) { Source   = this });
+				comboBox.SetBinding(StyleProperty,
+				                    new Binding(nameof(ControlStyle))
+				                    {
+					                    Source    = this,
+					                    Converter = new StringToStyleConverter()
+				                    });
 				comboBox.SelectionChanged +=
 					(_, _) =>
 					{
@@ -171,5 +178,17 @@ public partial class SettingItem
 	{
 		get => (string)GetValue(ValueTypeProperty);
 		set => SetValue(ValueTypeProperty, value);
+	}
+
+	public static readonly DependencyProperty ControlStyleProperty =
+		DependencyProperty.Register(nameof(ControlStyle),
+		                            typeof(string),
+		                            typeof(SettingItem),
+		                            new FrameworkPropertyMetadata(default(string)));
+
+	public string ControlStyle
+	{
+		get => (string)GetValue(ControlStyleProperty);
+		set => SetValue(ControlStyleProperty, value);
 	}
 }

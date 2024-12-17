@@ -19,6 +19,7 @@
                 <DataTemplate>
                     <controls1:SettingItem Title="{Binding Name,Mode=OneWay}"
                                           ControlType="{Binding ControlType,Mode=OneWay}"
+                                          ControlStyle="{Binding ControlStyle,Mode=OneWay}"
                                           Tip="{Binding Tip,Mode=OneWay}"
                                           Options="{Binding Options,Mode=OneWay}"
                                           Key="{Binding Key,Mode=OneWay}"
