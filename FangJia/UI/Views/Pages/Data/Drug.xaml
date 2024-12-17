@@ -16,7 +16,13 @@
         <converters:ByteToImageConverter x:Key="ByteToImageConverter" />
         <BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter" />
     </Page.Resources>
-    <Grid Background="{DynamicResource WeakAccentBackgroundBrush}">
+    <Grid >
+        <Grid.Background>
+            <LinearGradientBrush StartPoint="0,0" EndPoint="0,0.1">
+                <GradientStop Color="{StaticResource WindowBg}" Offset="0" />
+                <GradientStop Color="{StaticResource LayoutBg}" Offset="1" />
+            </LinearGradientBrush>
+        </Grid.Background>
         <Grid.RowDefinitions>
             <RowDefinition Height="*" />
             <RowDefinition Height="Auto" />
@@ -31,8 +37,9 @@
             <ListView
                 ItemsSource="{Binding ShowingDrugs}"
                 SelectedItem="{Binding SelectedDrug}"
-                BorderThickness="0" FontSize="12" Foreground="{DynamicResource ForegroundBrush}"
-                Background="Transparent">
+                BorderThickness="0" FontSize="12"
+                Background="Transparent"
+                Style="{DynamicResource CustomListBoxStyle}">
                 <ListView.ItemsPanel>
                     <ItemsPanelTemplate>
                         <VirtualizingStackPanel Orientation="Vertical" HorizontalAlignment="Stretch" />
@@ -157,16 +164,14 @@
             </ScrollViewer>
         </GroupBox>
         <Button Grid.Row="1" Grid.Column="0" Content="爬虫"  Margin="10"
-                Click="ButtonBase_OnClick">
+                Click="ButtonBase_OnClick"
+                HorizontalAlignment="Center" VerticalAlignment="Center">
             <Button.ContextMenu>
                 <ContextMenu x:Name="CrawlerMenu">
                     <MenuItem Header="中医方剂网" Command="{Binding GetDrugsFromZyfjCommand}" />
                 </ContextMenu>
             </Button.ContextMenu>
         </Button>
-        <!-- <Button Grid.Row="1" Grid.Column="0" Content="从中医方剂网导入数据" Command="{Binding GetDrugsFromZyfjCommand}" -->
-        <!--          Margin="10" -->
-        <!--         HorizontalAlignment="Center" VerticalAlignment="Center" /> -->
         <Grid Grid.Column="1" Grid.Row="1" Margin="10"
               Visibility="{Binding Progress.IsRunning,Converter={StaticResource BooleanToVisibilityConverter}}">
             <Grid.ColumnDefinitions>
@@ -194,9 +199,9 @@
                          Maximum="{Binding Progress.TotalLength,Mode=OneWay}"
                          Value="{Binding Progress.CurrentProgress,Mode=OneWay}"
                          ToolTip="{Binding Progress.LatestLog,Mode=OneWay}" 
-                         Background="{DynamicResource WeakAccentBackgroundBrush}"
-                         Foreground="{DynamicResource AccentBackgroundBrush}"
-                         BorderBrush="{DynamicResource AccentHighlightBrush}"
+                         Background="{StaticResource WindowBgBrush}"
+                         Foreground="{StaticResource AccentBrush}"
+                         BorderBrush="{StaticResource AccentPressedBgBrush}"
                          BorderThickness="1" Cursor="Arrow"
                          Height="10"/>
         </Grid>

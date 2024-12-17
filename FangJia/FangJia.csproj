@@ -41,17 +41,56 @@
 		<EmbeddedResource Include="Resources\Configs\SettingConfig.toml">
 			<CopyToOutputDirectory>Always</CopyToOutputDirectory>
 		</EmbeddedResource>
-		<EmbeddedResource Include="Resources\Configs\Themes\darkTheme.toml">
-			<CopyToOutputDirectory>Always</CopyToOutputDirectory>
+		<None Remove="Resources\Configs\Themes\Blue.toml" />
+		<EmbeddedResource Include="Resources\Configs\Themes\Blue.toml">
+		  <CopyToOutputDirectory>Always</CopyToOutputDirectory>
 		</EmbeddedResource>
-		<EmbeddedResource Include="Resources\Configs\Themes\lightTheme.toml">
-			<CopyToOutputDirectory>Always</CopyToOutputDirectory>
+		<None Remove="Resources\Configs\Themes\Black.toml" />
+		<EmbeddedResource Include="Resources\Configs\Themes\Black.toml">
+		  <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+		</EmbeddedResource>
+		<None Remove="Resources\Configs\Themes\Teal.toml" />
+		<EmbeddedResource Include="Resources\Configs\Themes\Teal.toml">
+		  <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+		</EmbeddedResource>
+		<None Remove="Resources\Configs\Themes\Khaki.toml" />
+		<EmbeddedResource Include="Resources\Configs\Themes\Khaki.toml">
+		  <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+		</EmbeddedResource>
+		<None Remove="Resources\Configs\Themes\SkyBlue" />
+		<EmbeddedResource Include="Resources\Configs\Themes\SkyBlue.toml">
+		  <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+		</EmbeddedResource>
+		<None Remove="Resources\Configs\Themes\Red.toml" />
+		<EmbeddedResource Include="Resources\Configs\Themes\Red.toml">
+		  <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+		</EmbeddedResource>
+		<None Remove="Resources\Configs\Themes\Purple.toml" />
+		<EmbeddedResource Include="Resources\Configs\Themes\Purple.toml">
+		  <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+		</EmbeddedResource>
+		<None Remove="Resources\Configs\Themes\Green.toml" />
+		<EmbeddedResource Include="Resources\Configs\Themes\Green.toml">
+		  <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+		</EmbeddedResource>
+		<None Remove="Resources\Configs\Themes\Yellow.toml" />
+		<EmbeddedResource Include="Resources\Configs\Themes\Yellow.toml">
+		  <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+		</EmbeddedResource>
+		<None Remove="Resources\Configs\Themes\IndianRed.toml" />
+		<EmbeddedResource Include="Resources\Configs\Themes\IndianRed.toml">
+		  <CopyToOutputDirectory>Always</CopyToOutputDirectory>
 		</EmbeddedResource>
 	</ItemGroup>
 	<ItemGroup>
 		<Resource Include="Resources\Fonts\iconfont.ttf">
 			<CopyToOutputDirectory>Always</CopyToOutputDirectory>
 		</Resource>
+		<None Remove="Resources\Configs\Themes\Pink.Toml" />
+		<EmbeddedResource Include="Resources\Configs\Themes\Pink.toml">
+		  <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+		</EmbeddedResource>
+		<None Remove="Resources\Configs\Themes\Beige.toml" />
 	</ItemGroup>
 	<ItemGroup>
 		<Compile Update="Properties\Resources.Designer.cs">
@@ -79,6 +118,12 @@
 			<Generator>SettingsSingleFileGenerator</Generator>
 			<LastGenOutput>Settings.Designer.cs</LastGenOutput>
 		</None>
+	</ItemGroup>
+	<ItemGroup>
+	  <None Remove="Resources\Configs\Themes\Orange.toml" />
+	  <EmbeddedResource Include="Resources\Configs\Themes\Orange.toml">
+	    <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+	  </EmbeddedResource>
 	</ItemGroup>
 	<ProjectExtensions>
 		<VisualStudio>

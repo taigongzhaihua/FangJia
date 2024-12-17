@@ -1,23 +1,33 @@
 ﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
     <Style TargetType="TextBlock" x:Key="DefaultText">
-        <Setter Property="Foreground" Value="{StaticResource ForegroundBrush}"></Setter>
+        <Setter Property="Foreground" Value="{StaticResource BodyTextBrush}" />
+    </Style>
+    <Style TargetType="TextBlock" x:Key="PrimaryTitleText">
+        <Setter Property="Foreground" Value="{StaticResource PrimaryTitleBrush}" />
+    </Style>
+    <Style TargetType="TextBlock" x:Key="SecondaryTitleText">
+        <Setter Property="Foreground" Value="{StaticResource SecondaryTitleBrush}" />
+    </Style>
+    <Style TargetType="TextBlock" x:Key="TertiaryTitleText">
+        <Setter Property="Foreground" Value="{StaticResource TertiaryTitleBrush}" />
     </Style>
     <Style TargetType="TextBlock" x:Key="AlertText">
-        <Setter Property="Foreground" Value="{StaticResource AlertBrush}"></Setter>
+        <Setter Property="Foreground" Value="{StaticResource InfoBrush}" />
     </Style>
     <Style TargetType="TextBlock" x:Key="WarningText">
-        <Setter Property="Foreground" Value="{StaticResource WarningBrush}"></Setter>
+        <Setter Property="Foreground" Value="{StaticResource WarningBrush}" />
     </Style>
     <Style TargetType="TextBlock" x:Key="DangerText">
-        <Setter Property="Foreground" Value="{StaticResource DangerBrush}"></Setter>
+        <Setter Property="Foreground" Value="{StaticResource ErrorBrush}" />
     </Style>
-
     <Style TargetType="TextBlock" x:Key="WeakAccentText">
-        <Setter Property="Foreground" Value="{StaticResource WeakAccentForegroundBrush}"></Setter>
+        <Setter Property="Foreground" Value="{StaticResource TransparentButtonDisabledFgBrush}" />
     </Style>
     <Style TargetType="TextBlock" x:Key="AccentText">
-        <Setter Property="Foreground" Value="{StaticResource AccentForegroundBrush}"></Setter>
+        <Setter Property="Foreground" Value="{StaticResource AccentFgBrush}" />
     </Style>
-
+    <Style TargetType="TextBlock" x:Key="AccentTitleText">
+        <Setter Property="Foreground" Value="{StaticResource AccentTitleBrush}" />
+    </Style>
 </ResourceDictionary>

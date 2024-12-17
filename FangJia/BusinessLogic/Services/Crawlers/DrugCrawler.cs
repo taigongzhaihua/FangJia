@@ -60,8 +60,7 @@ public class DrugCrawler : ICrawler<Drug>
 				                                var pageNumber = url.Split('/').Last();
 				                                var log        = $"正在获取第 {pageNumber} 页: {url}";
 				                                Logger.Info(log);
-				                                _progressReport.AddLog(log);
-				                                _progress.Report(_progressReport);
+				                                _progress.Report(_progressReport.AddLog(log));
 
 				                                // 调用 GetLinksAsync 方法获取该页面上所有药品的链接
 				                                return await GetLinksAsync(url);
@@ -76,37 +75,39 @@ public class DrugCrawler : ICrawler<Drug>
 			_progressReport.UpdateProgress(21);
 			_progress.Report(_progressReport);
 
-			// 使用 SemaphoreSlim 限制并发线程数为30
-			var semaphore = new SemaphoreSlim(30);
+			// 使用 SemaphoreSlim 限制并发线程数为20
+			using var semaphore = new SemaphoreSlim(20);
 
 			// 并发获取每个药品的详细信息
-			var drugTasks = links.Select(async link =>
-			                             {
-				                             await semaphore.WaitAsync(); // 等待获取信号量
-				                             try
-				                             {
-					                             var log = $"正在获取药品详细信息: {link}";
-					                             Logger.Info(log);
-					                             _progressReport.AddLog(log);
-					                             _progress.Report(_progressReport);
+			var drugTasks =
+				links.Select(async link =>
+				             {
+					             await semaphore.WaitAsync(); // 等待获取信号量
+					             try
+					             {
+						             var log = $"正在获取药品详细信息: {link}";
+						             Logger.Info(log);
+						             _progressReport.AddLog(log);
+						             _progress.Report(_progressReport);
 
-					                             var drug = await GetDrugDetailsAsync(link);
+						             var drug = await GetDrugDetailsAsync(link);
 
-					                             // 如果药品详细信息获取成功，将其添加到药品列表中
-					                             if (drug != null)
-					                             {
-						                             drugs.Add(drug);
-					                             }
+						             // 如果药品详细信息获取成功，将其添加到药品列表中
+						             if (drug != null)
+						             {
+							             drugs.Add(drug);
+						             }
 
-					                             _progressReport.UpdateProgress(_progressReport.CurrentProgress + 1);
-					                             _progressReport.AddLog($"获取 {drug?.Name ?? "未知"} 信息完毕");
-					                             _progress.Report(_progressReport);
-				                             }
-				                             finally
-				                             {
-					                             semaphore.Release(); // 释放信号量
-				                             }
-			                             }).ToList();
+						             _progress.Report
+							             (_progressReport
+							              .UpdateProgress(_progressReport.CurrentProgress + 1)
+							              .AddLog($"获取 {drug?.Name ?? "未知"} 信息完毕"));
+					             }
+					             finally
+					             {
+						             semaphore.Release(); // 释放信号量
+					             }
+				             }).ToList();
 
 			// 等待所有药品详细信息获取任务完成
 			await Task.WhenAll(drugTasks);
@@ -123,6 +124,7 @@ public class DrugCrawler : ICrawler<Drug>
 			Logger.Error($"爬取过程中发生错误: {ex.Message}");
 		}
 
+		await Task.Delay(500);
 		// 返回药品列表
 		return drugs.ToList();
 	}

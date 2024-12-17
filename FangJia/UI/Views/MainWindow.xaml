@@ -22,7 +22,8 @@
         </Grid.ColumnDefinitions>
 
         <!-- 标题栏区域 -->
-        <Grid Grid.Column="1" Grid.Row="0" Height="60" VerticalAlignment="Center">
+        <Grid Grid.Column="1" Grid.Row="0" Height="60" VerticalAlignment="Center"
+              Background="Transparent">
             <Grid.RowDefinitions>
                 <RowDefinition Height="Auto" />
                 <RowDefinition Height="15" />
@@ -64,7 +65,7 @@
             <TextBlock Grid.Column="2" Grid.Row="0" Grid.RowSpan="2"
                        Text="{Binding PageTitle}"
                        VerticalAlignment="Center"
-                       Style="{DynamicResource DefaultText}"
+                       Style="{DynamicResource PrimaryTitleText}"
                        Margin="30,0"
                        FontSize="20" FontWeight="Medium" />
 

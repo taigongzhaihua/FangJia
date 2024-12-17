@@ -15,7 +15,8 @@ public partial class Formulas
 	{
 		InitializeComponent();
 		var viewModel = ServiceLocator.GetService<FormulasViewModel>();
-		DataContext = viewModel;
+		DataContext              = viewModel;
+		CrawlerMenu.DataContext = viewModel;
 		if (viewModel.Categories.Count > 0) return;
 		Loaded += async (_, _) => { await viewModel.InitDataTask(); };
 	}
@@ -43,5 +44,11 @@ public partial class Formulas
 			SaveButton.IsEnabled = true;
 		else
 			SaveButton.IsEnabled = false;
+	}
+
+	private void ButtonBase_OnClick(object sender, RoutedEventArgs e)
+	{
+		if (sender is Button { ContextMenu: not null } button)
+			button.ContextMenu.IsOpen = !button.ContextMenu.IsOpen;
 	}
 }

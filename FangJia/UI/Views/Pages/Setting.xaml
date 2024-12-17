@@ -13,7 +13,13 @@
         <pages:SettingViewModel/>
     </Page.DataContext>
     <Grid>
-        <ScrollViewer VerticalScrollBarVisibility="Auto" Background="{DynamicResource WeakAccentBackgroundBrush}">
+        <Grid.Background>
+            <LinearGradientBrush StartPoint="0,0" EndPoint="0,0.5">
+                <GradientStop Color="{StaticResource WindowBg}" Offset="0" />
+                <GradientStop Color="{StaticResource LayoutBg}" Offset="1" />
+            </LinearGradientBrush>
+        </Grid.Background>
+        <ScrollViewer VerticalScrollBarVisibility="Auto" >
             <ItemsControl ItemsSource="{Binding Groups,Mode=TwoWay}"
                           Margin="20"
                           x:Name="ItemsControl">

@@ -1,50 +1,66 @@
-﻿// 皮肤配置类，存储与应用程序皮肤相关的颜色信息
+﻿// ReSharper disable UnusedAutoPropertyAccessor.Global
 
 using Tomlyn.Model;
-// ReSharper disable UnusedAutoPropertyAccessor.Global
 
 namespace FangJia.BusinessLogic.Models.Config;
 
-public class SkinConfig
+public class SkinConfig(TomlTable value)
 {
-	public string? BackgroundColor                { get; set; } // 背景颜色
-	public string? ForegroundColor                { get; set; } // 前景颜色（通常是文本颜色）
-	public string? AccentBackgroundColor          { get; set; } // 强调背景颜色，通常用于按钮、菜单或重要元素
-	public string? AccentForegroundColor          { get; set; } // 强调前景颜色，通常用于按钮上的文本或图标
-	public string? HoverOverlayColor              { get; set; } // 悬停时的叠加颜色，用于鼠标悬停的状态
-	public string? PressedOverlayColor            { get; set; } // 按钮或元素按下时的叠加颜色
-	public string? AccentOverlayColor             { get; set; } // 强调叠加颜色，通常用于高亮显示
-	public string? SwitchOnColor                  { get; set; } // 开关开启时的颜色
-	public string? SwitchOffColor                 { get; set; } // 开关关闭时的颜色
-	public string? ShadowColor                    { get; set; } // 阴影颜色，用于创造深度效果
-	public string? WeakAccentBackgroundColor      { get; set; } // 弱强调背景色，通常用于非关键元素的背景颜色
-	public string? WeakAccentForegroundColor      { get; set; } // 弱强调前景色，通常用于非关键元素的文本或图标颜色
-	public string? AlertColor                     { get; set; } // 提醒色，通常用于标示警告或提示信息的颜色
-	public string? WarningColor                   { get; set; } // 警示色，通常用于显示需要引起注意的重要信息的颜色
-	public string? DangerColor                    { get; set; } // 警告色，通常用于显示错误或危险的颜色
-	public string? AccentHighlightColor           { get; set; } // 强调色区域标记颜色，通常用于高亮显示文本或元素
-	public string? AccentHighlightForegroundColor { get; set; } // 强调区域标记前景色，通常用于高亮显示文本或元素
+    public string? WindowBg                        { get; set; } = value["WindowBg"].ToString();                        // 窗口背景颜色
+    public string? LayoutBg                        { get; set; } = value["LayoutBg"].ToString();                        // 布局背景颜色
+    public string? ControlBg                       { get; set; } = value["ControlBg"].ToString();                       // 控件背景颜色
+    public string? PrimaryTitle                    { get; set; } = value["PrimaryTitle"].ToString();                    // 一级标题颜色
+    public string? SecondaryTitle                  { get; set; } = value["SecondaryTitle"].ToString();                  // 二级标题颜色
+    public string? TertiaryTitle                   { get; set; } = value["TertiaryTitle"].ToString();                   // 三级标题颜色
+    public string? BodyText                        { get; set; } = value["BodyText"].ToString();                        // 正文标题颜色
+    public string? ListItemBg                      { get; set; } = value["ListItemBg"].ToString();                      // 列表项背景颜色
+    public string? ListItemFg                      { get; set; } = value["ListItemFg"].ToString();                      // 列表项前景颜色
+    public string? ListItemSelectedBg              { get; set; } = value["ListItemSelectedBg"].ToString();              // 列表项选中背景颜色
+    public string? ListItemSelectedFg              { get; set; } = value["ListItemSelectedFg"].ToString();              // 列表项选中前景颜色
+    public string? ListItemHoverBg                 { get; set; } = value["ListItemHoverBg"].ToString();                 // 列表项悬停背景颜色
+    public string? ListItemHoverFg                 { get; set; } = value["ListItemHoverFg"].ToString();                 // 列表项悬停前景颜色
+    public string? ButtonBg                        { get; set; } = value["ButtonBg"].ToString();                        // 按钮背景颜色
+    public string? ButtonFg                        { get; set; } = value["ButtonFg"].ToString();                        // 按钮前景颜色
+    public string? ButtonDisabledBg                { get; set; } = value["ButtonDisabledBg"].ToString();                // 按钮禁用背景颜色
+    public string? ButtonDisabledFg                { get; set; } = value["ButtonDisabledFg"].ToString();                // 按钮禁用前景颜色
+    public string? TransparentButtonFg             { get; set; } = value["TransparentButtonFg"].ToString();             // 透明按钮前景颜色
+    public string? TransparentButtonBorder         { get; set; } = value["TransparentButtonBorder"].ToString();         // 透明按钮边框颜色
+    public string? TransparentButtonDisabledFg     { get; set; } = value["TransparentButtonDisabledFg"].ToString();     // 透明按钮禁用前景颜色
+    public string? TransparentButtonDisabledBorder { get; set; } = value["TransparentButtonDisabledBorder"].ToString(); // 透明按钮禁用边框颜色
+    public string? ButtonHoverMask                 { get; set; } = value["ButtonHoverMask"].ToString();                 // 按钮悬停叠加颜色
+    public string? ButtonPressedMask               { get; set; } = value["ButtonPressedMask"].ToString();               // 按钮按下叠加颜色
+    public string? AccentColor                     { get; set; } = value["AccentColor"].ToString();                     // 强调背景颜色
+    public string? AccentFg                        { get; set; } = value["AccentFg"].ToString();                        // 强调前景颜色
+    public string? AccentTitle                     { get; set; } = value["AccentTitle"].ToString();                     // 强调标题颜色
+    public string? AccentHoverBg                   { get; set; } = value["AccentHoverBg"].ToString();                   // 强调悬停背景颜色
+    public string? AccentHoverFg                   { get; set; } = value["AccentHoverFg"].ToString();                   // 强调悬停前景颜色
+    public string? AccentPressedBg                 { get; set; } = value["AccentPressedBg"].ToString();                 // 强调按下背景颜色
+    public string? AccentPressedFg                 { get; set; } = value["AccentPressedFg"].ToString();                 // 强调按下前景颜色
+    public string? CheckboxUncheckedIcon           { get; set; } = value["CheckboxUncheckedIcon"].ToString();           // 复选框未选中图标颜色
+    public string? CheckboxHoverIcon               { get; set; } = value["CheckboxHoverIcon"].ToString();               // 复选框悬停图标颜色
+    public string? CheckboxCheckedIcon             { get; set; } = value["CheckboxCheckedIcon"].ToString();             // 复选框选中图标颜色
+    public string? CheckboxText                    { get; set; } = value["CheckboxText"].ToString();                    // 复选框文字颜色
+    public string? CheckboxHoverText               { get; set; } = value["CheckboxHoverText"].ToString();               // 复选框悬停文字颜色
+    public string? CheckboxCheckedText             { get; set; } = value["CheckboxCheckedText"].ToString();             // 复选框选中文字颜色
+    public string? ToggleButtonBg                  { get; set; } = value["ToggleButtonBg"].ToString();                  // 切换按钮背景颜色
+    public string? ToggleButtonFg                  { get; set; } = value["ToggleButtonFg"].ToString();                  // 切换按钮前景颜色
+    public string? ToggleButtonHoverBg             { get; set; } = value["ToggleButtonHoverBg"].ToString();             // 切换按钮悬停背景颜色
+    public string? ToggleButtonHoverFg             { get; set; } = value["ToggleButtonHoverFg"].ToString();             // 切换按钮悬停前景颜色
+    public string? ToggleButtonSelectedBg          { get; set; } = value["ToggleButtonSelectedBg"].ToString();          // 切换按钮选中背景颜色
+    public string? ToggleButtonSelectedFg          { get; set; } = value["ToggleButtonSelectedFg"].ToString();          // 切换按钮选中前景颜色
+    public string? SwitchOffBg                     { get; set; } = value["SwitchOffBg"].ToString();                     // 开关关闭背景颜色
+    public string? SwitchHoverBg                   { get; set; } = value["SwitchHoverBg"].ToString();                   // 开关悬停背景颜色
+    public string? SwitchOnBg                      { get; set; } = value["SwitchOnBg"].ToString();                      // 开关开启背景颜色
+    public string? SwitchOffFg                     { get; set; } = value["SwitchOffFg"].ToString();                     // 开关关闭前景颜色
+    public string? SwitchHoverFg                   { get; set; } = value["SwitchHoverFg"].ToString();                   // 开关悬停前景颜色
+    public string? SwitchOnFg                      { get; set; } = value["SwitchOnFg"].ToString();                      // 开关开启前景颜色
+    public string? ShadowColor                     { get; set; } = value["ShadowColor"].ToString();                     // 阴影颜色
+    public string? SuccessColor                    { get; set; } = value["SuccessColor"].ToString();                    // 成功颜色
+    public string? InfoColor                       { get; set; } = value["InfoColor"].ToString();                       // 信息颜色
+    public string? WarningColor                    { get; set; } = value["WarningColor"].ToString();                    // 警告颜色
+    public string? ErrorColor                      { get; set; } = value["ErrorColor"].ToString();                      // 错误颜色
 
-	// 构造函数，使用 TOML 表格数据初始化皮肤配置
-	public SkinConfig(TomlTable value)
-	{
-		// 从 TOML 配置表中读取颜色值并赋值给相应属性
-		BackgroundColor                = value["BackgroundColor"].ToString();
-		ForegroundColor                = value["ForegroundColor"].ToString();
-		AccentBackgroundColor          = value["AccentBackgroundColor"].ToString();
-		AccentForegroundColor          = value["AccentForegroundColor"].ToString();
-		HoverOverlayColor              = value["HoverOverlayColor"].ToString();
-		PressedOverlayColor            = value["PressedOverlayColor"].ToString();
-		AccentOverlayColor             = value["AccentOverlayColor"].ToString();
-		SwitchOnColor                  = value["SwitchOnColor"].ToString();
-		SwitchOffColor                 = value["SwitchOffColor"].ToString();
-		ShadowColor                    = value["ShadowColor"].ToString();
-		WeakAccentBackgroundColor      = value["WeakAccentBackgroundColor"].ToString();
-		WeakAccentForegroundColor      = value["WeakAccentForegroundColor"].ToString();
-		AlertColor                     = value["AlertColor"].ToString();
-		WarningColor                   = value["WarningColor"].ToString();
-		DangerColor                    = value["DangerColor"].ToString();
-		AccentHighlightColor           = value["AccentHighlightColor"].ToString();
-		AccentHighlightForegroundColor = value["AccentHighlightForegroundColor"].ToString();
-	}
+    // 构造函数，使用 TOML 表格数据初始化皮肤配置
+    // 构造函数，使用 TOML 表格数据初始化皮肤配置
 }
+

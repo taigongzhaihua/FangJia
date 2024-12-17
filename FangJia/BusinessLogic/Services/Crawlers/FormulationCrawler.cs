@@ -18,7 +18,7 @@ public class FormulationCrawler : ICrawler<Formulation>
 	{
 		List<Formulation> formulations    = [];
 		List<string>      links           = [];
-		CrawlerProgress   crawlerProgress = new(0, 10, true);
+		CrawlerProgress   crawlerProgress = new(10, 0, true);
 		for (var i = 1; i <= 10; i++)
 		{
 			var url        = $"{BaseUrl}/prescription/index/p/{i}";

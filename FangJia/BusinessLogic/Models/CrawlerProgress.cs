@@ -68,10 +68,8 @@ public struct CrawlerProgress(int totalLength, int currentProgress, bool isRunni
 		hashCode.Add(CurrentProgress);
 		hashCode.Add(IsRunning);
 		hashCode.Add(LatestLog);
-		foreach (var log in LogList)
-		{
-			hashCode.Add(log);
-		}
+		hashCode.Add(LogList);
+
 
 		return hashCode.ToHashCode();
 	}
@@ -92,6 +90,6 @@ public struct CrawlerProgress(int totalLength, int currentProgress, bool isRunni
 		       CurrentProgress == other.CurrentProgress &&
 		       IsRunning       == other.IsRunning       &&
 		       LatestLog       == other.LatestLog       &&
-		       LogList.Equals(other.LogList) ;
+		       LogList.Equals(other.LogList);
 	}
 }

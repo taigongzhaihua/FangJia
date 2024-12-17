@@ -22,7 +22,7 @@
                    Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="2"
                    Text="{Binding Title }"
                    FontSize="18" FontFamily="华文行楷" TextAlignment="Center"
-                   Style="{DynamicResource AccentText}"
+                   Style="{DynamicResource AccentTitleText}"
                    HorizontalAlignment="Center" VerticalAlignment="Center"
                    Margin="-10">
             <TextBlock.RenderTransform>

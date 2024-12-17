@@ -19,7 +19,7 @@
                    Grid.Column="0" Grid.Row="0"
                    VerticalAlignment="Center" HorizontalAlignment="Right" TextAlignment="Justify"
                    FontSize="14"
-                   Style="{DynamicResource DefaultText}"/>
+                   Style="{DynamicResource TertiaryTitleText}"/>
 
         <TextBlock x:Name="TipBlock" 
                    Grid.Row="1" Grid.Column="1"

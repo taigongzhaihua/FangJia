@@ -110,21 +110,21 @@
                         <Trigger Property="IsMouseOver" Value="False">
                             <Setter TargetName="MenuItem" Property="Background" Value="Transparent" />
                             <Setter TargetName="MenuItem" Property="Foreground"
-                                    Value="{DynamicResource AccentForegroundBrush}" />
+                                    Value="{StaticResource AccentFgBrush}" />
                         </Trigger>
                         <!-- MouseOver State -->
                         <Trigger Property="IsMouseOver" Value="True">
                             <Setter TargetName="MenuItem" Property="Background"
-                                    Value="{DynamicResource AccentOverlayBrush}" />
+                                    Value="{StaticResource AccentHoverBgBrush}" />
                             <Setter TargetName="MenuItem" Property="Foreground"
-                                    Value="{DynamicResource AccentForegroundBrush}" />
+                                    Value="{StaticResource AccentHoverFgBrush}" />
                         </Trigger>
                         <!-- Selected State -->
                         <Trigger Property="IsSelected" Value="True">
                             <Setter TargetName="MenuItem" Property="Background"
-                                    Value="{DynamicResource AccentHighlightBrush}" />
+                                    Value="{StaticResource AccentPressedBgBrush}" />
                             <Setter TargetName="MenuItem" Property="Foreground"
-                                    Value="{DynamicResource AccentHighlightForegroundBrush}" />
+                                    Value="{StaticResource AccentPressedFgBrush}" />
                         </Trigger>
                     </ControlTemplate.Triggers>
                 </ControlTemplate>
@@ -135,10 +135,10 @@
 
     <Style TargetType="ListBoxItem" x:Key="DataTabListItemStyle">
         <Setter Property="Foreground"
-                Value="{DynamicResource ForegroundBrush}" />
+                Value="{StaticResource TertiaryTitleBrush}" />
+        <Setter Property="Background" Value="{StaticResource WindowBgBrush}"/>
         <Setter Property="Height" Value="30" />
         <Setter Property="Width" Value="80" />
-        <Setter Property="BorderBrush" Value="{DynamicResource ForegroundBrush}" />
         <Setter Property="BorderThickness" Value="0"></Setter>
         <Setter Property="Template">
             <Setter.Value>
@@ -160,20 +160,20 @@
                     <ControlTemplate.Triggers>
                         <Trigger Property="IsMouseOver" Value="False">
                             <Setter TargetName="MenuItem" Property="Background"
-                                    Value="{DynamicResource BackgroundBrush}" />
+                                    Value="{StaticResource WindowBgBrush}" />
                             <Setter TargetName="MenuItem" Property="Margin"
                                     Value="0,0,-1,0" />
                         </Trigger>
                         <Trigger Property="IsMouseOver" Value="True">
                             <Setter TargetName="MenuItem" Property="Background"
-                                    Value="{DynamicResource HoverOverlayBrush}" />
+                                    Value="{StaticResource ControlBgBrush}" />
 
                             <Setter TargetName="MenuItem" Property="Margin"
                                     Value="0,0,-15,0" />
                         </Trigger>
                         <Trigger Property="IsSelected" Value="True">
                             <Setter TargetName="MenuItem" Property="Background"
-                                    Value="{DynamicResource WeakAccentBackgroundBrush}" />
+                                    Value="{StaticResource LayoutBgBrush}" />
                             <Setter TargetName="MenuItem" Property="Margin"
                                     Value="0,0,-15,0" />
                         </Trigger>
@@ -208,22 +208,22 @@
     <!--纵向滚动条宽度-->
     <sys:Double x:Key="VerticalScrollBarThickness">4</sys:Double>
     <!--纵向滑块颜色-->
-    <SolidColorBrush x:Key="VerticalTrackThumbBackgroundBrush" Color="DeepSkyBlue" />
+    <SolidColorBrush x:Key="VerticalTrackThumbBackgroundBrush" Color="{StaticResource AccentColor}" />
     <!--横向滚动条宽度-->
     <sys:Double x:Key="HorizontalScrollBarThickness">4</sys:Double>
     <!--横向滑块颜色-->
-    <SolidColorBrush x:Key="HorizontalTrackThumbBackgroundBrush" Color="DeepSkyBlue" />
+    <SolidColorBrush x:Key="HorizontalTrackThumbBackgroundBrush" Color="{StaticResource AccentColor}" />
     <!-- 自定义垂直滚动条的样式 -->
     <Style TargetType="ScrollBar" x:Key="CustomScrollBarStyle">
         <Setter Property="OverridesDefaultStyle" Value="true" />
         <Style.Triggers>
             <Trigger Property="Orientation" Value="Horizontal">
                 <Setter Property="Width" Value="Auto" />
-                <Setter Property="Height" Value="{DynamicResource HorizontalScrollBarThickness}" />
+                <Setter Property="Height" Value="{StaticResource HorizontalScrollBarThickness}" />
                 <Setter Property="Template" Value="{DynamicResource HorizontalScrollBar}" />
             </Trigger>
             <Trigger Property="Orientation" Value="Vertical">
-                <Setter Property="Width" Value="{DynamicResource VerticalScrollBarThickness}" />
+                <Setter Property="Width" Value="{StaticResource VerticalScrollBarThickness}" />
                 <Setter Property="Height" Value="Auto" />
                 <Setter Property="Template" Value="{DynamicResource VerticalScrollBar}" />
             </Trigger>
@@ -239,17 +239,17 @@
                 <!-- 减少按钮 -->
                 <Track.DecreaseRepeatButton>
                     <RepeatButton Command="ScrollBar.PageUpCommand"
-                                  Background="{DynamicResource WeakAccentBackgroundBrush}" BorderThickness="0" />
+                                  Background="{StaticResource LayoutBgBrush}" BorderThickness="0" />
                 </Track.DecreaseRepeatButton>
 
                 <!-- 增加按钮 -->
                 <Track.IncreaseRepeatButton>
                     <RepeatButton Command="ScrollBar.PageDownCommand"
-                                  Background="{DynamicResource WeakAccentBackgroundBrush}" BorderThickness="0" />
+                                  Background="{StaticResource LayoutBgBrush}" BorderThickness="0" />
                 </Track.IncreaseRepeatButton>
                 <Track.Thumb>
                     <!--滑块-->
-                    <Thumb Background="{DynamicResource AccentBackgroundBrush}" BorderThickness="0">
+                    <Thumb Background="{StaticResource AccentBrush}" BorderThickness="0">
                         <Thumb.Template>
                             <ControlTemplate>
                                 <Grid Background="{TemplateBinding Background}" />
@@ -269,7 +269,7 @@
                     <RepeatButton Command="ScrollBar.PageLeftCommand" />
                 </Track.DecreaseRepeatButton>
                 <Track.Thumb>
-                    <Thumb Background="{DynamicResource AccentBackgroundBrush}" BorderThickness="0">
+                    <Thumb Background="{StaticResource LayoutBgBrush}" BorderThickness="0">
                         <Thumb.Template>
                             <ControlTemplate>
                                 <Grid Background="{TemplateBinding Background}" />
@@ -285,13 +285,14 @@
     </ControlTemplate>
     <!-- 自定义listbox样式 -->
     <Style TargetType="ListView" x:Key="CustomListBoxStyle">
+        <Setter Property="Background" Value="{StaticResource ListItemBgBrush}"></Setter>
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="ListView">
                     <Border CornerRadius="5"
                             Padding="4"
                             Margin="5"
-                            Background="White"
+                            Background="{TemplateBinding Background}"
                             BorderThickness="0">
                         <ScrollViewer Padding="0,10">
                             <ItemsPresenter />
@@ -303,7 +304,7 @@
     </Style>
     <!-- 自定义 ListBoxItem 的样式 -->
     <Style TargetType="ListViewItem" x:Key="CustomListViewItemStyle">
-        <Setter Property="Foreground" Value="MidnightBlue" />
+        <Setter Property="Foreground" Value="{StaticResource ListItemFgBrush}" />
         <Setter Property="FontSize" Value="14" />
         <Setter Property="Template">
             <Setter.Value>
@@ -325,11 +326,11 @@
                                         <ColorAnimation Storyboard.TargetName="ItemBorder"
                                                         Storyboard.TargetProperty="(Border.Background).(SolidColorBrush.Color)"
                                                         Duration="0:0:0.25"
-                                                        To="Transparent" />
+                                                        To="{StaticResource ListItemBg}" />
                                         <ColorAnimation Storyboard.TargetName="contentControl"
                                                         Storyboard.TargetProperty="(ContentControl.Foreground).(SolidColorBrush.Color)"
                                                         Duration="0:0:0.25"
-                                                        To="SteelBlue" />
+                                                        To="{StaticResource ListItemFg}" />
                                     </Storyboard>
                                 </VisualState>
 
@@ -339,11 +340,11 @@
                                         <ColorAnimation Storyboard.TargetName="ItemBorder"
                                                         Storyboard.TargetProperty="(Border.Background).(SolidColorBrush.Color)"
                                                         Duration="0:0:0.25"
-                                                        To="PowderBlue" />
+                                                        To="{StaticResource ListItemHoverBg}" />
                                         <ColorAnimation Storyboard.TargetName="contentControl"
                                                         Storyboard.TargetProperty="(ContentControl.Foreground).(SolidColorBrush.Color)"
                                                         Duration="0:0:0.25"
-                                                        To="Teal" />
+                                                        To="{StaticResource ListItemHoverFg}" />
                                     </Storyboard>
                                 </VisualState>
                                 <VisualState x:Name="Selected">
@@ -352,11 +353,11 @@
                                         <ColorAnimation Storyboard.TargetName="ItemBorder"
                                                         Storyboard.TargetProperty="(Border.Background).(SolidColorBrush.Color)"
                                                         Duration="0:0:0.25"
-                                                        To="DodgerBlue" />
+                                                        To="{StaticResource ListItemSelectedBg}" />
                                         <ColorAnimation Storyboard.TargetName="contentControl"
                                                         Storyboard.TargetProperty="(ContentControl.Foreground).(SolidColorBrush.Color)"
                                                         Duration="0:0:0.25"
-                                                        To="Azure" />
+                                                        To="{StaticResource ListItemSelectedFg}" />
                                     </Storyboard>
                                 </VisualState>
                                 <VisualState x:Name="Disabled">
@@ -365,11 +366,11 @@
                                         <ColorAnimation Storyboard.TargetName="ItemBorder"
                                                         Storyboard.TargetProperty="(Border.Background).(SolidColorBrush.Color)"
                                                         Duration="0:0:0.25"
-                                                        To="DarkGray" />
+                                                        To="{StaticResource ButtonDisabledBg}" />
                                         <ColorAnimation Storyboard.TargetName="contentControl"
                                                         Storyboard.TargetProperty="(ContentControl.Foreground).(SolidColorBrush.Color)"
                                                         Duration="0:0:0.25"
-                                                        To="White" />
+                                                        To="{StaticResource ButtonDisabledFg}" />
                                     </Storyboard>
                                 </VisualState>
                             </VisualStateGroup>

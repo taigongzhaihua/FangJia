@@ -3,7 +3,7 @@
     <!-- 标题栏按钮 -->
     <Style TargetType="Button" x:Key="TitleButton">
         <Setter Property="Background" Value="Transparent" />
-        <Setter Property="Foreground" Value="{StaticResource ForegroundBrush}" />
+        <Setter Property="Foreground" Value="{StaticResource TransparentButtonFgBrush}" />
         <Setter Property="FontSize" Value="14" />
         <!-- ReSharper disable once MarkupAttributeTypo -->
         <Setter Property="FontFamily" Value="{DynamicResource IconFont}" />
@@ -55,7 +55,7 @@
                                         <ColorAnimation Storyboard.TargetName="border"
                                                         Storyboard.TargetProperty="(Border.Background).(SolidColorBrush.Color)"
                                                         Duration="0:0:0.3"
-                                                        To="{StaticResource HoverOverlayColor}" />
+                                                        To="{StaticResource ButtonHoverMask}" />
                                     </Storyboard>
                                 </VisualState>
                                 <VisualState x:Name="Pressed">
@@ -64,7 +64,7 @@
                                         <ColorAnimation Storyboard.TargetName="border"
                                                         Storyboard.TargetProperty="(Border.Background).(SolidColorBrush.Color)"
                                                         Duration="0:0:0.3"
-                                                        To="{StaticResource PressedOverlayColor}" />
+                                                        To="{StaticResource ButtonPressedMask}" />
                                     </Storyboard>
                                 </VisualState>
                                 <VisualState x:Name="Disabled">
@@ -77,7 +77,7 @@
                                         <ColorAnimation Storyboard.TargetName="contentControl"
                                                         Storyboard.TargetProperty="(ContentControl.Foreground).(SolidColorBrush.Color)"
                                                         Duration="0:0:0.3"
-                                                        To="{StaticResource WeakAccentForegroundColor}" />
+                                                        To="{StaticResource TransparentButtonDisabledFg}" />
                                     </Storyboard>
                                 </VisualState>
                             </VisualStateGroup>
@@ -90,7 +90,7 @@
     <!-- 关闭按钮 -->
     <Style TargetType="Button" x:Key="CloseButton">
         <Setter Property="Background" Value="Transparent" />
-        <Setter Property="Foreground" Value="{StaticResource ForegroundBrush}" />
+        <Setter Property="Foreground" Value="{StaticResource TransparentButtonFgBrush}" />
         <Setter Property="FontSize" Value="14" />
         <!-- ReSharper disable once MarkupAttributeTypo -->
         <Setter Property="FontFamily" Value="{DynamicResource IconFont}" />
@@ -120,7 +120,7 @@
                                         <!-- <ColorAnimation Storyboard.TargetName="contentControl" -->
                                         <!--                 Storyboard.TargetProperty="(ContentControl.Foreground).(SolidColorBrush.Color)" -->
                                         <!--                 Duration="0:0:0.3" -->
-                                        <!--                 To="{DynamicResource ForegroundColor}" /> -->
+                                        <!--                 To="{StaticResource ForegroundColor}" /> -->
                                     </Storyboard>
                                 </VisualState>
 
@@ -171,8 +171,8 @@
         </Setter>
     </Style>
     <Style TargetType="Button" x:Key="OpenButtonStyle">
-        <Setter Property="Background" Value="{StaticResource AccentHighlightBrush}" />
-        <Setter Property="Foreground" Value="{StaticResource AccentHighlightForegroundBrush}" />
+        <Setter Property="Background" Value="{StaticResource ButtonBgBrush}" />
+        <Setter Property="Foreground" Value="{StaticResource ButtonFgBrush}" />
         <Setter Property="Width" Value="30" />
         <Setter Property="Height" Value="30" />
 
@@ -201,13 +201,13 @@
                         <!-- MouseOver State -->
                         <Trigger Property="IsMouseOver" Value="True">
                             <Setter TargetName="Border" Property="Background"
-                                    Value="{Binding Source={StaticResource HoverOverlayBrush}}" />
+                                    Value="{Binding Source={StaticResource ButtonHoverMaskBrush}}" />
                         </Trigger>
 
                         <!-- Pressed State -->
                         <Trigger Property="IsPressed" Value="True">
                             <Setter TargetName="Border" Property="Background"
-                                    Value="{Binding Source={StaticResource PressedOverlayBrush}}" />
+                                    Value="{Binding Source={StaticResource ButtonPressedMaskBrush}}" />
                         </Trigger>
 
                         <!-- Normal State -->

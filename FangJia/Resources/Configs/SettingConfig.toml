@@ -8,7 +8,7 @@ Key = "Theme"
 Type = "System.String"
 ControlType = "ComboBox"
 ControlStyle = "ColorComboBox"
-Options = ["lightTheme", "darkTheme"]
+Options = ["Blue", "Black","Pink","Teal","Khaki","SkyBlue","Purple","Green","Orange","Red","Yellow","IndianRed"]
 IsEnable = true
 Tip = "更换主题后将自动重启应用，请确保已保存好数据"
 

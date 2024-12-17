@@ -3,14 +3,14 @@
                     xmlns:controls="clr-namespace:FangJia.UI.Views.Components.Controls">
     <Style TargetType="GroupBox">
         <!-- 设置背景和边框 -->
-        <Setter Property="Background" Value="{DynamicResource WeakAccentBackgroundBrush}" />
+        <Setter Property="Background" Value="{StaticResource ControlBgBrush}" />
         <!-- 设置圆角 -->
 
         <!-- 设置标题的样式 -->
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="GroupBox">
-                    <controls:ShadowBorder Background="{DynamicResource BackgroundBrush}"
+                    <controls:ShadowBorder Background="{TemplateBinding Background}"
                                            Padding="20,10"
                                            CornerRadius="8">
                         <Grid>
@@ -22,10 +22,10 @@
 
                             <ContentPresenter ContentSource="Header" Grid.Row="0"
                                               TextBlock.FontSize="16" TextBlock.FontWeight="Bold"
-                                              TextBlock.Foreground="{DynamicResource AccentBackgroundBrush}">
+                                              TextBlock.Foreground="{StaticResource SecondaryTitleBrush}">
                                 <ContentPresenter.Effect>
                                     <DropShadowEffect BlurRadius="15"
-                                                      Color="{DynamicResource AccentBackgroundColor}"
+                                                      Color="{StaticResource SecondaryTitle}"
                                                       ShadowDepth="3"
                                                       Opacity="0.3" />
                                 </ContentPresenter.Effect>
@@ -33,7 +33,7 @@
 
                             <Separator Grid.Row="1"
                                        Height="0.5" Margin="-10,10"
-                                       Background="{DynamicResource WeakAccentForegroundBrush}" />
+                                       Background="{StaticResource ShadowBrush}" />
                             <ContentPresenter Grid.Row="2" />
 
                         </Grid>

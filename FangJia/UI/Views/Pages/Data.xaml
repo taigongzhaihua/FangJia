@@ -10,7 +10,12 @@
 
     <!-- 主网格布局 -->
     <Grid>
-
+        <Grid.Background>
+            <LinearGradientBrush StartPoint="0,0" EndPoint="0,0.1">
+                <GradientStop Color="{StaticResource WindowBg}" Offset="0" />
+                <GradientStop Color="{StaticResource LayoutBg}" Offset="1" />
+            </LinearGradientBrush>
+        </Grid.Background>
         <!-- 列定义 -->
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="Auto" /> <!-- 自动宽度列 -->
@@ -23,10 +28,9 @@
                  ItemsSource="{Binding TabItems,Mode=OneWay}"
                  SelectedIndex="{Binding TabSelectedIndex}"
                  BorderThickness="0"
-                 BorderBrush="{DynamicResource ForegroundBrush}"
-                 Padding="-1,20"
+                 Padding="-1,80"
                  Margin="0"
-                 Background="{DynamicResource BackgroundBrush}"
+                 Background="{StaticResource WindowBgBrush}"
                  ClipToBounds="False"
                  SelectionChanged="ListBox_SelectionChanged"> <!-- 选项卡选择改变事件 -->
             <ListBox.ItemContainerStyle>

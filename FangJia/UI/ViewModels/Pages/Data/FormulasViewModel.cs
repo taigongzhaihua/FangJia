@@ -109,7 +109,9 @@ public partial class FormulasViewModel(
 		var formulationList = await _dataService!.GetFormulations();
 		var formulations    = formulationList.ToList();
 		Progress.Reset();
-		Progress = Progress.AddLog("开始保存数据...");
+		Progress = Progress.AddLog("开始保存数据...") // 添加日志
+		                   .UpdateProgress(0)
+		                   with{TotalLength = formulations.Count}; // 更新进度
 
 		// 遍历从爬虫服务获取的配方列表
 		foreach (var formulation in list)
@@ -193,5 +195,5 @@ public partial class FormulasViewModel(
 	/// <summary>
 	/// 定义一个进度对象，用于显示配方数据获取的进度信息。
 	/// </summary>
-	[ObservableProperty] private CrawlerProgress _progress;
+	[ObservableProperty] private CrawlerProgress _progress = new(0,0,false);
 }

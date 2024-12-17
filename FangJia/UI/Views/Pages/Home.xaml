@@ -12,6 +12,12 @@
     <pages:HomeViewModel/>
 </Page.DataContext>
     <Grid>
+        <Grid.Background>
+            <LinearGradientBrush StartPoint="0,0" EndPoint="0,1">
+                <GradientStop Color="{StaticResource WindowBg}" Offset="0" />
+                <GradientStop Color="{StaticResource LayoutBg}" Offset="1" />
+            </LinearGradientBrush>
+        </Grid.Background>
         <Grid.RowDefinitions>
             <RowDefinition Height="1*"/>
             <RowDefinition Height="Auto"/>
