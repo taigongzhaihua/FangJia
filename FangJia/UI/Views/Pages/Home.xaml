@@ -44,8 +44,7 @@
                 <TextBlock Text="今日任务 0/5"
                            FontSize="18"
                            Margin="10,5"
-                           Style="{DynamicResource WarningText}"
-                           Typography.Fraction="Stacked" />
+                           Style="{DynamicResource WarningText}"/>
             </StackPanel>
         </StackPanel>
         <Separator Grid.Row="1" 

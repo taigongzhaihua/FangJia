@@ -52,6 +52,7 @@ public partial class FormulasViewModel(
 	[RelayCommand]
 	private void AddComposition()
 	{
+		if (SelectedFormula == null) return;
 		// 向当前选中的配方的成分集合中添加一个新的成分对象
 		SelectedFormula.Compositions!.Add(new FormulationComposition { FormulationId = SelectedFormula.Id });
 		// 触发属性更改通知以更新 UI
@@ -67,7 +68,7 @@ public partial class FormulasViewModel(
 	private async Task SaveFormula()
 	{
 		// 如果配方的 Id 为 -1，表示这是一个新配方，插入到数据库中
-		if (SelectedFormula.Id == -1)
+		if (SelectedFormula!.Id == -1)
 			await _dataService!.InsertFormulation(SelectedFormula);
 		else
 			// 否则，更新数据库中的现有配方
@@ -191,7 +192,7 @@ public partial class FormulasViewModel(
 	/// 定义一个可观察的属性，用于存储当前选中的配方。
 	/// 当该属性发生变化时，会触发相应的 UI 更新。
 	/// </summary>
-	[ObservableProperty] private Formulation _selectedFormula = new();
+	[ObservableProperty] private Formulation? _selectedFormula = new();
 
 	/// <summary>
 	/// 定义一个进度对象，用于显示配方数据获取的进度信息。

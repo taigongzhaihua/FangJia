@@ -4,17 +4,42 @@
       xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
       xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
       xmlns:converters="clr-namespace:FangJia.UI.Converters"
+      xmlns:viewModels="clr-namespace:FangJia.UI.ViewModels.Pages.Data"
       mc:Ignorable="d"
-      d:DesignHeight="450" d:DesignWidth="800"
+      d:DesignHeight="800" d:DesignWidth="1000" d:DataContext="{d:DesignInstance viewModels:FormulasViewModel}"
       Title="方剂"
       KeepAlive="False">
     <Page.Resources>
         <!-- 为 DataGridTextColumn 的 TextBlock 设置全局换行样式 -->
-        <Style x:Key="DataGridTextBlockStyle" TargetType="TextBlock">
+        <Style x:Key="DataGridTextBlockStyle" TargetType="TextBlock" BasedOn="{StaticResource DefaultText}">
             <Setter Property="TextWrapping" Value="Wrap" />
+            <Setter Property="Padding" Value="5"/>
         </Style>
         <converters:ByteToImageConverter x:Key="ByteToImageConverter" />
         <BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter" />
+        <Style x:Key="DataGridHeaderStyle" TargetType="DataGridColumnHeader" >
+            <Setter Property="Background" Value="{StaticResource ButtonBgBrush}"/>
+            <Setter Property="Foreground" Value="{StaticResource ButtonFgBrush}"/>
+            <Setter Property="Padding" Value="5"/>
+            <Setter Property="BorderBrush" Value="{StaticResource AccentBrush}"/>
+            <Setter Property="BorderThickness" Value="1"/>
+            <Setter Property="FontSize" Value="14"/>
+            <Setter Property="FontWeight" Value="Bold"/>
+            <Setter Property="HorizontalContentAlignment" Value="Center"/>
+        </Style>
+        <Style x:Key="DataGridCellStyle" TargetType="DataGridCell">
+            <!-- 默认背景色 -->
+            <Setter Property="Background" Value="{StaticResource ControlBgBrush}" />
+
+            <Setter Property="BorderThickness" Value="0"/>
+            <!-- 修改选中单元格的背景色 -->
+            <Style.Triggers>
+                <Trigger Property="IsSelected" Value="True">
+                    <Setter Property="Background" Value="{StaticResource ListItemHoverBgBrush}" />
+                </Trigger>
+            </Style.Triggers>
+        </Style>
+
 
     </Page.Resources>
     <Grid>
@@ -70,7 +95,8 @@
                                 Style="{DynamicResource ExpanderStyleMain}">
                                 <Expander.Header>
                                     <TextBlock Text="{Binding Name}" FontSize="14"
-                                               Foreground="{TemplateBinding TextBlock.Foreground}" />
+                                               Foreground="{TemplateBinding TextBlock.Foreground}"
+                                                />
                                 </Expander.Header>
 
                                 <Border CornerRadius="5" Margin="0,5"
@@ -186,59 +212,59 @@
                                 Padding="5"
                                 HorizontalAlignment="Left">
                             <Image HorizontalAlignment="Center"
-                                   Source="{Binding SelectedFormula.FormulationImage.Image,Converter={StaticResource ByteToImageConverter}}" />
+                                   Source="{Binding SelectedFormula.FormulationImage.Image,Converter={StaticResource ByteToImageConverter},FallbackValue=''}" />
                         </Border>
                     </StackPanel>
 
 
                     <TextBlock Text="名称：" Grid.Row="0" Grid.Column="0" VerticalAlignment="Top"
                                Style="{DynamicResource TertiaryTitleText}" />
-                    <TextBox Text="{Binding SelectedFormula.Name}"
+                    <TextBox Text="{Binding SelectedFormula.Name,FallbackValue=''}"
                              Grid.Row="0" Grid.Column="1" Margin="0,0,0,10"/>
 
                     <TextBlock Text="用法：" Grid.Row="1" Grid.Column="0" VerticalAlignment="Top"
                                Style="{DynamicResource TertiaryTitleText}" />
-                    <TextBox Text="{Binding SelectedFormula.Usage}"
+                    <TextBox Text="{Binding SelectedFormula.Usage,FallbackValue=''}"
                              Grid.Row="1" Grid.Column="1" Margin="0,0,0,10"/>
 
                     <TextBlock Text="出处：" Grid.Row="2" Grid.Column="0" VerticalAlignment="Top"
                                Style="{DynamicResource TertiaryTitleText}" />
-                    <TextBox Text="{Binding SelectedFormula.Source}"
+                    <TextBox Text="{Binding SelectedFormula.Source,FallbackValue=''}"
                              Grid.Row="2" Grid.Column="1" Margin="0,0,0,10"/>
 
                     <TextBlock Text="功效：" Grid.Row="3" Grid.Column="0" VerticalAlignment="Top"
                                Style="{DynamicResource TertiaryTitleText}" />
-                    <TextBox Text="{Binding SelectedFormula.Effect}"
+                    <TextBox Text="{Binding SelectedFormula.Effect,FallbackValue=''}"
                              Grid.Row="3" Grid.Column="1" Margin="0,0,0,10"/>
 
                     <TextBlock Text="主治：" Grid.Row="4" Grid.Column="0" VerticalAlignment="Top"
                                Style="{DynamicResource TertiaryTitleText}" />
-                    <TextBox Text="{Binding SelectedFormula.Indication}"
+                    <TextBox Text="{Binding SelectedFormula.Indication,FallbackValue=''}"
                              Grid.Row="4" Grid.Column="1" Margin="0,0,0,10"/>
 
                     <TextBlock Text="病机：" Grid.Row="5" Grid.Column="0" VerticalAlignment="Top"
                                Style="{DynamicResource TertiaryTitleText}" />
-                    <TextBox Text="{Binding SelectedFormula.Disease}"
+                    <TextBox Text="{Binding SelectedFormula.Disease,FallbackValue=''}"
                              Grid.Row="5" Grid.Column="1" Margin="0,0,0,10"/>
 
                     <TextBlock Text="运用：" Grid.Row="6" Grid.Column="0" VerticalAlignment="Top"
                                Style="{DynamicResource TertiaryTitleText}" />
-                    <TextBox Text="{Binding SelectedFormula.Application}"
+                    <TextBox Text="{Binding SelectedFormula.Application,FallbackValue=''}"
                              Grid.Row="6" Grid.Column="1" Margin="0,0,0,10"/>
 
                     <TextBlock Text="附方：" Grid.Row="7" Grid.Column="0" VerticalAlignment="Top"
                                Style="{DynamicResource TertiaryTitleText}" />
-                    <TextBox Text="{Binding SelectedFormula.Supplement}"
+                    <TextBox Text="{Binding SelectedFormula.Supplement,FallbackValue=''}"
                              Grid.Row="7" Grid.Column="1" Margin="0,0,0,10"/>
 
                     <TextBlock Text="方歌：" Grid.Row="8" Grid.Column="0" VerticalAlignment="Top"
                                Style="{DynamicResource TertiaryTitleText}" />
-                    <TextBox Text="{Binding SelectedFormula.Song}"
+                    <TextBox Text="{Binding SelectedFormula.Song,FallbackValue=''}"
                              Grid.Row="8" Grid.Column="1" Margin="0,0,0,10"/>
 
                     <TextBlock Text="附注：" Grid.Row="9" Grid.Column="0" VerticalAlignment="Top"
                                Style="{DynamicResource TertiaryTitleText}" />
-                    <TextBox Text="{Binding SelectedFormula.Notes}"
+                    <TextBox Text="{Binding SelectedFormula.Notes,FallbackValue=''}"
                              Grid.Row="9" Grid.Column="1" Margin="0,0,0,10" />
 
                     <TextBlock Text="组成：" Grid.Row="10" Grid.Column="0" VerticalAlignment="Top"
@@ -248,25 +274,35 @@
                                 VerticalAlignment="Bottom" HorizontalAlignment="Center"
                                 Margin="0,10,0,0"/>
                     </StackPanel>
-                    <DataGrid ItemsSource="{Binding SelectedFormula.Compositions}"
+                    <DataGrid ItemsSource="{Binding SelectedFormula.Compositions,FallbackValue=''}"
                               Grid.Row="10" Grid.Column="1" Grid.RowSpan="2" Margin="0,0,0,10"
                               AutoGenerateColumns="False" HorizontalScrollBarVisibility="Disabled"
                               HeadersVisibility="Column"
-                              CanUserAddRows="False" CanUserDeleteRows="True">
+                              CanUserAddRows="False" CanUserDeleteRows="True"
+                              CellStyle="{StaticResource DataGridCellStyle}"
+                              Background="{StaticResource ControlBgBrush}"
+                              HorizontalGridLinesBrush="{StaticResource AccentBrush}"
+                              VerticalGridLinesBrush="{StaticResource AccentBrush}"
+                              BorderBrush="{StaticResource TransparentButtonBorderBrush}"
+                              BorderThickness="1.5">
                         <DataGrid.Columns>
                             <DataGridTextColumn Header="君臣佐使" Binding="{Binding Position}"
+                                                HeaderStyle="{StaticResource DataGridHeaderStyle}"
                                                 ElementStyle="{StaticResource DataGridTextBlockStyle}"
                                                 EditingElementStyle="{StaticResource DataGridTextBoxStyle}"
                                                 Width="Auto" />
                             <DataGridTextColumn Header="药物" Binding="{Binding DrugName}"
+                                                HeaderStyle="{StaticResource DataGridHeaderStyle}"
                                                 ElementStyle="{StaticResource DataGridTextBlockStyle}"
                                                 EditingElementStyle="{StaticResource DataGridTextBoxStyle}"
                                                 Width="Auto" />
                             <DataGridTextColumn Header="方中功效" Binding="{Binding Effect}"
+                                                HeaderStyle="{StaticResource DataGridHeaderStyle}"
                                                 ElementStyle="{StaticResource DataGridTextBlockStyle}"
                                                 EditingElementStyle="{StaticResource DataGridTextBoxStyle}"
                                                 Width="10*" />
                             <DataGridTextColumn Header="备注" Binding="{Binding Notes}"
+                                                HeaderStyle="{StaticResource DataGridHeaderStyle}"
                                                 ElementStyle="{StaticResource DataGridTextBlockStyle}"
                                                 EditingElementStyle="{StaticResource DataGridTextBoxStyle}"
                                                 Width="10*" />

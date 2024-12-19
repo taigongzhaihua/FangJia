@@ -30,7 +30,15 @@ namespace FangJia.UI.Converters
 
         public object ConvertBack(object? value, Type targetType, object? parameter, CultureInfo culture)
         {
-            throw new NotSupportedException("ByteToImageConverter does not support ConvertBack.");
+            if (value is not BitmapImage { StreamSource: not null } bitmapImage) return null!;
+            using var stream = bitmapImage.StreamSource;
+            if (stream.CanSeek)
+            {
+                stream.Seek(0, SeekOrigin.Begin);
+            }
+            var imageData = new byte[stream.Length];
+            stream.ReadExactly(imageData, 0, imageData.Length);
+            return imageData;
         }
     }
 }
