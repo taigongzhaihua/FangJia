@@ -18,7 +18,6 @@
 		<None Remove="Resources\Fonts\iconfont.ttf" />
 	</ItemGroup>
 	<ItemGroup>
-		<Folder Include="BusinessLogic\Models\Behaviors\" />
 		<Folder Include="BusinessLogic\Helpers\" />
 		<Folder Include="BusinessLogic\Models\Utils\" />
 		<Folder Include="UI\Views\Components\Dialogs\" />
@@ -79,6 +78,10 @@
 		</EmbeddedResource>
 		<None Remove="Resources\Configs\Themes\IndianRed.toml" />
 		<EmbeddedResource Include="Resources\Configs\Themes\IndianRed.toml">
+		  <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+		</EmbeddedResource>
+		<None Remove="Resources\Configs\Themes\Cyan.toml" />
+		<EmbeddedResource Include="Resources\Configs\Themes\Cyan.toml">
 		  <CopyToOutputDirectory>Always</CopyToOutputDirectory>
 		</EmbeddedResource>
 	</ItemGroup>

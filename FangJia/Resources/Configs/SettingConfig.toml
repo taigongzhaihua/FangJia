@@ -8,7 +8,7 @@ Key = "Theme"
 Type = "System.String"
 ControlType = "ComboBox"
 ControlStyle = "ColorComboBox"
-Options = ["Blue", "Black","Pink","Teal","Khaki","SkyBlue","Purple","Green","Orange","Red","Yellow","IndianRed"]
+Options = ["Blue", "Black","Pink","Teal","Khaki","SkyBlue","Purple","Green","Orange","Red","Yellow","IndianRed","Cyan"]
 IsEnable = true
 Tip = "更换主题后将自动重启应用，请确保已保存好数据"
 
@@ -18,7 +18,7 @@ Key = "Language"
 Type = "System.String"
 ControlType = "ComboBox"
 ControlStyle = "DefaultComboBox"
-Options = ["简体中文", "English"]
+Options = ["简体中文", "繁体中文"]
 IsEnable = false
 Tip = "选择应用的语言"
 

@@ -4,7 +4,9 @@ using FangJia.BusinessLogic.Interfaces;
 using FangJia.BusinessLogic.Models.Data;
 using FangJia.BusinessLogic.Services;
 using System.Collections.ObjectModel;
+using System.ComponentModel;
 using System.Diagnostics.CodeAnalysis;
+using System.Windows.Data;
 using FangJia.BusinessLogic.Models;
 using Unity;
 
@@ -29,9 +31,10 @@ public partial class DrugViewModel(
 	/// </remarks>
 	public async Task InitDataTask()
 	{
-		_drugList = [.. await dataService.GetDrugs()];
 
-		ShowingDrugs = _drugList;
+        DrugList = [.. await dataService.GetDrugs()];
+
+		ShowingDrugs = DrugList.GroupBy(d => d.Category);
 	}
 
 	/// <summary>
@@ -93,7 +96,7 @@ public partial class DrugViewModel(
 		foreach (var drug in drugList)
 		{
 			// 在本地 _drugList 中查找是否存在相同名称的 Drug
-			var existingDrug = _drugList!.FirstOrDefault(d => d.Name == drug.Name);
+			var existingDrug = DrugList!.FirstOrDefault(d => d.Name == drug.Name);
 
 			if (existingDrug != null)
 			{
@@ -122,12 +125,12 @@ public partial class DrugViewModel(
 	/// <summary>
 	/// 药品列表
 	/// </summary>
-	private ObservableCollection<Drug>? _drugList;
+	[ObservableProperty] private ObservableCollection<Drug>? _drugList=[];
 
 	/// <summary>
 	/// 显示的药品列表
 	/// </summary>
-	[ObservableProperty] private ObservableCollection<Drug>? _showingDrugs;
+	[ObservableProperty] private IEnumerable<IGrouping<string?, Drug>> _showingDrugs= null!;
 
 	/// <summary>
 	/// 选中的药品

@@ -41,7 +41,7 @@ public partial class FormulasViewModel(
 		Categories = [.. await _dataService!.GetCategoriesAsync()];
 
 		// 如果获取到的类别列表不为空，则将第一个类别设置为当前选中的类别
-		if (Categories.Count > 0) SelectedCategory = Categories[0];
+		if (Categories.Count > 0) SelectedCategory = new Category();
 	}
 
 	/// <summary>
@@ -111,7 +111,10 @@ public partial class FormulasViewModel(
 		Progress.Reset();
 		Progress = Progress.AddLog("开始保存数据...") // 添加日志
 		                   .UpdateProgress(0)
-		                   with{TotalLength = formulations.Count}; // 更新进度
+			           with
+			           {
+				           TotalLength = formulations.Count
+			           }; // 更新进度
 
 		// 遍历从爬虫服务获取的配方列表
 		foreach (var formulation in list)
@@ -121,9 +124,9 @@ public partial class FormulasViewModel(
 
 			// 通过方剂列表获取当前配方的类别，并异步获取该类别的 CategoryId
 			formulation.CategoryId =
-				await _dataService.GetCategoryIdByNameAsync(fangjiList
-				                                            .FirstOrDefault(d => d.FormulaName == formulation.Name)
-				                                            .Category);
+				await _dataService.GetCategoryIdByNameAsync
+					(fangjiList.FirstOrDefault(d => d.FormulaName == formulation.Name)
+					           .Category);
 
 			if (existingFormulation != null)
 			{
@@ -140,6 +143,8 @@ public partial class FormulasViewModel(
 			Progress = Progress.UpdateProgress(Progress.CurrentProgress + 1)
 			                   .AddLog($"已保存 {formulation.Name}");
 		}
+
+		Progress = Progress.Reset();
 	}
 
 	/// <summary>
@@ -161,7 +166,7 @@ public partial class FormulasViewModel(
 	/// <param name="value">新选中的类别</param>
 	partial void OnSelectedCategoryChanged(Category value)
 	{
-		_ = SetFormulasTask(value);
+		Task.Run(async () => await SetFormulasTask(value));
 	}
 
 	/// <summary>
@@ -174,10 +179,6 @@ public partial class FormulasViewModel(
 	{
 		// 从数据服务中异步获取与指定类别名称匹配的配方列表，并赋值给 Formulas 属性
 		Formulas = [.. await _dataService!.GetFormulationsByCategoryNameAsync(value.Name)];
-
-		// 如果获取到的配方列表不为空，则将第一个配方设置为当前选中的配方
-		if (Formulas.Count <= 0) return;
-		SelectedFormula = Formulas[0];
 	}
 
 	/// <summary>
@@ -190,10 +191,10 @@ public partial class FormulasViewModel(
 	/// 定义一个可观察的属性，用于存储当前选中的配方。
 	/// 当该属性发生变化时，会触发相应的 UI 更新。
 	/// </summary>
-	[ObservableProperty] private Formulation _selectedFormula = null!;
+	[ObservableProperty] private Formulation _selectedFormula = new();
 
 	/// <summary>
 	/// 定义一个进度对象，用于显示配方数据获取的进度信息。
 	/// </summary>
-	[ObservableProperty] private CrawlerProgress _progress = new(0,0,false);
+	[ObservableProperty] private CrawlerProgress _progress = new(0, 0, false);
 }

@@ -3,7 +3,6 @@
       xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
       xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
       xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-      xmlns:dataModel="clr-namespace:FangJia.BusinessLogic.Models.Data"
       xmlns:converters="clr-namespace:FangJia.UI.Converters"
       mc:Ignorable="d"
       d:DesignHeight="450" d:DesignWidth="800"
@@ -14,14 +13,9 @@
         <Style x:Key="DataGridTextBlockStyle" TargetType="TextBlock">
             <Setter Property="TextWrapping" Value="Wrap" />
         </Style>
-        <Style TargetType="TextBox" x:Key="TextBoxStyle">
-            <Setter Property="TextWrapping" Value="Wrap" />
-            <Setter Property="AcceptsReturn" Value="True" />
-            <EventSetter Event="TextChanged" Handler="OnTextBoxTextChanged" />
-            <EventSetter Event="Loaded" Handler="TextBox_Loaded" />
-        </Style>
         <converters:ByteToImageConverter x:Key="ByteToImageConverter" />
         <BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter" />
+
     </Page.Resources>
     <Grid>
         <Grid.Background>
@@ -36,65 +30,99 @@
             <RowDefinition Height="Auto" />
         </Grid.RowDefinitions>
         <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="2*" />
+            <ColumnDefinition Width="2*" MaxWidth="360" MinWidth="280"/>
             <ColumnDefinition Width="5*" />
             <!-- 右侧编辑区域 -->
         </Grid.ColumnDefinitions>
         <GroupBox Grid.Column="0" Header="方剂" Margin="15,25,0,25">
             <Grid>
                 <Grid.RowDefinitions>
-                    <RowDefinition Height="Auto" />
                     <RowDefinition Height="*" />
+                    <RowDefinition Height="Auto" />
                 </Grid.RowDefinitions>
-                <TreeView Name="CategoryTree" Grid.Row="0"
+                <ListView Grid.Row="0"
                           ItemsSource="{Binding Categories, Mode=OneWay}"
-                          SelectedItemChanged="CategoryTree_OnSelectedItemChanged"
                           BorderThickness="0" Background="Transparent"
-                          Foreground="{StaticResource ListItemFgBrush}" MaxWidth="250">
-                    <TreeView.Resources>
-                        <!-- 一级选项样式 -->
-                        <Style TargetType="TreeViewItem">
-                            <Setter Property="IsExpanded"
-                                    Value="{Binding IsSelected,Mode=TwoWay,RelativeSource={RelativeSource TemplatedParent}}" />
-                            <Style.Triggers>
-                                <!-- 选中时展开 -->
-                                <Trigger Property="IsSelected" Value="True">
-                                    <Setter Property="IsExpanded" Value="True" />
-                                </Trigger>
-                                <Trigger Property="IsSelected" Value="False">
-                                    <Setter Property="IsExpanded" Value="False" />
-                                </Trigger>
-                            </Style.Triggers>
-                        </Style>
-                    </TreeView.Resources>
-                    <TreeView.Template>
-                        <ControlTemplate TargetType="TreeView">
+                          Foreground="{StaticResource ListItemFgBrush}"
+                          MaxWidth="300" MinWidth="220"
+                          SelectionMode="Single"
+                          SelectionChanged="Selector_OnSelectionChanged"
+                          x:Name="CategoriesListView">
+                    <ListView.Template>
+                        <ControlTemplate TargetType="ListView">
                             <ScrollViewer VerticalScrollBarVisibility="Auto"
                                           HorizontalScrollBarVisibility="Disabled">
                                 <ItemsPresenter />
                             </ScrollViewer>
                         </ControlTemplate>
-                    </TreeView.Template>
-                    <TreeView.ItemsPanel>
-                        <ItemsPanelTemplate>
-                            <WrapPanel Orientation="Horizontal"></WrapPanel>
-                        </ItemsPanelTemplate>
-                    </TreeView.ItemsPanel>
-                    <TreeView.ItemTemplate>
-                        <HierarchicalDataTemplate DataType="{x:Type dataModel:Category}"
-                                                  ItemsSource="{Binding SubCategories}">
-                            <!-- 一级选项 -->
-                            <TextBlock Text="{Binding Name}" FontSize="12" Margin="5,3" />
-                        </HierarchicalDataTemplate>
-                    </TreeView.ItemTemplate>
-                </TreeView>
+                    </ListView.Template>
+                    <ListView.Resources>
+                        <Style TargetType="{x:Type ListViewItem}"
+                               BasedOn="{StaticResource CustomListViewItemStyle}" />
+                        <Style TargetType="{x:Type ScrollBar}"
+                               BasedOn="{StaticResource CustomScrollBarStyle}" />
+                    </ListView.Resources>
+                    <ListView.ItemTemplate>
+                        <DataTemplate>
+                            <Expander
+                                Collapsed="Expander_OnCollapsed"
+                                IsExpanded="{Binding RelativeSource={RelativeSource AncestorType={x:Type ListViewItem}}, Path=IsSelected, Mode=TwoWay}"
+                                Style="{DynamicResource ExpanderStyleMain}">
+                                <Expander.Header>
+                                    <TextBlock Text="{Binding Name}" FontSize="14"
+                                               Foreground="{TemplateBinding TextBlock.Foreground}" />
+                                </Expander.Header>
+
+                                <Border CornerRadius="5" Margin="0,5"
+                                        BorderThickness="0" Padding="5"
+                                        Background="{StaticResource ControlBgBrush}">
+                                    <!-- 内部每组的内容 -->
+                                    <ListView ItemsSource="{Binding SubCategories}"
+                                              SelectionChanged="Selector_OnSelectionChanged"
+                                              SelectionMode="Single"
+                                              BorderThickness="0" FontSize="12"
+                                              Background="Transparent"
+                                              HorizontalAlignment="Center"
+                                              x:Name="ChildListView">
+                                        <ListView.ItemsPanel>
+                                            <ItemsPanelTemplate>
+                                                <WrapPanel Orientation="Horizontal" HorizontalAlignment="Stretch" />
+                                            </ItemsPanelTemplate>
+                                        </ListView.ItemsPanel>
+                                        <ListView.Template>
+                                            <ControlTemplate TargetType="ListView">
+                                                <ScrollViewer VerticalScrollBarVisibility="Auto"
+                                                              HorizontalScrollBarVisibility="Disabled">
+                                                    <ItemsPresenter />
+                                                </ScrollViewer>
+                                            </ControlTemplate>
+                                        </ListView.Template>
+                                        <ListView.Resources>
+                                            <Style TargetType="{x:Type ListViewItem}"
+                                                   BasedOn="{StaticResource CustomListViewItemStyle}" />
+                                            <Style TargetType="{x:Type ScrollBar}"
+                                                   BasedOn="{StaticResource CustomScrollBarStyle}" />
+                                        </ListView.Resources>
+                                        <ListView.ItemTemplate>
+                                            <DataTemplate>
+                                                <TextBlock Text="{Binding Name}" Margin="3,0" />
+                                            </DataTemplate>
+                                        </ListView.ItemTemplate>
+                                    </ListView>
+                                </Border>
+
+                            </Expander>
+                        </DataTemplate>
+                    </ListView.ItemTemplate>
+                </ListView>
                 <ListView Grid.Row="1"
                           ItemsSource="{Binding Formulas}"
                           SelectedItem="{Binding SelectedFormula}"
-                          Padding="5"
+                          Padding="5" Margin="0,10"
                           BorderThickness="0" FontSize="12"
                           Background="Transparent"
-                          HorizontalAlignment="Left">
+                          HorizontalAlignment="Left"
+                          SelectionMode="Single">
                     <ListView.ItemsPanel>
                         <ItemsPanelTemplate>
                             <WrapPanel Orientation="Horizontal" HorizontalAlignment="Stretch" />
@@ -111,7 +139,7 @@
                     </ListView.ItemTemplate>
                     <ListView.Template>
                         <ControlTemplate TargetType="ListView">
-                            <ScrollViewer VerticalScrollBarVisibility="Auto"
+                            <ScrollViewer VerticalScrollBarVisibility="Disabled"
                                           HorizontalScrollBarVisibility="Disabled">
                                 <ItemsPresenter />
                             </ScrollViewer>
@@ -144,68 +172,81 @@
                         <RowDefinition Height="Auto" />
                         <RowDefinition Height="*" />
                         <RowDefinition Height="Auto" />
-                        <RowDefinition />
+                        <RowDefinition Height="Auto" />
                     </Grid.RowDefinitions>
                     <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="Auto" />
+                        <ColumnDefinition Width="60" />
                         <ColumnDefinition Width="*" />
                     </Grid.ColumnDefinitions>
-                    <Image Grid.Row="12" Grid.Column="0" Grid.ColumnSpan="2"
-                           Source="{Binding SelectedFormula.FormulationImage.Image,Converter={StaticResource ByteToImageConverter}}" />
-                    <TextBlock Text="名称：" Grid.Row="0" Grid.Column="0" VerticalAlignment="Top" />
+
+                    <StackPanel Grid.Row="12" Grid.Column="1" >
+                        <Border CornerRadius="3" BorderThickness="1" MaxHeight="350"
+                                BorderBrush="{StaticResource TransparentButtonBorderBrush}"
+                                Background="Transparent"
+                                Padding="5"
+                                HorizontalAlignment="Left">
+                            <Image HorizontalAlignment="Center"
+                                   Source="{Binding SelectedFormula.FormulationImage.Image,Converter={StaticResource ByteToImageConverter}}" />
+                        </Border>
+                    </StackPanel>
+
+
+                    <TextBlock Text="名称：" Grid.Row="0" Grid.Column="0" VerticalAlignment="Top"
+                               Style="{DynamicResource TertiaryTitleText}" />
                     <TextBox Text="{Binding SelectedFormula.Name}"
-                             Grid.Row="0" Grid.Column="1" Margin="0,0,0,10"
-                             Style="{StaticResource TextBoxStyle}" />
+                             Grid.Row="0" Grid.Column="1" Margin="0,0,0,10"/>
 
-                    <TextBlock Text="用法：" Grid.Row="1" Grid.Column="0" VerticalAlignment="Top" />
+                    <TextBlock Text="用法：" Grid.Row="1" Grid.Column="0" VerticalAlignment="Top"
+                               Style="{DynamicResource TertiaryTitleText}" />
                     <TextBox Text="{Binding SelectedFormula.Usage}"
-                             Grid.Row="1" Grid.Column="1" Margin="0,0,0,10"
-                             Style="{StaticResource TextBoxStyle}" />
+                             Grid.Row="1" Grid.Column="1" Margin="0,0,0,10"/>
 
-                    <TextBlock Text="出处：" Grid.Row="2" Grid.Column="0" VerticalAlignment="Top" />
+                    <TextBlock Text="出处：" Grid.Row="2" Grid.Column="0" VerticalAlignment="Top"
+                               Style="{DynamicResource TertiaryTitleText}" />
                     <TextBox Text="{Binding SelectedFormula.Source}"
-                             Grid.Row="2" Grid.Column="1" Margin="0,0,0,10"
-                             Style="{StaticResource TextBoxStyle}" />
+                             Grid.Row="2" Grid.Column="1" Margin="0,0,0,10"/>
 
-                    <TextBlock Text="功效：" Grid.Row="3" Grid.Column="0" VerticalAlignment="Top" />
+                    <TextBlock Text="功效：" Grid.Row="3" Grid.Column="0" VerticalAlignment="Top"
+                               Style="{DynamicResource TertiaryTitleText}" />
                     <TextBox Text="{Binding SelectedFormula.Effect}"
-                             Grid.Row="3" Grid.Column="1" Margin="0,0,0,10"
-                             Style="{StaticResource TextBoxStyle}" />
+                             Grid.Row="3" Grid.Column="1" Margin="0,0,0,10"/>
 
-                    <TextBlock Text="主治：" Grid.Row="4" Grid.Column="0" VerticalAlignment="Top" />
+                    <TextBlock Text="主治：" Grid.Row="4" Grid.Column="0" VerticalAlignment="Top"
+                               Style="{DynamicResource TertiaryTitleText}" />
                     <TextBox Text="{Binding SelectedFormula.Indication}"
-                             Grid.Row="4" Grid.Column="1" Margin="0,0,0,10"
-                             Style="{StaticResource TextBoxStyle}" />
+                             Grid.Row="4" Grid.Column="1" Margin="0,0,0,10"/>
 
-                    <TextBlock Text="病机：" Grid.Row="5" Grid.Column="0" VerticalAlignment="Top" />
+                    <TextBlock Text="病机：" Grid.Row="5" Grid.Column="0" VerticalAlignment="Top"
+                               Style="{DynamicResource TertiaryTitleText}" />
                     <TextBox Text="{Binding SelectedFormula.Disease}"
-                             Grid.Row="5" Grid.Column="1" Margin="0,0,0,10"
-                             Style="{StaticResource TextBoxStyle}" />
+                             Grid.Row="5" Grid.Column="1" Margin="0,0,0,10"/>
 
-                    <TextBlock Text="运用：" Grid.Row="6" Grid.Column="0" VerticalAlignment="Top" />
+                    <TextBlock Text="运用：" Grid.Row="6" Grid.Column="0" VerticalAlignment="Top"
+                               Style="{DynamicResource TertiaryTitleText}" />
                     <TextBox Text="{Binding SelectedFormula.Application}"
-                             Grid.Row="6" Grid.Column="1" Margin="0,0,0,10"
-                             Style="{StaticResource TextBoxStyle}" />
+                             Grid.Row="6" Grid.Column="1" Margin="0,0,0,10"/>
 
-                    <TextBlock Text="附方：" Grid.Row="7" Grid.Column="0" VerticalAlignment="Top" />
+                    <TextBlock Text="附方：" Grid.Row="7" Grid.Column="0" VerticalAlignment="Top"
+                               Style="{DynamicResource TertiaryTitleText}" />
                     <TextBox Text="{Binding SelectedFormula.Supplement}"
-                             Grid.Row="7" Grid.Column="1" Margin="0,0,0,10"
-                             Style="{StaticResource TextBoxStyle}" />
+                             Grid.Row="7" Grid.Column="1" Margin="0,0,0,10"/>
 
-                    <TextBlock Text="方歌：" Grid.Row="8" Grid.Column="0" VerticalAlignment="Top" />
+                    <TextBlock Text="方歌：" Grid.Row="8" Grid.Column="0" VerticalAlignment="Top"
+                               Style="{DynamicResource TertiaryTitleText}" />
                     <TextBox Text="{Binding SelectedFormula.Song}"
-                             Grid.Row="8" Grid.Column="1" Margin="0,0,0,10"
-                             Style="{StaticResource TextBoxStyle}" />
+                             Grid.Row="8" Grid.Column="1" Margin="0,0,0,10"/>
 
-                    <TextBlock Text="附注：" Grid.Row="9" Grid.Column="0" VerticalAlignment="Top" />
+                    <TextBlock Text="附注：" Grid.Row="9" Grid.Column="0" VerticalAlignment="Top"
+                               Style="{DynamicResource TertiaryTitleText}" />
                     <TextBox Text="{Binding SelectedFormula.Notes}"
-                             Grid.Row="9" Grid.Column="1" Margin="0,0,0,10"
-                             Style="{StaticResource TextBoxStyle}" />
+                             Grid.Row="9" Grid.Column="1" Margin="0,0,0,10" />
 
-                    <TextBlock Text="组成：" Grid.Row="10" Grid.Column="0" VerticalAlignment="Top" />
+                    <TextBlock Text="组成：" Grid.Row="10" Grid.Column="0" VerticalAlignment="Top"
+                               Style="{DynamicResource TertiaryTitleText}" />
                     <StackPanel Grid.Row="11" Grid.Column="0" Orientation="Vertical">
                         <Button x:Name="AddButton" Content="新增" Command="{Binding AddCompositionCommand}"
-                                VerticalAlignment="Bottom" />
+                                VerticalAlignment="Bottom" HorizontalAlignment="Center"
+                                Margin="0,10,0,0"/>
                     </StackPanel>
                     <DataGrid ItemsSource="{Binding SelectedFormula.Compositions}"
                               Grid.Row="10" Grid.Column="1" Grid.RowSpan="2" Margin="0,0,0,10"
@@ -215,19 +256,19 @@
                         <DataGrid.Columns>
                             <DataGridTextColumn Header="君臣佐使" Binding="{Binding Position}"
                                                 ElementStyle="{StaticResource DataGridTextBlockStyle}"
-                                                EditingElementStyle="{StaticResource TextBoxStyle}"
+                                                EditingElementStyle="{StaticResource DataGridTextBoxStyle}"
                                                 Width="Auto" />
                             <DataGridTextColumn Header="药物" Binding="{Binding DrugName}"
                                                 ElementStyle="{StaticResource DataGridTextBlockStyle}"
-                                                EditingElementStyle="{StaticResource TextBoxStyle}"
+                                                EditingElementStyle="{StaticResource DataGridTextBoxStyle}"
                                                 Width="Auto" />
                             <DataGridTextColumn Header="方中功效" Binding="{Binding Effect}"
                                                 ElementStyle="{StaticResource DataGridTextBlockStyle}"
-                                                EditingElementStyle="{StaticResource TextBoxStyle}"
+                                                EditingElementStyle="{StaticResource DataGridTextBoxStyle}"
                                                 Width="10*" />
                             <DataGridTextColumn Header="备注" Binding="{Binding Notes}"
                                                 ElementStyle="{StaticResource DataGridTextBlockStyle}"
-                                                EditingElementStyle="{StaticResource TextBoxStyle}"
+                                                EditingElementStyle="{StaticResource DataGridTextBoxStyle}"
                                                 Width="10*" />
                         </DataGrid.Columns>
                     </DataGrid>
@@ -235,23 +276,28 @@
                     <StackPanel Orientation="Horizontal" Grid.Row="13" Grid.ColumnSpan="2" Grid.Column="0"
                                 HorizontalAlignment="Right" Margin="0,10,0,0">
                         <Button x:Name="SaveButton" Content="保存" Command="{Binding SaveFormulaCommand}"
-                                Margin="0,0,10,0"
-                                IsEnabled="False" />
-                        <Button Content="取消" Command="{Binding AddNewFormulaCommand}" />
+                                Margin="0,0,10,0"/>
+                        <Button Content="新增方剂" Command="{Binding AddNewFormulaCommand}" />
                     </StackPanel>
                 </Grid>
             </ScrollViewer>
         </GroupBox>
-        <Button Grid.Row="1" Grid.Column="0" Content="爬虫"  Margin="10"
+        <Button Grid.Row="0" Grid.Column="0"
+                Content="&#xe926;" ToolTip="爬虫：从网络批量获取数据"
+                Margin="15,30" Padding="6"
                 Click="ButtonBase_OnClick"
-                HorizontalAlignment="Center" VerticalAlignment="Center">
+                HorizontalAlignment="Right" VerticalAlignment="Top"
+                FontFamily="{DynamicResource IconFont}"
+                FontSize="16"
+                Style="{DynamicResource TransparentButton}">
             <Button.ContextMenu>
                 <ContextMenu x:Name="CrawlerMenu">
-                    <MenuItem Header="中医方剂网" Command="{Binding GetFormulaFromZyfjCommand}" />
+                    <MenuItem Icon="&#xe613;" Header="中医方剂网" Command="{Binding GetFormulaFromZyfjCommand}" />
                 </ContextMenu>
             </Button.ContextMenu>
         </Button>
-        <Grid Grid.Column="1" Grid.Row="1" Margin="10"
+        <Grid Grid.Column="0" Grid.Row="1" Grid.ColumnSpan="2"
+              Margin="10,0,10,10"
               Visibility="{Binding Progress.IsRunning,Converter={StaticResource BooleanToVisibilityConverter}}">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="*" />
@@ -260,10 +306,10 @@
                 <ColumnDefinition Width="Auto" />
             </Grid.ColumnDefinitions>
             <Grid.RowDefinitions>
-                <RowDefinition Height="Auto"/>
-                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
             </Grid.RowDefinitions>
-            <TextBlock Grid.Column="0" Grid.Row="0"
+            <TextBlock Grid.Column="0" Grid.Row="0" Margin="5,0,5,3"
                        Text="{Binding Progress.LatestLog,Mode=OneWay}" VerticalAlignment="Center" />
             <TextBlock Grid.Column="1" Grid.Row="0"
                        Text="{Binding Progress.CurrentProgress,Mode=OneWay}"
@@ -274,18 +320,15 @@
             <TextBlock Grid.Column="3" Grid.Row="0"
                        Text="{Binding Progress.TotalLength,Mode=OneWay}"
                        VerticalAlignment="Center" />
-            <ProgressBar Grid.Column="0" Grid.Row="1" Grid.ColumnSpan="4" Margin="5"
+            <ProgressBar Grid.Column="0" Grid.Row="1" Grid.ColumnSpan="4" Margin="0,5"
                          Maximum="{Binding Progress.TotalLength,Mode=OneWay}"
                          Value="{Binding Progress.CurrentProgress,Mode=OneWay}"
-                         ToolTip="{Binding Progress.LatestLog,Mode=OneWay}" 
+                         ToolTip="{Binding Progress.LatestLog,Mode=OneWay}"
                          Background="{StaticResource WindowBgBrush}"
                          Foreground="{StaticResource AccentBrush}"
                          BorderBrush="{StaticResource AccentPressedBgBrush}"
                          BorderThickness="1" Cursor="Arrow"
-                         Height="10"/>
+                         Height="10" />
         </Grid>
-        <!-- <Button Grid.Row="1" Grid.Column="0" Content="从中医方剂网导入数据" Command="{Binding GetFormulaFromZyfjCommand}" -->
-        <!--         Margin="10" -->
-        <!--         HorizontalAlignment="Center" VerticalAlignment="Center" /> -->
     </Grid>
 </Page>

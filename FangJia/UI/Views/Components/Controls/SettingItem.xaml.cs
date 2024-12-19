@@ -55,6 +55,7 @@ public partial class SettingItem
 					                    Source    = this,
 					                    Converter = new StringToStyleConverter()
 				                    });
+				comboBox.SetBinding(ComboBox.IsEnabledProperty, new Binding(nameof(IsControlEnable)) { Source = this });
 				comboBox.SelectionChanged +=
 					(_, _) =>
 					{
@@ -190,5 +191,17 @@ public partial class SettingItem
 	{
 		get => (string)GetValue(ControlStyleProperty);
 		set => SetValue(ControlStyleProperty, value);
+	}
+
+	public static readonly DependencyProperty IsControlEnableProperty =
+		DependencyProperty.Register(nameof(IsControlEnable),
+		                            typeof(bool),
+		                            typeof(SettingItem),
+		                            new FrameworkPropertyMetadata(true));
+
+	public bool IsControlEnable
+	{
+		get => (bool)GetValue(IsControlEnableProperty);
+		set => SetValue(IsControlEnableProperty, value);
 	}
 }

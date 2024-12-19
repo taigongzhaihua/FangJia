@@ -44,12 +44,13 @@
                 <TextBlock Text="今日任务 0/5"
                            FontSize="18"
                            Margin="10,5"
-                           Style="{DynamicResource WarningText}"/>
+                           Style="{DynamicResource WarningText}"
+                           Typography.Fraction="Stacked" />
             </StackPanel>
         </StackPanel>
         <Separator Grid.Row="1" 
-                   Height="0.5" Margin="30"
-                   Background="Gray" />
+                   Height="0.8" Margin="30"
+                   Background="{StaticResource BodyTextBrush}" />
 
         <Grid Grid.Row="2">
 

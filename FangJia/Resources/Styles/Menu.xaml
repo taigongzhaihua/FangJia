@@ -1,0 +1,106 @@
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    xmlns:behaviors="clr-namespace:FangJia.BusinessLogic.Models.Behaviors">
+    <Style TargetType="{x:Type ContextMenu}">
+    <Setter Property="BorderThickness" Value="0.5" />
+    <Setter Property="Padding" Value="3,5" />
+    <Setter Property="Background" Value="{StaticResource ControlBgBrush}" />
+    <Setter Property="BorderBrush" Value="{StaticResource TransparentButtonBorderBrush}" />
+    <Setter Property="Template">
+        <Setter.Value>
+            <ControlTemplate TargetType="ContextMenu">
+                <Border Background="{TemplateBinding Background}"
+                        BorderBrush="{TemplateBinding BorderBrush}"
+                        BorderThickness="{TemplateBinding BorderThickness}"
+                        CornerRadius="8"
+                        Padding="{TemplateBinding Padding}">
+                    <StackPanel>
+                        <ItemsPresenter />
+                    </StackPanel>
+                </Border>
+            </ControlTemplate>
+        </Setter.Value>
+    </Setter>
+</Style>
+
+<!-- 定义通用 MenuItem 样式 -->
+<Style TargetType="{x:Type MenuItem}">
+    <Setter Property="behaviors:MenuItemBehaviors.AttachMouseEvents" Value="True" />
+    <Setter Property="Template">
+        <Setter.Value>
+            <ControlTemplate TargetType="MenuItem">
+                <Grid>
+                    <VisualStateManager.VisualStateGroups>
+                        <VisualStateGroup x:Name="CommonStates">
+                            <!-- Normal State -->
+                            <VisualState x:Name="Normal" >
+                                <Storyboard>
+                                    <ColorAnimation Storyboard.TargetName="Border"
+                                                    Storyboard.TargetProperty="(Border.Background).(SolidColorBrush.Color)"
+                                                    To="{StaticResource ListItemBg}" Duration="0:0:0.2"/>
+                                    <ColorAnimation Storyboard.TargetName="MenuItemContent"
+                                                    Storyboard.TargetProperty="(TextBlock.Foreground).(SolidColorBrush.Color)"
+                                                    To="{StaticResource ListItemFg}" Duration="0:0:0.2"/>
+                                    <ColorAnimation Storyboard.TargetName="MenuItemIcon"
+                                                    Storyboard.TargetProperty="(TextBlock.Foreground).(SolidColorBrush.Color)"
+                                                    To="{StaticResource ListItemFg}" Duration="0:0:0.2"/>
+                                </Storyboard>
+                            </VisualState>
+                            <!-- MouseOver State -->
+                            <VisualState x:Name="MouseOver">
+                                <Storyboard>
+                                    <ColorAnimation Storyboard.TargetName="Border"
+                                                    Storyboard.TargetProperty="(Border.Background).(SolidColorBrush.Color)"
+                                                    To="{StaticResource ListItemHoverBg}" Duration="0:0:0.2"/>
+                                    <ColorAnimation Storyboard.TargetName="MenuItemContent"
+                                                    Storyboard.TargetProperty="(TextBlock.Foreground).(SolidColorBrush.Color)"
+                                                    To="{StaticResource ListItemHoverFg}" Duration="0:0:0.2"/>
+                                    <ColorAnimation Storyboard.TargetName="MenuItemIcon"
+                                                    Storyboard.TargetProperty="(TextBlock.Foreground).(SolidColorBrush.Color)"
+                                                    To="{StaticResource ListItemHoverFg}" Duration="0:0:0.2"/>
+                                </Storyboard>
+                            </VisualState>
+                            <!-- Pressed State -->
+                            <VisualState x:Name="Pressed">
+                                <Storyboard>
+                                    <ColorAnimation Storyboard.TargetName="Border"
+                                                    Storyboard.TargetProperty="(Border.Background).(SolidColorBrush.Color)"
+                                                    To="{StaticResource ListItemSelectedBg}" Duration="0:0:0.1"/>
+                                    <ColorAnimation Storyboard.TargetName="MenuItemContent"
+                                                    Storyboard.TargetProperty="(TextBlock.Foreground).(SolidColorBrush.Color)"
+                                                    To="{StaticResource ListItemSelectedFg}" Duration="0:0:0.1"/>
+                                    <ColorAnimation Storyboard.TargetName="MenuItemIcon"
+                                                    Storyboard.TargetProperty="(TextBlock.Foreground).(SolidColorBrush.Color)"
+                                                    To="{StaticResource ListItemSelectedFg}" Duration="0:0:0.1"/>
+                                </Storyboard>
+                            </VisualState>
+                        </VisualStateGroup>
+                    </VisualStateManager.VisualStateGroups>
+                    <Border x:Name="Border" 
+                            CornerRadius="5" BorderThickness="0"
+                            MinWidth="120" MinHeight="30" Margin="2"
+                            Background="{StaticResource ListItemBgBrush}">
+                        <StackPanel Orientation="Horizontal">
+                            <!-- 图标 -->
+                            <TextBlock x:Name="MenuItemIcon"
+                                       Text="{Binding Icon, RelativeSource={RelativeSource TemplatedParent}}"
+                                       Foreground="{StaticResource ListItemFgBrush}"
+                                       FontFamily="{DynamicResource IconFont}"
+                                       VerticalAlignment="Center"
+                                       FontSize="16"
+                                       Margin="4"/>
+                            <!-- 菜单项内容 -->
+                            <TextBlock x:Name="MenuItemContent"
+                                       Text="{TemplateBinding Header}"
+                                       Foreground="{StaticResource ListItemFgBrush}"
+                                       FontSize="14"
+                                       VerticalAlignment="Center"
+                                       Margin="5,0"/>
+                        </StackPanel>
+                    </Border>
+                </Grid>
+            </ControlTemplate>
+        </Setter.Value>
+    </Setter>
+</Style>
+</ResourceDictionary>
