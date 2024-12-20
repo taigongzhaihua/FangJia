@@ -74,6 +74,19 @@
                                                     To="{StaticResource ListItemSelectedFg}" Duration="0:0:0.1"/>
                                 </Storyboard>
                             </VisualState>
+                            <VisualState x:Name="Disabled">
+                                <Storyboard>
+                                    <ColorAnimation Storyboard.TargetName="Border"
+                                                    Storyboard.TargetProperty="(Border.Background).(SolidColorBrush.Color)"
+                                                    To="{StaticResource ButtonDisabledBg}" Duration="0:0:0.1" />
+                                    <ColorAnimation Storyboard.TargetName="MenuItemContent"
+                                                    Storyboard.TargetProperty="(TextBlock.Foreground).(SolidColorBrush.Color)"
+                                                    To="{StaticResource ButtonDisabledFg}" Duration="0:0:0.1" />
+                                    <ColorAnimation Storyboard.TargetName="MenuItemIcon"
+                                                    Storyboard.TargetProperty="(TextBlock.Foreground).(SolidColorBrush.Color)"
+                                                    To="{StaticResource ButtonDisabledFg}" Duration="0:0:0.1" />
+                                </Storyboard>
+                            </VisualState>
                         </VisualStateGroup>
                     </VisualStateManager.VisualStateGroups>
                     <Border x:Name="Border" 
