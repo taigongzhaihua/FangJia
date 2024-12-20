@@ -1,4 +1,5 @@
 ﻿using System.Diagnostics.CodeAnalysis;
+using System.Windows.Media;
 using System.Runtime.InteropServices;
 using System.Windows;
 using System.Windows.Interop;
@@ -21,6 +22,13 @@ public partial class WindowBase : Window
 	/// </summary>
 	private const int DWMWA_WINDOW_CORNER_PREFERENCE = 33;
 
+	private const int DWMWA_BORDER_COLOR = 34;
+
+	private void SetWindowBorderColor(IntPtr hwnd, uint color)
+	{
+		DwmSetWindowAttribute(hwnd, DWMWA_BORDER_COLOR, ref color, sizeof(uint));
+	}
+
 	/// <summary>
 	/// 枚举表示不同的窗口圆角偏好设置
 	/// </summary>
@@ -32,6 +40,11 @@ public partial class WindowBase : Window
 		DWMWCP_DEFAULT = 0,
 
 		/// <summary>
+		/// 不使用圆角
+		/// </summary>
+		DWMWCP_DONOTROUND = 1,
+
+		/// <summary>
 		/// 使用圆角
 		/// </summary>
 		DWMWCP_ROUND = 2,
@@ -39,7 +52,7 @@ public partial class WindowBase : Window
 		/// <summary>
 		/// 使用小圆角
 		/// </summary>
-		DWMWCP_ROUNDED = 3
+		DWMWCP_ROUNDSMALL = 3
 	}
 
 	/// <summary>
@@ -55,6 +68,12 @@ public partial class WindowBase : Window
 	                                                  ref DwmWindowCornerPreference attrValue,
 	                                                  int                           attrSize);
 
+	[LibraryImport("dwmapi.dll", SetLastError = true)]
+	private static partial void DwmSetWindowAttribute(IntPtr   hwnd,
+	                                                  int      dwAttribute,
+	                                                  ref uint pvAttribute,
+	                                                  int      cbAttribute);
+
 	/// <summary>
 	/// BaseWindow 构造函数，初始化窗口组件并设置自定义样式
 	/// </summary>
@@ -67,6 +86,14 @@ public partial class WindowBase : Window
 
 		// 允许用户通过拖动窗口空白区域来移动窗口
 		MouseLeftButtonDown += (_, _) => DragMove();
+
+		StateChanged += onwindowstatechanged;
+	}
+
+	// 将 Color 转换为 ARGB 格式
+	private static uint ConvertColorToArgb(Color color)
+	{
+		return (uint)(((0xFF - color.A) << 24) | (color.B << 16) | (color.G << 8) | color.R);
 	}
 
 	/// <summary>
@@ -76,10 +103,15 @@ public partial class WindowBase : Window
 	{
 		var windowChrome = new WindowChrome
 		                   {
-			                   ResizeBorderThickness = new Thickness(uniformLength: 5), // 设置窗口的可调整边框厚度
-			                   CaptionHeight         = 0,                               // 设置标题栏的高度为 0，隐藏默认标题栏
-			                   CornerRadius          = new CornerRadius(15)             // 设置窗口的圆角半径
+			                   ResizeBorderThickness = new Thickness(uniformLength: 5),  // 设置窗口的可调整边框厚度
+			                   CaptionHeight         = 60,                               // 设置标题栏的高度为 0，隐藏默认标题栏
+			                   CornerRadius          = new CornerRadius(8),              // 设置窗口的圆角半径
+			                   GlassFrameThickness   = new Thickness(uniformLength: -1), // 设置玻璃效果的边框厚度
+			                   NonClientFrameEdges = NonClientFrameEdges.Bottom | NonClientFrameEdges.Left |
+			                                         NonClientFrameEdges.Right, // 设置非客户区边缘
+			                   UseAeroCaptionButtons = false,                   // 禁用默认的标题栏按钮
 		                   };
+
 		WindowChrome.SetWindowChrome(window: this, chrome: windowChrome); // 应用自定义的 WindowChrome 到窗口
 	}
 
@@ -91,6 +123,10 @@ public partial class WindowBase : Window
 	private void OnSourceInitialized(object? sender, EventArgs e)
 	{
 		SetWindowCornerRadiusIfApplicable(); // 如果适用，设置窗口圆角
+		var hWnd = new WindowInteropHelper(window: this).Handle; // 获取窗口的句柄
+		var color     = (Color)FindResource("AccentColor");
+		var argbColor = ConvertColorToArgb(color);
+		SetWindowBorderColor(hWnd, argbColor);
 	}
 
 	/// <summary>
@@ -116,4 +152,19 @@ public partial class WindowBase : Window
 	private static bool IsWindows11OrGreater =>
 		Environment.OSVersion.Version >=
 		new Version(major: 10, minor: 0, build: 22000, revision: 0); // Windows 11 的版本号为 10.0.22000
+
+	private void onwindowstatechanged(object? sender, EventArgs e)
+	{
+		if (WindowState == WindowState.Maximized)
+		{
+			var screen = SystemParameters.WorkArea; // 系统工作区域
+			MaxWidth        = screen.Width  + 16;
+			MaxHeight       = screen.Height + 16;
+			BorderThickness = new Thickness(8);
+		}
+		else
+		{
+			BorderThickness = new Thickness(0);
+		}
+	}
 }
