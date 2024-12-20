@@ -117,7 +117,7 @@ public partial class FormulasViewModel(
 				           TotalLength = formulations.Count
 			           }; // 更新进度
 
-		// 遍历从爬虫服务获取的配方列表
+// 并行异步处理配方列表
 		foreach (var formulation in list)
 		{
 			// 在本地数据库中查找是否存在相同名称的配方
@@ -141,8 +141,10 @@ public partial class FormulasViewModel(
 				await _dataService.InsertFormulation(formulation);
 			}
 
+			// 更新进度和日志
 			Progress = Progress.UpdateProgress(Progress.CurrentProgress + 1)
 			                   .AddLog($"已保存 {formulation.Name}");
+			await Task.Delay(1);
 		}
 
 		Progress = Progress.Reset();
