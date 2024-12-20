@@ -73,6 +73,7 @@ public static class MenuItemBehaviors
         menuItem.MouseEnter += MenuItem_MouseEnter;
         menuItem.MouseLeave += MenuItem_MouseLeave;
         menuItem.PreviewMouseDown += MenuItem_PreviewMouseDown;
+        menuItem.IsEnabledChanged += MenuItem_IsEnabledChanged;
     }
 
     /// <summary>
@@ -84,6 +85,7 @@ public static class MenuItemBehaviors
         menuItem.MouseEnter -= MenuItem_MouseEnter;
         menuItem.MouseLeave -= MenuItem_MouseLeave;
         menuItem.PreviewMouseDown -= MenuItem_PreviewMouseDown;
+        menuItem.IsEnabledChanged -= MenuItem_IsEnabledChanged;
     }
 
     /// <summary>
@@ -119,6 +121,21 @@ public static class MenuItemBehaviors
         ChangeVisualState(sender, "Pressed");
     }
 
+    private static void MenuItem_IsEnabledChanged(object sender, DependencyPropertyChangedEventArgs e)
+    {
+        if (sender is not MenuItem menuItem) return;
+
+        if ((bool)e.NewValue)
+        {
+            Logger.Debug("MenuItem 变为可用，尝试切换到 'Normal' 状态。");
+            ChangeVisualState(menuItem, "Normal");
+        }
+        else
+        {
+            Logger.Debug("MenuItem 变为不可用，尝试切换到 'Disabled' 状态。");
+            ChangeVisualState(menuItem, "Disabled");
+        }
+    }
     /// <summary>
     /// 切换指定对象的 VisualState。
     /// </summary>
