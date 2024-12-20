@@ -131,8 +131,6 @@
             </Setter.Value>
         </Setter>
     </Style>
-
-
     <Style TargetType="ListBoxItem" x:Key="DataTabListItemStyle">
         <Setter Property="Foreground"
                 Value="{StaticResource TertiaryTitleBrush}" />
@@ -238,18 +236,18 @@
                    IsDirectionReversed="True">
                 <!-- 减少按钮 -->
                 <Track.DecreaseRepeatButton>
-                    <RepeatButton Command="ScrollBar.PageUpCommand"
-                                  Background="{StaticResource LayoutBgBrush}" BorderThickness="0" />
+                    <RepeatButton Command="ScrollBar.LineUpCommand"
+                                  Style="{DynamicResource RepeatButtonStyle }" />
                 </Track.DecreaseRepeatButton>
 
                 <!-- 增加按钮 -->
                 <Track.IncreaseRepeatButton>
-                    <RepeatButton Command="ScrollBar.PageDownCommand"
-                                  Background="{StaticResource LayoutBgBrush}" BorderThickness="0" />
+                    <RepeatButton Command="ScrollBar.LineDownCommand"
+                                  Style="{DynamicResource RepeatButtonStyle }" />
                 </Track.IncreaseRepeatButton>
                 <Track.Thumb>
                     <!--滑块-->
-                    <Thumb Background="{StaticResource AccentBrush}" BorderThickness="0">
+                    <Thumb Background="{StaticResource ListItemSelectedBgBrush}" BorderThickness="0">
                         <Thumb.Template>
                             <ControlTemplate>
                                 <Grid Background="{TemplateBinding Background}" />
@@ -266,7 +264,8 @@
         <Grid>
             <Track Name="PART_Track" FlowDirection="LeftToRight">
                 <Track.DecreaseRepeatButton>
-                    <RepeatButton Command="ScrollBar.PageLeftCommand" />
+                    <RepeatButton Command="ScrollBar.LineLeftCommand"
+                                  Style="{DynamicResource RepeatButtonStyle }" />
                 </Track.DecreaseRepeatButton>
                 <Track.Thumb>
                     <Thumb Background="{StaticResource LayoutBgBrush}" BorderThickness="0">
@@ -278,11 +277,35 @@
                     </Thumb>
                 </Track.Thumb>
                 <Track.IncreaseRepeatButton>
-                    <RepeatButton Command="ScrollBar.PageRightCommand" />
+                    <RepeatButton Command="ScrollBar.LineRightCommand"
+                                  Style="{DynamicResource RepeatButtonStyle }" />
                 </Track.IncreaseRepeatButton>
             </Track>
         </Grid>
     </ControlTemplate>
+    <Style TargetType="RepeatButton" x:Key="RepeatButtonStyle">
+        <Setter Property="Background" Value="{StaticResource ListItemBgBrush}" />
+        <Setter Property="BorderThickness" Value="0" />
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="RepeatButton">
+                    <Border Background="{TemplateBinding Background}"
+                            BorderBrush="{TemplateBinding BorderBrush}"
+                            BorderThickness="{TemplateBinding BorderThickness}">
+                        <ContentPresenter />
+                    </Border>
+                    <ControlTemplate.Triggers>
+                        <Trigger Property="IsPressed" Value="True">
+                            <Setter Property="Background" Value="{StaticResource ListItemHoverBgBrush}" />
+                        </Trigger>
+                        <Trigger Property="IsMouseOver" Value="True">
+                            <Setter Property="Background" Value="{StaticResource ListItemHoverBgBrush}" />
+                        </Trigger>
+                    </ControlTemplate.Triggers>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
     <!-- 自定义listbox样式 -->
     <Style TargetType="ListView" x:Key="CustomListBoxStyle">
         <Setter Property="Background" Value="{StaticResource ListItemBgBrush}"></Setter>

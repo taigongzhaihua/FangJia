@@ -6,18 +6,22 @@
       xmlns:converters="clr-namespace:FangJia.UI.Converters"
       x:Name="Page"
       mc:Ignorable="d"
-      d:DesignHeight="450" d:DesignWidth="800"
-      Title="Medicine">
+      d:DesignHeight="450"
+      d:DesignWidth="800"
+      Title="Medicine" >
     <Page.Resources>
-        
+
         <converters:ByteToImageConverter x:Key="ByteToImageConverter" />
         <BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter" />
     </Page.Resources>
     <Grid>
         <Grid.Background>
-            <LinearGradientBrush StartPoint="0,0" EndPoint="0,0.1">
-                <GradientStop Color="{StaticResource WindowBg}" Offset="0" />
-                <GradientStop Color="{StaticResource LayoutBg}" Offset="1" />
+            <LinearGradientBrush StartPoint="0,0"
+                                 EndPoint="0,0.1" >
+                <GradientStop Color="{StaticResource WindowBg}"
+                              Offset="0" />
+                <GradientStop Color="{StaticResource LayoutBg}"
+                              Offset="1" />
             </LinearGradientBrush>
         </Grid.Background>
         <Grid.RowDefinitions>
@@ -25,22 +29,28 @@
             <RowDefinition Height="Auto" />
         </Grid.RowDefinitions>
         <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="2*" MaxWidth="360" MinWidth="280"/>
+            <ColumnDefinition Width="2*"
+                              MaxWidth="360"
+                              MinWidth="280" />
             <ColumnDefinition Width="5*" />
             <!-- 右侧编辑区域 -->
         </Grid.ColumnDefinitions>
-        <GroupBox Grid.Column="0" Header="药物" Margin="15,25,0,25">
+        <GroupBox Grid.Column="0"
+                  Header="药物"
+                  Margin="15,25,0,25" >
             <ListView ItemsSource="{Binding ShowingDrugs, Mode=OneWay}"
-                      BorderThickness="0" Background="Transparent"
+                      BorderThickness="0"
+                      Background="Transparent"
                       Foreground="{StaticResource ListItemFgBrush}"
-                      MaxWidth="300" MinWidth="220"
+                      MaxWidth="300"
+                      MinWidth="220"
                       SelectionMode="Single"
                       SelectionChanged="Selector_OnSelectionChanged"
-                      x:Name="CategoriesListView">
+                      x:Name="CategoriesListView" >
                 <ListView.Template>
-                    <ControlTemplate TargetType="ListView">
+                    <ControlTemplate TargetType="ListView" >
                         <ScrollViewer VerticalScrollBarVisibility="Auto"
-                                      HorizontalScrollBarVisibility="Disabled">
+                                      HorizontalScrollBarVisibility="Disabled" >
                             <ItemsPresenter />
                         </ScrollViewer>
                     </ControlTemplate>
@@ -53,19 +63,21 @@
                 </ListView.Resources>
                 <ListView.ItemTemplate>
                     <DataTemplate>
-                        <Expander
-                            Collapsed="Expander_OnCollapsed"
-                            IsExpanded="{Binding RelativeSource={RelativeSource AncestorType={x:Type ListViewItem}}, Path=IsSelected, Mode=TwoWay}"
-                            Style="{DynamicResource ExpanderStyleMain}">
+                        <Expander Collapsed="Expander_OnCollapsed"
+                                  IsExpanded="{Binding RelativeSource={RelativeSource AncestorType={x:Type ListViewItem}}, Path=IsSelected, Mode=TwoWay}"
+                                  Style="{DynamicResource ExpanderStyleMain}" >
                             <Expander.Header>
-                                <TextBlock Text="{Binding Key}" FontSize="14"
+                                <TextBlock Text="{Binding Key}"
+                                           FontSize="14"
                                            Foreground="{TemplateBinding TextBlock.Foreground}" />
                             </Expander.Header>
 
-                            <Border CornerRadius="5" Margin="0,5"
-                                    BorderThickness="0" Padding="5"
-                                    Background="{StaticResource ControlBgBrush}">
-                                <Grid HorizontalAlignment="Stretch">
+                            <Border CornerRadius="5"
+                                    Margin="0,5"
+                                    BorderThickness="0"
+                                    Padding="5"
+                                    Background="{StaticResource ControlBgBrush}" >
+                                <Grid HorizontalAlignment="Stretch" >
                                     <Grid.ColumnDefinitions>
                                         <ColumnDefinition Width="*" />
                                     </Grid.ColumnDefinitions>
@@ -74,10 +86,11 @@
                                               ItemsSource="{Binding }"
                                               SelectionChanged="Selector_OnSelectionChanged"
                                               SelectionMode="Single"
-                                              BorderThickness="0" FontSize="12"
+                                              BorderThickness="0"
+                                              FontSize="12"
                                               Background="Transparent"
                                               x:Name="ChildListView"
-                                              MaxHeight="400">
+                                              MaxHeight="255" >
                                         <ListView.ItemsPanel>
                                             <ItemsPanelTemplate>
                                                 <VirtualizingStackPanel Orientation="Vertical"
@@ -86,9 +99,9 @@
                                             </ItemsPanelTemplate>
                                         </ListView.ItemsPanel>
                                         <ListView.Template>
-                                            <ControlTemplate TargetType="ListView">
+                                            <ControlTemplate TargetType="ListView" >
                                                 <ScrollViewer VerticalScrollBarVisibility="Auto"
-                                                              HorizontalScrollBarVisibility="Disabled">
+                                                              HorizontalScrollBarVisibility="Disabled" >
                                                     <ItemsPresenter />
                                                 </ScrollViewer>
                                             </ControlTemplate>
@@ -101,7 +114,8 @@
                                         </ListView.Resources>
                                         <ListView.ItemTemplate>
                                             <DataTemplate>
-                                                <TextBlock Text="{Binding Name}" Margin="3,0" />
+                                                <TextBlock Text="{Binding Name}"
+                                                           Margin="3,0" />
                                             </DataTemplate>
                                         </ListView.ItemTemplate>
                                     </ListView>
@@ -113,15 +127,21 @@
             </ListView>
         </GroupBox>
 
-        <GroupBox Grid.Row="0" Grid.Column="1" Margin="15,25"
-                  BorderThickness="0" Header="编辑">
+        <GroupBox Grid.Row="0"
+                  Grid.Column="1"
+                  Margin="15,25"
+                  BorderThickness="0"
+                  Header="编辑" >
             <!-- 右侧编辑界面 -->
-            <ScrollViewer VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility='Disabled'
-                          Margin="-10,-10,-10,0" Padding="15">
+            <ScrollViewer VerticalScrollBarVisibility="Auto"
+                          HorizontalScrollBarVisibility='Disabled'
+                          Margin="-10,-10,-10,0"
+                          Padding="15" >
                 <ScrollViewer.Resources>
-                    <Style TargetType="{x:Type ScrollBar}" BasedOn="{StaticResource CustomScrollBarStyle}" />
+                    <Style TargetType="{x:Type ScrollBar}"
+                           BasedOn="{StaticResource CustomScrollBarStyle}" />
                 </ScrollViewer.Resources>
-                <Grid Margin="10">
+                <Grid Margin="10" >
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="80" />
                         <ColumnDefinition Width="*" />
@@ -145,107 +165,181 @@
                     </Grid.RowDefinitions>
 
                     <!-- Labels -->
-                    <TextBlock Text="药物名称：" Grid.Row="0" Grid.Column="0" VerticalAlignment="Top"
+                    <TextBlock Text="药物名称："
+                               Grid.Row="0"
+                               Grid.Column="0"
+                               VerticalAlignment="Top"
                                Style="{DynamicResource TertiaryTitleText}" />
-                    <TextBlock Text="英文名称：" Grid.Row="1" Grid.Column="0" VerticalAlignment="Top"
+                    <TextBlock Text="英文名称："
+                               Grid.Row="1"
+                               Grid.Column="0"
+                               VerticalAlignment="Top"
                                Style="{DynamicResource TertiaryTitleText}" />
-                    <TextBlock Text="拉丁名称：" Grid.Row="2" Grid.Column="0" VerticalAlignment="Top"
+                    <TextBlock Text="拉丁名称："
+                               Grid.Row="2"
+                               Grid.Column="0"
+                               VerticalAlignment="Top"
                                Style="{DynamicResource TertiaryTitleText}" />
-                    <TextBlock Text="分类：" Grid.Row="3" Grid.Column="0" VerticalAlignment="Top"
+                    <TextBlock Text="分类："
+                               Grid.Row="3"
+                               Grid.Column="0"
+                               VerticalAlignment="Top"
                                Style="{DynamicResource TertiaryTitleText}" />
-                    <TextBlock Text="产地：" Grid.Row="4" Grid.Column="0" VerticalAlignment="Top"
+                    <TextBlock Text="产地："
+                               Grid.Row="4"
+                               Grid.Column="0"
+                               VerticalAlignment="Top"
                                Style="{DynamicResource TertiaryTitleText}" />
-                    <TextBlock Text="性状：" Grid.Row="5" Grid.Column="0" VerticalAlignment="Top"
+                    <TextBlock Text="性状："
+                               Grid.Row="5"
+                               Grid.Column="0"
+                               VerticalAlignment="Top"
                                Style="{DynamicResource TertiaryTitleText}" />
-                    <TextBlock Text="品质：" Grid.Row="6" Grid.Column="0" VerticalAlignment="Top"
+                    <TextBlock Text="品质："
+                               Grid.Row="6"
+                               Grid.Column="0"
+                               VerticalAlignment="Top"
                                Style="{DynamicResource TertiaryTitleText}" />
-                    <TextBlock Text="性味：" Grid.Row="7" Grid.Column="0" VerticalAlignment="Top"
+                    <TextBlock Text="性味："
+                               Grid.Row="7"
+                               Grid.Column="0"
+                               VerticalAlignment="Top"
                                Style="{DynamicResource TertiaryTitleText}" />
-                    <TextBlock Text="归经：" Grid.Row="8" Grid.Column="0" VerticalAlignment="Top"
+                    <TextBlock Text="归经："
+                               Grid.Row="8"
+                               Grid.Column="0"
+                               VerticalAlignment="Top"
                                Style="{DynamicResource TertiaryTitleText}" />
-                    <TextBlock Text="功效：" Grid.Row="9" Grid.Column="0" VerticalAlignment="Top"
+                    <TextBlock Text="功效："
+                               Grid.Row="9"
+                               Grid.Column="0"
+                               VerticalAlignment="Top"
                                Style="{DynamicResource TertiaryTitleText}" />
-                    <TextBlock Text="注解：" Grid.Row="10" Grid.Column="0" VerticalAlignment="Top"
+                    <TextBlock Text="注解："
+                               Grid.Row="10"
+                               Grid.Column="0"
+                               VerticalAlignment="Top"
                                Style="{DynamicResource TertiaryTitleText}" />
-                    <TextBlock Text="炮制品类：" Grid.Row="11" Grid.Column="0" VerticalAlignment="Top"
+                    <TextBlock Text="炮制品类："
+                               Grid.Row="11"
+                               Grid.Column="0"
+                               VerticalAlignment="Top"
                                Style="{DynamicResource TertiaryTitleText}" />
-                    <TextBlock Text="来源：" Grid.Row="12" Grid.Column="0" VerticalAlignment="Top"
+                    <TextBlock Text="来源："
+                               Grid.Row="12"
+                               Grid.Column="0"
+                               VerticalAlignment="Top"
                                Style="{DynamicResource TertiaryTitleText}" />
 
                     <!-- Input Fields -->
                     <TextBox Text="{Binding SelectedDrug.Name}"
-                             Grid.Row="0" Grid.Column="1"
+                             Grid.Row="0"
+                             Grid.Column="1"
                              Margin="0,0,0,10" />
                     <TextBox Text="{Binding SelectedDrug.EnglishName}"
-                             Grid.Row="1" Grid.Column="1"
+                             Grid.Row="1"
+                             Grid.Column="1"
                              Margin="0,0,0,10" />
                     <TextBox Text="{Binding SelectedDrug.LatinName}"
-                             Grid.Row="2" Grid.Column="1"
+                             Grid.Row="2"
+                             Grid.Column="1"
                              Margin="0,0,0,10" />
                     <TextBox Text="{Binding SelectedDrug.Category}"
-                             Grid.Row="3" Grid.Column="1"
+                             Grid.Row="3"
+                             Grid.Column="1"
                              Margin="0,0,0,10" />
                     <TextBox Text="{Binding SelectedDrug.Origin}"
-                             Grid.Row="4" Grid.Column="1"
+                             Grid.Row="4"
+                             Grid.Column="1"
                              Margin="0,0,0,10" />
                     <TextBox Text="{Binding SelectedDrug.Properties}"
-                             Grid.Row="5" Grid.Column="1"
+                             Grid.Row="5"
+                             Grid.Column="1"
                              Margin="0,0,0,10" />
                     <TextBox Text="{Binding SelectedDrug.Quality}"
                              Margin="0,0,0,10"
-                             Grid.Row="6" Grid.Column="1" />
+                             Grid.Row="6"
+                             Grid.Column="1" />
                     <TextBox Text="{Binding SelectedDrug.Taste}"
-                             Grid.Row="7" Grid.Column="1"
+                             Grid.Row="7"
+                             Grid.Column="1"
                              Margin="0,0,0,10" />
                     <TextBox Text="{Binding SelectedDrug.Meridian}"
                              Margin="0,0,0,10"
-                             Grid.Row="8" Grid.Column="1" />
+                             Grid.Row="8"
+                             Grid.Column="1" />
                     <TextBox Text="{Binding SelectedDrug.Effect}"
-                             Grid.Row="9" Grid.Column="1"
+                             Grid.Row="9"
+                             Grid.Column="1"
                              Margin="0,0,0,10" />
                     <TextBox Text="{Binding SelectedDrug.Notes}"
-                             Grid.Row="10" Grid.Column="1"
+                             Grid.Row="10"
+                             Grid.Column="1"
                              Margin="0,0,0,10" />
                     <TextBox Text="{Binding SelectedDrug.Processed}"
                              Margin="0,0,0,10"
-                             Grid.Row="11" Grid.Column="1" />
+                             Grid.Row="11"
+                             Grid.Column="1" />
                     <TextBox Text="{Binding SelectedDrug.Source}"
                              Margin="0,0,0,10"
-                             Grid.Row="12" Grid.Column="1" />
-                    <StackPanel Grid.Row="13" Grid.Column="1">
-                        <Border CornerRadius="3" BorderThickness="1" MaxHeight="350"
+                             Grid.Row="12"
+                             Grid.Column="1" />
+                    <StackPanel Grid.Row="13"
+                                Grid.Column="1" >
+                        <Border CornerRadius="3"
+                                BorderThickness="1"
+                                MaxHeight="350"
                                 BorderBrush="{StaticResource TransparentButtonBorderBrush}"
                                 Background="Transparent"
                                 Padding="5"
-                                HorizontalAlignment="Left">
-                            <Image Source="{Binding SelectedDrug.DrugImage.Image,Converter={StaticResource ByteToImageConverter}}" />
+                                HorizontalAlignment="Left" >
+                            <Image
+                                Source="{Binding SelectedDrug.DrugImage.Image,Converter={StaticResource ByteToImageConverter}}" />
                         </Border>
                     </StackPanel>
-                    <StackPanel Orientation="Horizontal" Grid.Row="14" Grid.ColumnSpan="2" Grid.Column="0"
-                                HorizontalAlignment="Right" Margin="0,10,0,0">
-                        <Button x:Name="SaveButton" Content="保存" Command="{Binding SaveDrugCommand}" Margin="0,0,10,0" />
-                        <Button x:Name="AddButton" Content="新增" Command="{Binding AddDrugCommand}" Margin="0,0,10,0" />
+                    <StackPanel Orientation="Horizontal"
+                                Grid.Row="14"
+                                Grid.ColumnSpan="2"
+                                Grid.Column="0"
+                                HorizontalAlignment="Right"
+                                Margin="0,10,0,0" >
+                        <Button x:Name="SaveButton"
+                                Content="保存"
+                                Command="{Binding SaveDrugCommand}"
+                                Margin="0,0,10,0" />
+                        <Button x:Name="AddButton"
+                                Content="新增"
+                                Command="{Binding AddDrugCommand}"
+                                Margin="0,0,10,0" />
                     </StackPanel>
                 </Grid>
             </ScrollViewer>
         </GroupBox>
-        <Button Grid.Row="0" Grid.Column="0"
-                Content="&#xe926;" ToolTip="爬虫：从网络批量获取数据"
-                Margin="15,30" Padding="6"
+        <Button Grid.Row="0"
+                Grid.Column="0"
+                Content="&#xe926;"
+                ToolTip="爬虫：从网络批量获取数据"
+                Margin="15,30"
+                Padding="6"
                 Click="ButtonBase_OnClick"
-                HorizontalAlignment="Right" VerticalAlignment="Top"
+                HorizontalAlignment="Right"
+                VerticalAlignment="Top"
                 FontFamily="{DynamicResource IconFont}"
                 FontSize="16"
-                Style="{DynamicResource TransparentButton}">
+                Style="{DynamicResource TransparentButton}" >
             <Button.ContextMenu>
-                <ContextMenu x:Name="CrawlerMenu">
-                    <MenuItem Icon="&#xe613;" Header="中医方剂网" Command="{Binding GetDrugsFromZyfjCommand}" />
+                <ContextMenu x:Name="CrawlerMenu" >
+                    <MenuItem Icon="&#xe613;"
+                              Header="中医方剂网"
+                              Command="{Binding GetDrugsFromZyfjCommand}" />
                 </ContextMenu>
             </Button.ContextMenu>
         </Button>
-        <Grid Grid.Column="0" Grid.Row="1" Grid.ColumnSpan="2"
+        <Grid Grid.Column="0"
+              Grid.Row="1"
+              Grid.ColumnSpan="2"
               Margin="10,0,10,10"
-              Visibility="{Binding Progress.IsRunning,Converter={StaticResource BooleanToVisibilityConverter}}">
+              Visibility="{Binding Progress.IsRunning,Converter={StaticResource BooleanToVisibilityConverter}}" >
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="*" />
                 <ColumnDefinition Width="Auto" />
@@ -256,25 +350,35 @@
                 <RowDefinition Height="Auto" />
                 <RowDefinition Height="Auto" />
             </Grid.RowDefinitions>
-            <TextBlock Grid.Column="0" Grid.Row="0" Margin="5,0,5,3"
-                       Text="{Binding Progress.LatestLog,Mode=OneWay}" VerticalAlignment="Center" />
-            <TextBlock Grid.Column="1" Grid.Row="0"
+            <TextBlock Grid.Column="0"
+                       Grid.Row="0"
+                       Margin="5,0,5,3"
+                       Text="{Binding Progress.LatestLog,Mode=OneWay}"
+                       VerticalAlignment="Center" />
+            <TextBlock Grid.Column="1"
+                       Grid.Row="0"
                        Text="{Binding Progress.CurrentProgress,Mode=OneWay}"
                        VerticalAlignment="Center" />
-            <TextBlock Grid.Column="2" Grid.Row="0"
+            <TextBlock Grid.Column="2"
+                       Grid.Row="0"
                        Text="/"
                        VerticalAlignment="Center" />
-            <TextBlock Grid.Column="3" Grid.Row="0"
+            <TextBlock Grid.Column="3"
+                       Grid.Row="0"
                        Text="{Binding Progress.TotalLength,Mode=OneWay}"
                        VerticalAlignment="Center" />
-            <ProgressBar Grid.Column="0" Grid.Row="1" Grid.ColumnSpan="4" Margin="0,5"
+            <ProgressBar Grid.Column="0"
+                         Grid.Row="1"
+                         Grid.ColumnSpan="4"
+                         Margin="0,5"
                          Maximum="{Binding Progress.TotalLength,Mode=OneWay}"
                          Value="{Binding Progress.CurrentProgress,Mode=OneWay}"
                          ToolTip="{Binding Progress.LatestLog,Mode=OneWay}"
                          Background="{StaticResource WindowBgBrush}"
                          Foreground="{StaticResource AccentBrush}"
                          BorderBrush="{StaticResource AccentPressedBgBrush}"
-                         BorderThickness="1" Cursor="Arrow"
+                         BorderThickness="1"
+                         Cursor="Arrow"
                          Height="10" />
         </Grid>
     </Grid>

@@ -45,7 +45,7 @@ public partial class Formulas
 				if (contentPresenter?.ContentTemplate
 				                    ?.FindName("ChildListView", contentPresenter)
 				    is ListView childListView)
-					childListView.SelectedItem = -1;
+					childListView.SelectedIndex = -1;
 			}
 
 			return;

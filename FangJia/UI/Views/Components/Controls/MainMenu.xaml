@@ -48,7 +48,7 @@
         <!-- 按钮，用于展开/收起菜单 -->
         <Button Grid.Row="0" Grid.Column="1" Grid.RowSpan="2"
                 x:Name="Button"
-                Margin="-5,0,-15,0"
+                Margin="-10,0,-15,0"
                 VerticalAlignment="Center"
                 Click="Button_OnClick"
                 Style="{DynamicResource OpenButtonStyle}">
