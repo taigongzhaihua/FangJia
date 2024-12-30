@@ -1,12 +1,14 @@
-﻿namespace FangJia.BusinessLogic.Interfaces;
+﻿using System.ComponentModel;
 
-public interface INavigationService
+namespace FangJia.BusinessLogic.Interfaces;
+
+public interface INavigationService:INotifyPropertyChanged
 {
     string? CurrentViewName();
     void NavigateTo(string? viewName);
     void GoBack();
     void GoForward();
 
-    bool CanGoBack { get; }
+    bool CanGoBack    { get; }
     bool CanGoForward { get; }
 }

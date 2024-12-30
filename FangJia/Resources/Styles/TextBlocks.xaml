@@ -1,87 +1,205 @@
 ﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-                    xmlns:behaviors="clr-namespace:FangJia.BusinessLogic.Models.Behaviors">
-    <Style TargetType="TextBlock" x:Key="DefaultText">
-        <Setter Property="Foreground" Value="{StaticResource BodyTextBrush}" />
-        <Setter Property="FontSize" Value="12" />
+                    xmlns:behaviors="clr-namespace:FangJia.BusinessLogic.Models.Behaviors"
+                    xmlns:wd="https://github.com/WPFDevelopersOrg/WPFDevelopers"
+                    xmlns:converters="clr-namespace:FangJia.UI.Converters" >
+
+    <Style TargetType="TextBlock"
+           x:Key="DefaultText" >
+        <Setter Property="Foreground"
+                Value="{StaticResource BodyTextBrush}" />
+        <Setter Property="FontSize"
+                Value="12" />
     </Style>
-    
-    <Style TargetType="TextBlock" x:Key="PrimaryTitleText">
-        <Setter Property="Foreground" Value="{StaticResource PrimaryTitleBrush}" />
-        <Setter Property="FontSize" Value="18" />
+
+    <Style TargetType="TextBlock"
+           x:Key="PrimaryTitleText" >
+        <Setter Property="Foreground"
+                Value="{StaticResource PrimaryTitleBrush}" />
+        <Setter Property="FontSize"
+                Value="18" />
     </Style>
-    <Style TargetType="TextBlock" x:Key="SecondaryTitleText">
-        <Setter Property="Foreground" Value="{StaticResource SecondaryTitleBrush}" />
-        <Setter Property="FontSize" Value="16" />
+    <Style TargetType="TextBlock"
+           x:Key="SecondaryTitleText" >
+        <Setter Property="Foreground"
+                Value="{StaticResource SecondaryTitleBrush}" />
+        <Setter Property="FontSize"
+                Value="16" />
     </Style>
-    <Style TargetType="TextBlock" x:Key="TertiaryTitleText">
-        <Setter Property="Foreground" Value="{StaticResource TertiaryTitleBrush}" />
-        <Setter Property="FontSize" Value="14" />
+    <Style TargetType="TextBlock"
+           x:Key="TertiaryTitleText" >
+        <Setter Property="Foreground"
+                Value="{StaticResource TertiaryTitleBrush}" />
+        <Setter Property="FontSize"
+                Value="14" />
     </Style>
-    <Style TargetType="TextBlock" x:Key="AlertText">
-        <Setter Property="Foreground" Value="{StaticResource InfoBrush}" />
+    <Style TargetType="TextBlock"
+           x:Key="AlertText" >
+        <Setter Property="Foreground"
+                Value="{StaticResource InfoBrush}" />
     </Style>
-    <Style TargetType="TextBlock" x:Key="WarningText">
-        <Setter Property="Foreground" Value="{StaticResource WarningBrush}" />
+    <Style TargetType="TextBlock"
+           x:Key="WarningText" >
+        <Setter Property="Foreground"
+                Value="{StaticResource WarningBrush}" />
     </Style>
-    <Style TargetType="TextBlock" x:Key="DangerText">
-        <Setter Property="Foreground" Value="{StaticResource ErrorBrush}" />
+    <Style TargetType="TextBlock"
+           x:Key="DangerText" >
+        <Setter Property="Foreground"
+                Value="{StaticResource ErrorBrush}" />
     </Style>
-    <Style TargetType="TextBlock" x:Key="WeakAccentText">
-        <Setter Property="Foreground" Value="{StaticResource TransparentButtonDisabledFgBrush}" />
+    <Style TargetType="TextBlock"
+           x:Key="WeakAccentText" >
+        <Setter Property="Foreground"
+                Value="{StaticResource TransparentButtonDisabledFgBrush}" />
     </Style>
-    <Style TargetType="TextBlock" x:Key="AccentText">
-        <Setter Property="Foreground" Value="{StaticResource AccentFgBrush}" />
+    <Style TargetType="TextBlock"
+           x:Key="AccentText" >
+        <Setter Property="Foreground"
+                Value="{StaticResource AccentFgBrush}" />
     </Style>
-    <Style TargetType="TextBlock" x:Key="AccentTitleText">
-        <Setter Property="Foreground" Value="{StaticResource AccentTitleBrush}" />
+    <Style TargetType="TextBlock"
+           x:Key="AccentTitleText" >
+        <Setter Property="Foreground"
+                Value="{StaticResource AccentTitleBrush}" />
     </Style>
-    
-    <Style TargetType="TextBox">
-        <Setter Property="TextWrapping" Value="Wrap" />
-        <Setter Property="AcceptsReturn" Value="True" />
-        <Setter Property="behaviors:CornerRadiusBehavior.CornerRadius" Value="5" />
-        <Setter Property="Background" Value="{StaticResource ControlBgBrush}" />
-        <Setter Property="BorderBrush" Value="{StaticResource TransparentButtonBorderBrush}" />
-        <Setter Property="BorderThickness" Value="1.5" />
-        <Setter Property="Foreground" Value="{StaticResource BodyTextBrush}" />
-        <Setter Property="Padding" Value="5" />
-        <Setter Property="CaretBrush" Value="{StaticResource BodyTextBrush}" />
-        <Setter Property="Template">
+
+    <Style TargetType="TextBox" >
+        <Setter Property="TextWrapping"
+                Value="Wrap" />
+        <Setter Property="AcceptsReturn"
+                Value="True" />
+        <Setter Property="behaviors:CornerRadiusBehavior.CornerRadius"
+                Value="5" />
+        <Setter Property="Background"
+                Value="{StaticResource ControlBgBrush}" />
+        <Setter Property="BorderBrush"
+                Value="{StaticResource TransparentButtonBorderBrush}" />
+        <Setter Property="BorderThickness"
+                Value="1.5" />
+        <Setter Property="Foreground"
+                Value="{StaticResource BodyTextBrush}" />
+        <Setter Property="Padding"
+                Value="5" />
+        <Setter Property="CaretBrush"
+                Value="{StaticResource BodyTextBrush}" />
+        <Setter Property="Template" >
             <Setter.Value>
-                <ControlTemplate TargetType="TextBox">
+                <ControlTemplate TargetType="TextBox" >
                     <Grid>
                         <Border x:Name="Border"
                                 Background="{TemplateBinding Background}"
                                 BorderBrush="{TemplateBinding BorderBrush}"
                                 BorderThickness="{TemplateBinding BorderThickness}"
-                                CornerRadius="{TemplateBinding behaviors:CornerRadiusBehavior.CornerRadius}">
+                                CornerRadius="{TemplateBinding behaviors:CornerRadiusBehavior.CornerRadius}" >
                             <ScrollViewer x:Name="PART_ContentHost" />
                         </Border>
                         <VisualStateManager.VisualStateGroups>
-                            <VisualStateGroup x:Name="CommonStates">
-                                <VisualState x:Name="Normal">
+                            <VisualStateGroup x:Name="CommonStates" >
+                                <VisualState x:Name="Normal" >
                                     <Storyboard>
                                         <ColorAnimation Storyboard.TargetName="Border"
                                                         Storyboard.TargetProperty="(Border.BorderBrush).(SolidColorBrush.Color)"
                                                         To="{DynamicResource TransparentButtonBorder}"
                                                         Duration="0:0:0.2" />
-                                        
+
                                     </Storyboard>
                                 </VisualState>
-                                <VisualState x:Name="MouseOver">
+                                <VisualState x:Name="MouseOver" >
                                     <Storyboard>
                                         <ColorAnimation Storyboard.TargetName="Border"
                                                         Storyboard.TargetProperty="(Border.BorderBrush).(SolidColorBrush.Color)"
-                                                        To="{DynamicResource ButtonBg}" Duration="0:0:0.2" />
-                                        
+                                                        To="{DynamicResource ButtonBg}"
+                                                        Duration="0:0:0.2" />
+
                                     </Storyboard>
                                 </VisualState>
-                                <VisualState x:Name="Focused">
+                                <VisualState x:Name="Focused" >
                                     <Storyboard>
                                         <ColorAnimation Storyboard.TargetName="Border"
                                                         Storyboard.TargetProperty="(Border.BorderBrush).(SolidColorBrush.Color)"
-                                                        To="{DynamicResource AccentColor}" Duration="0:0:0.2" />
+                                                        To="{DynamicResource AccentColor}"
+                                                        Duration="0:0:0.2" />
+                                    </Storyboard>
+                                </VisualState>
+                            </VisualStateGroup>
+                        </VisualStateManager.VisualStateGroups>
+                    </Grid>
+
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+        <Setter Property="ContextMenu" >
+            <Setter.Value>
+                <ContextMenu>
+                    <MenuItem Header="复制"
+                              Command="Copy" />
+                    <MenuItem Header="粘贴"
+                              Command="Paste" />
+                    <MenuItem Header="剪切"
+                              Command="Cut" />
+                    <Separator Margin="-30,5,0,5"
+                               Padding="0" />
+                    <MenuItem Header="全选"
+                              Command="SelectAll" />
+                </ContextMenu>
+            </Setter.Value>
+        </Setter>
+    </Style>
+    <Style TargetType="RichTextBox" >
+        <Setter Property="AcceptsReturn"
+                Value="True" />
+        <Setter Property="behaviors:CornerRadiusBehavior.CornerRadius"
+                Value="5" />
+        <Setter Property="Background"
+                Value="{StaticResource ControlBgBrush}" />
+        <Setter Property="BorderBrush"
+                Value="{StaticResource TransparentButtonBorderBrush}" />
+        <Setter Property="BorderThickness"
+                Value="1.5" />
+        <Setter Property="Foreground"
+                Value="{StaticResource BodyTextBrush}" />
+        <Setter Property="Padding"
+                Value="5" />
+        <Setter Property="CaretBrush"
+                Value="{StaticResource BodyTextBrush}" />
+        <Setter Property="Template" >
+            <Setter.Value>
+                <ControlTemplate TargetType="RichTextBox" >
+                    <Grid>
+                        <Border x:Name="Border"
+                                Background="{TemplateBinding Background}"
+                                BorderBrush="{TemplateBinding BorderBrush}"
+                                BorderThickness="{TemplateBinding BorderThickness}"
+                                CornerRadius="{TemplateBinding behaviors:CornerRadiusBehavior.CornerRadius}" >
+                            <ScrollViewer x:Name="PART_ContentHost" />
+                        </Border>
+                        <VisualStateManager.VisualStateGroups>
+                            <VisualStateGroup x:Name="CommonStates" >
+                                <VisualState x:Name="Normal" >
+                                    <Storyboard>
+                                        <ColorAnimation Storyboard.TargetName="Border"
+                                                        Storyboard.TargetProperty="(Border.BorderBrush).(SolidColorBrush.Color)"
+                                                        To="{DynamicResource TransparentButtonBorder}"
+                                                        Duration="0:0:0.2" />
+
+                                    </Storyboard>
+                                </VisualState>
+                                <VisualState x:Name="MouseOver" >
+                                    <Storyboard>
+                                        <ColorAnimation Storyboard.TargetName="Border"
+                                                        Storyboard.TargetProperty="(Border.BorderBrush).(SolidColorBrush.Color)"
+                                                        To="{DynamicResource ButtonBg}"
+                                                        Duration="0:0:0.2" />
+
+                                    </Storyboard>
+                                </VisualState>
+                                <VisualState x:Name="Focused" >
+                                    <Storyboard>
+                                        <ColorAnimation Storyboard.TargetName="Border"
+                                                        Storyboard.TargetProperty="(Border.BorderBrush).(SolidColorBrush.Color)"
+                                                        To="{DynamicResource AccentColor}"
+                                                        Duration="0:0:0.2" />
                                     </Storyboard>
                                 </VisualState>
                             </VisualStateGroup>
@@ -92,25 +210,153 @@
             </Setter.Value>
         </Setter>
     </Style>
-    <Style TargetType="TextBox" x:Key="DataGridTextBoxStyle">
-        <Setter Property="TextWrapping" Value="Wrap" />
-        <Setter Property="AcceptsReturn" Value="True" />
-        <Setter Property="behaviors:CornerRadiusBehavior.CornerRadius" Value="0" />
-        <Setter Property="Background" Value="{StaticResource ControlBgBrush}" />
-        <Setter Property="BorderBrush" Value="{StaticResource TransparentButtonBorderBrush}" />
-        <Setter Property="BorderThickness" Value="0" />
-        <Setter Property="Foreground" Value="{StaticResource BodyTextBrush}" />
-        <Setter Property="Padding" Value="5" />
-        <Setter Property="Template">
+    <converters:FocusedToVisibilityConverter x:Key="FocusedToVisibilityConverter" />
+    <Style TargetType="TextBox"
+           x:Key="SongWithDrugStyle" >
+        <Setter Property="behaviors:CornerRadiusBehavior.CornerRadius"
+                Value="5" />
+        <Setter Property="Background"
+                Value="{StaticResource ControlBgBrush}" />
+        <Setter Property="BorderBrush"
+                Value="{StaticResource TransparentButtonBorderBrush}" />
+        <Setter Property="BorderThickness"
+                Value="1.5" />
+        <Setter Property="Foreground"
+                Value="{StaticResource BodyTextBrush}" />
+        <Setter Property="Padding"
+                Value="2" />
+        <Setter Property="CaretBrush"
+                Value="{StaticResource BodyTextBrush}" />
+        <Setter Property="Tag"
+                Value="0" />
+        <Setter Property="Template" >
             <Setter.Value>
-                <ControlTemplate TargetType="TextBox">
+                <ControlTemplate TargetType="TextBox" >
+                    <Grid>
+                        <Border x:Name="Border"
+                                Background="{TemplateBinding Background}"
+                                BorderBrush="{TemplateBinding BorderBrush}"
+                                BorderThickness="{TemplateBinding BorderThickness}"
+                                CornerRadius="{TemplateBinding behaviors:CornerRadiusBehavior.CornerRadius}" >
+                            <StackPanel Orientation="Horizontal" >
+                                <ScrollViewer x:Name="PART_ContentHost"
+                                              VerticalAlignment="Center" />
+                                <wd:MultiSelectComboBox x:Name="MultiSelectComboBox"
+                                                        HorizontalAlignment="Center"
+                                                        wd:ElementHelper.Watermark="请选择药物"
+                                                        wd:ElementHelper.CornerRadius="5"
+                                                        BorderThickness="0"
+                                                        BorderBrush="{StaticResource TransparentButtonBorderBrush}"
+                                                        Background="{StaticResource ControlBgBrush}"
+                                                        Foreground="{StaticResource BodyTextBrush}"
+                                                        Delimiter=","
+                                                        IsSelectAllActive="True"
+                                                        ItemsSource="{TemplateBinding behaviors:SourceAttachedBehavior.Source}"
+                                                        Padding="5,2"
+                                                        Margin="0"
+                                                        VerticalContentAlignment="Center"
+                                                        VerticalAlignment="Center"
+                                                        SelectionMode="Multiple"
+                                                        behaviors:SourceAttachedBehavior.SelectedItems="{Binding (behaviors:SourceAttachedBehavior.SelectedItems),RelativeSource={RelativeSource TemplatedParent}}">
+
+                                    <wd:MultiSelectComboBox.Visibility>
+                                        <MultiBinding Converter="{StaticResource FocusedToVisibilityConverter}" >
+                                            <Binding Path="IsFocused"
+                                                     RelativeSource="{RelativeSource TemplatedParent}"
+                                                     Mode="OneWay" />
+                                            <Binding Path="IsFocused"
+                                                     ElementName="MultiSelectComboBox"
+                                                     Mode="OneWay" />
+                                            <Binding Path="IsDropDownOpen"
+                                                     ElementName="MultiSelectComboBox"
+                                                     Mode="OneWay" />
+                                        </MultiBinding>
+
+                                    </wd:MultiSelectComboBox.Visibility>
+                                </wd:MultiSelectComboBox>
+                            </StackPanel>
+
+                        </Border>
+                        <VisualStateManager.VisualStateGroups>
+                            <VisualStateGroup x:Name="CommonStates" >
+                                <VisualState x:Name="Normal" >
+                                    <Storyboard>
+                                        <ColorAnimation Storyboard.TargetName="Border"
+                                                        Storyboard.TargetProperty="(Border.BorderBrush).(SolidColorBrush.Color)"
+                                                        To="{DynamicResource TransparentButtonBorder}"
+                                                        Duration="0:0:0.2" />
+
+                                    </Storyboard>
+                                </VisualState>
+                                <VisualState x:Name="MouseOver" >
+                                    <Storyboard>
+                                        <ColorAnimation Storyboard.TargetName="Border"
+                                                        Storyboard.TargetProperty="(Border.BorderBrush).(SolidColorBrush.Color)"
+                                                        To="{DynamicResource ButtonBg}"
+                                                        Duration="0:0:0.2" />
+
+                                    </Storyboard>
+                                </VisualState>
+                                <VisualState x:Name="Focused" >
+                                    <Storyboard>
+                                        <ColorAnimation Storyboard.TargetName="Border"
+                                                        Storyboard.TargetProperty="(Border.BorderBrush).(SolidColorBrush.Color)"
+                                                        To="{DynamicResource AccentColor}"
+                                                        Duration="0:0:0.2" />
+                                    </Storyboard>
+                                </VisualState>
+                            </VisualStateGroup>
+                        </VisualStateManager.VisualStateGroups>
+                    </Grid>
+
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+    <Style TargetType="TextBox"
+           x:Key="DataGridTextBoxStyle" >
+        <Setter Property="TextWrapping"
+                Value="Wrap" />
+        <Setter Property="AcceptsReturn"
+                Value="True" />
+        <Setter Property="behaviors:CornerRadiusBehavior.CornerRadius"
+                Value="0" />
+        <Setter Property="Background"
+                Value="{StaticResource ControlBgBrush}" />
+        <Setter Property="BorderBrush"
+                Value="{StaticResource TransparentButtonBorderBrush}" />
+        <Setter Property="BorderThickness"
+                Value="0" />
+        <Setter Property="Foreground"
+                Value="{StaticResource BodyTextBrush}" />
+        <Setter Property="Padding"
+                Value="5" />
+        <Setter Property="Template" >
+            <Setter.Value>
+                <ControlTemplate TargetType="TextBox" >
                     <Border Background="{TemplateBinding Background}"
                             BorderBrush="{TemplateBinding BorderBrush}"
                             BorderThickness="{TemplateBinding BorderThickness}"
-                            CornerRadius="{TemplateBinding behaviors:CornerRadiusBehavior.CornerRadius}">
+                            CornerRadius="{TemplateBinding behaviors:CornerRadiusBehavior.CornerRadius}" >
                         <ScrollViewer x:Name="PART_ContentHost" />
                     </Border>
                 </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+        <Setter Property="ContextMenu" >
+            <Setter.Value>
+                <ContextMenu>
+                    <MenuItem Header="复制"
+                              Command="Copy" />
+                    <MenuItem Header="粘贴"
+                              Command="Paste" />
+                    <MenuItem Header="剪切"
+                              Command="Cut" />
+                    <Separator Margin="-30,5,0,5"
+                               Padding="0" />
+                    <MenuItem Header="全选"
+                              Command="SelectAll" />
+                </ContextMenu>
             </Setter.Value>
         </Setter>
     </Style>

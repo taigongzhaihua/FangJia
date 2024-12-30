@@ -102,11 +102,12 @@ public partial class App
 			 new ContainerControlledLifetimeManager()); // 方剂、分类对照表爬虫
 
 		// 步骤2：注册 ViewModel
-		container.RegisterType<MainWindowViewModel>(new HierarchicalLifetimeManager()); // 主窗口 ViewModel
-		container.RegisterType<DataViewModel>(new HierarchicalLifetimeManager());       // 数据管理页面 ViewModel
-		container.RegisterType<SettingViewModel>(new HierarchicalLifetimeManager());    // 设置页面 ViewModel
-		container.RegisterType<HomeViewModel>(new HierarchicalLifetimeManager());       // 主页 ViewModel
-		container.RegisterType<FormulasViewModel>(new HierarchicalLifetimeManager());   // 数据管理页面-方剂页 ViewModel
-		container.RegisterType<DrugViewModel>(new HierarchicalLifetimeManager());       // 数据管理页面-药物页 ViewModel
+		container.RegisterType<MainWindowViewModel>(new HierarchicalLifetimeManager());   // 主窗口 ViewModel
+		container.RegisterType<DataViewModel>(new HierarchicalLifetimeManager());         // 数据管理页面 ViewModel
+		container.RegisterType<SettingViewModel>(new HierarchicalLifetimeManager());      // 设置页面 ViewModel
+		container.RegisterType<HomeViewModel>(new HierarchicalLifetimeManager());         // 主页 ViewModel
+		container.RegisterType<FormulasViewModel>(new HierarchicalLifetimeManager());     // 数据管理页面-方剂页 ViewModel
+		container.RegisterType<DrugViewModel>(new HierarchicalLifetimeManager());         // 数据管理页面-药物页 ViewModel
+		container.RegisterType<MemorizationViewModel>(new HierarchicalLifetimeManager()); // 记忆页面 ViewModel
 	}
 }

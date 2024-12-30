@@ -21,10 +21,7 @@ namespace FangJia.UI.ViewModels;
 /// 同时，它还会设置页面映射并更新页面标题和导航按钮的状态。
 /// </remarks>
 [SuppressMessage("ReSharper", "ClassNeverInstantiated.Global")]
-public partial class MainWindowViewModel(
-	[Dependency("MainFrameNavigationService")]
-	INavigationService navigationService,
-	[Dependency("PagesConfigService")] ConfigurationService pageConfigurationService) : ObservableObject
+public partial class MainWindowViewModel : ObservableObject
 {
 	private static readonly Logger Logger = LogManager.GetCurrentClassLogger(); // 获取当前类的日志记录器实例
 
@@ -33,6 +30,30 @@ public partial class MainWindowViewModel(
 	[ObservableProperty] private string                             _pageTitle = null!; // 用于存储当前页面的标题
 	[ObservableProperty] private bool                               _isBackEnabled;     // 用于存储后退按钮是否可用的状态
 	[ObservableProperty] private bool                               _isForwardEnabled;  // 用于存储前进按钮是否可用的状态
+	private readonly             INavigationService                 _navigationService;
+	private readonly             ConfigurationService               _pageConfigurationService;
+
+	/// <summary>
+	/// 初始化主窗口 ViewModel。
+	/// </summary>
+	/// <remarks>
+	/// 该方法负责从配置文件中加载主菜单项配置，并初始化主菜单项集合。
+	/// 同时，它还会设置页面映射并更新页面标题和导航按钮的状态。
+	/// </remarks>
+	public MainWindowViewModel
+	([Dependency("MainFrameNavigationService")] INavigationService   navigationService,
+	 [Dependency("PagesConfigService")]         ConfigurationService pageConfigurationService)
+	{
+		_navigationService        = navigationService;
+		_pageConfigurationService = pageConfigurationService;
+		_navigationService.PropertyChanged += (_, args) =>
+		{
+			if (args.PropertyName is nameof(_navigationService.CanGoBack) or nameof(_navigationService.CanGoForward))
+			{
+				UpdateBackForwardEnable();
+			}
+		};
+	}
 
 	/// <summary>
 	/// 初始化主窗口 ViewModel。
@@ -51,16 +72,16 @@ public partial class MainWindowViewModel(
 	public void Init()
 	{
 		// 检查导航服务是否为 FrameNavigationService 类型，并设置页面映射
-		if (navigationService is FrameNavigationService frameNavigationService)
+		if (_navigationService is FrameNavigationService frameNavigationService)
 		{
-			frameNavigationService.SetPageMappings(pageConfigurationService.GetConfig<PageConfig>("Pages"));
+			frameNavigationService.SetPageMappings(_pageConfigurationService.GetConfig<PageConfig>("Pages"));
 		}
 
 		// 记录日志，表示正在初始化主窗口 ViewModel
 		Logger.Info(message: "初始化主窗口 view model");
 
 		// 从配置文件中加载主菜单项配置
-		var configs = pageConfigurationService.GetConfig<MainMenuItemConfig>("MainMenuItems");
+		var configs = _pageConfigurationService.GetConfig<MainMenuItemConfig>("MainMenuItems");
 
 		// 初始化主菜单项集合
 		foreach (var item in configs)
@@ -71,16 +92,14 @@ public partial class MainWindowViewModel(
 				 () =>
 				 {
 					 // 如果当前页面已经是目标页面，则不执行导航
-					 if (item.PageName == navigationService.CurrentViewName()) return;
+					 if (item.PageName == _navigationService.CurrentViewName()) return;
 
 					 // 导航到目标页面
-					 navigationService.NavigateTo(item.PageName);
+					 _navigationService.NavigateTo(item.PageName);
 
 					 // 更新页面标题为当前菜单项的名称
 					 PageTitle = item.Name!;
 
-					 // 更新导航按钮的状态
-					 UpdateBackForwardEnable();
 				 });
 
 			// 将菜单项添加到主菜单项集合中
@@ -105,7 +124,7 @@ public partial class MainWindowViewModel(
 	private void FrameBack()
 	{
 		// 调用导航服务的后退方法
-		navigationService.GoBack();
+		_navigationService.GoBack();
 
 		// 更新主菜单选中项的索引
 		UpdateMenuSelectedIndex();
@@ -113,8 +132,6 @@ public partial class MainWindowViewModel(
 		// 更新页面标题为当前选中菜单项的名称
 		PageTitle = MenuItems[MenuSelectedIndex].Name!;
 
-		// 更新导航按钮的状态
-		UpdateBackForwardEnable();
 	}
 
 	/// <summary>
@@ -131,7 +148,7 @@ public partial class MainWindowViewModel(
 	private void FrameForward()
 	{
 		// 调用导航服务的前进方法
-		navigationService.GoForward();
+		_navigationService.GoForward();
 
 		// 更新主菜单选中项的索引
 		UpdateMenuSelectedIndex();
@@ -139,8 +156,6 @@ public partial class MainWindowViewModel(
 		// 更新页面标题为当前选中菜单项的名称
 		PageTitle = MenuItems[MenuSelectedIndex].Name!;
 
-		// 更新导航按钮的状态
-		UpdateBackForwardEnable();
 	}
 
 	/// <summary>
@@ -156,9 +171,10 @@ public partial class MainWindowViewModel(
 	{
 		// 获取当前导航服务中显示的页面名称，并在主菜单项集合中查找匹配的菜单项
 		MenuSelectedIndex =
-			MenuItems.IndexOf(
-			                  MenuItems.FirstOrDefault(x => navigationService.CurrentViewName()!
-			                                                                 .Contains(x.PageName!))!);
+			MenuItems.IndexOf
+				(MenuItems.FirstOrDefault
+					 (x => _navigationService.CurrentViewName()!
+					                         .Contains(x.PageName!))!);
 	}
 
 	/// <summary>
@@ -172,9 +188,9 @@ public partial class MainWindowViewModel(
 	private void UpdateBackForwardEnable()
 	{
 		// 检查导航服务是否可以后退，并更新后退按钮的可用性
-		IsBackEnabled = navigationService.CanGoBack;
+		IsBackEnabled = _navigationService.CanGoBack;
 
 		// 检查导航服务是否可以前进，并更新前进按钮的可用性
-		IsForwardEnabled = navigationService.CanGoForward;
+		IsForwardEnabled = _navigationService.CanGoForward;
 	}
 }

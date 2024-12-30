@@ -27,6 +27,7 @@ public class Formulation
 	public FormulationImage                              FormulationImage { get; set; } = new();
 }
 
+[Serializable]
 public class FormulationComposition
 {
 	public string? Position      { get; set; } // 君臣佐使
@@ -36,6 +37,10 @@ public class FormulationComposition
 	public string? DrugName      { get; set; } // 药物名称
 	public string? Effect        { get; set; } // 方中功效
 	public string? Notes         { get; set; } // 备注
+	public override string ToString()
+	{
+		return $"{DrugName}";
+	}
 }
 
 public class FormulationImage

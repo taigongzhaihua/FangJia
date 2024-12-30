@@ -12,7 +12,11 @@
                                 Margin="0,5"
                                 Padding="5"
                                 Height="42"
-                                CornerRadius="5">
+                                CornerRadius="5"
+                                ToolTip="{Binding ElementName=TextBlock,Path=Text}"
+                                ToolTipService.InitialShowDelay="0"
+                                ToolTipService.Placement="Right"
+                                ToolTipService.VerticalOffset="-8">
                             <StackPanel Orientation="Horizontal">
                                 <TextBlock x:Name="IconBlock"
                                            Text="{Binding Icon}"
@@ -21,8 +25,7 @@
                                            Width="30"
                                            Margin="0,0,10,0"
                                            TextAlignment="Center"
-                                           VerticalAlignment="Center"
-                                           ToolTip="{Binding ElementName=TextBlock,Path=Text}">
+                                           VerticalAlignment="Center">
                                     <!-- Using RenderTransform for scaling -->
                                     <TextBlock.RenderTransform>
                                         <ScaleTransform x:Name="IconScale" ScaleX="1" ScaleY="1" />
@@ -201,7 +204,27 @@
             </Setter.Value>
         </Setter>
     </Style>
-
+    <Style TargetType="ListBox"
+           x:Key="MainMenuListBoxStyle" >
+        <Setter Property="Background"
+                Value="{StaticResource ListItemBgBrush}" >
+        </Setter>
+        <Setter Property="Template" >
+            <Setter.Value>
+                <ControlTemplate TargetType="ListBox" >
+                    <Border CornerRadius="5"
+                            Padding="0"
+                            Margin="0"
+                            Background="{TemplateBinding Background}"
+                            BorderThickness="0" >
+                        <ScrollViewer Padding="0,10" >
+                            <ItemsPresenter />
+                        </ScrollViewer>
+                    </Border>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
     <!--  1.确定参数  -->
     <!--纵向滚动条宽度-->
     <sys:Double x:Key="VerticalScrollBarThickness">4</sys:Double>
@@ -307,7 +330,7 @@
         </Setter>
     </Style>
     <!-- 自定义listbox样式 -->
-    <Style TargetType="ListView" x:Key="CustomListBoxStyle">
+    <Style TargetType="ListView" x:Key="CustomListViewStyle">
         <Setter Property="Background" Value="{StaticResource ListItemBgBrush}"></Setter>
         <Setter Property="Template">
             <Setter.Value>
@@ -325,6 +348,27 @@
             </Setter.Value>
         </Setter>
     </Style>
+    <Style TargetType="ListBox"
+           x:Key="CustomListBoxStyle" >
+        <Setter Property="Background"
+                Value="{StaticResource ListItemBgBrush}" >
+        </Setter>
+        <Setter Property="Template" >
+            <Setter.Value>
+                <ControlTemplate TargetType="ListBox" >
+                    <Border CornerRadius="5"
+                            Padding="4"
+                            Margin="5"
+                            Background="{TemplateBinding Background}"
+                            BorderThickness="0" >
+                        <ScrollViewer Padding="5,10" >
+                            <ItemsPresenter />
+                        </ScrollViewer>
+                    </Border>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
     <!-- 自定义 ListBoxItem 的样式 -->
     <Style TargetType="ListViewItem" x:Key="CustomListViewItemStyle">
         <Setter Property="Foreground" Value="{StaticResource ListItemFgBrush}" />
@@ -332,6 +376,83 @@
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="ListViewItem">
+                    <Grid>
+                        <Border Name="ItemBorder" Padding="8,4" Margin="3"
+                                CornerRadius="5"
+                                Background="{TemplateBinding Background}">
+                            <ContentControl x:Name="contentControl"
+                                            Content="{TemplateBinding Content}"
+                                            ContentTemplate="{TemplateBinding ContentTemplate}"
+                                            VerticalAlignment="Center"
+                                            Foreground="{TemplateBinding Foreground}" />
+                        </Border>
+                        <VisualStateManager.VisualStateGroups>
+                            <VisualStateGroup x:Name="CommonStates">
+                                <VisualState x:Name="Normal">
+                                    <Storyboard>
+                                        <ColorAnimation Storyboard.TargetName="ItemBorder"
+                                                        Storyboard.TargetProperty="(Border.Background).(SolidColorBrush.Color)"
+                                                        Duration="0:0:0.25"
+                                                        To="{StaticResource ListItemBg}" />
+                                        <ColorAnimation Storyboard.TargetName="contentControl"
+                                                        Storyboard.TargetProperty="(ContentControl.Foreground).(SolidColorBrush.Color)"
+                                                        Duration="0:0:0.25"
+                                                        To="{StaticResource ListItemFg}" />
+                                    </Storyboard>
+                                </VisualState>
+
+                                <VisualState x:Name="MouseOver">
+                                    <Storyboard>
+                                        <!-- 这里直接将背景设为更深的颜色 -->
+                                        <ColorAnimation Storyboard.TargetName="ItemBorder"
+                                                        Storyboard.TargetProperty="(Border.Background).(SolidColorBrush.Color)"
+                                                        Duration="0:0:0.25"
+                                                        To="{StaticResource ListItemHoverBg}" />
+                                        <ColorAnimation Storyboard.TargetName="contentControl"
+                                                        Storyboard.TargetProperty="(ContentControl.Foreground).(SolidColorBrush.Color)"
+                                                        Duration="0:0:0.25"
+                                                        To="{StaticResource ListItemHoverFg}" />
+                                    </Storyboard>
+                                </VisualState>
+                                <VisualState x:Name="Selected">
+                                    <Storyboard>
+                                        <!-- 这里直接将背景设为更深的颜色 -->
+                                        <ColorAnimation Storyboard.TargetName="ItemBorder"
+                                                        Storyboard.TargetProperty="(Border.Background).(SolidColorBrush.Color)"
+                                                        Duration="0:0:0.25"
+                                                        To="{StaticResource ListItemSelectedBg}" />
+                                        <ColorAnimation Storyboard.TargetName="contentControl"
+                                                        Storyboard.TargetProperty="(ContentControl.Foreground).(SolidColorBrush.Color)"
+                                                        Duration="0:0:0.25"
+                                                        To="{StaticResource ListItemSelectedFg}" />
+                                    </Storyboard>
+                                </VisualState>
+                                <VisualState x:Name="Disabled">
+                                    <Storyboard>
+                                        <!-- 这里直接将背景设为更深的颜色 -->
+                                        <ColorAnimation Storyboard.TargetName="ItemBorder"
+                                                        Storyboard.TargetProperty="(Border.Background).(SolidColorBrush.Color)"
+                                                        Duration="0:0:0.25"
+                                                        To="{StaticResource ButtonDisabledBg}" />
+                                        <ColorAnimation Storyboard.TargetName="contentControl"
+                                                        Storyboard.TargetProperty="(ContentControl.Foreground).(SolidColorBrush.Color)"
+                                                        Duration="0:0:0.25"
+                                                        To="{StaticResource ButtonDisabledFg}" />
+                                    </Storyboard>
+                                </VisualState>
+                            </VisualStateGroup>
+                        </VisualStateManager.VisualStateGroups>
+                    </Grid>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+<Style TargetType="ListBoxItem" x:Key="CustomListBoxItemStyle">
+        <Setter Property="Foreground" Value="{StaticResource ListItemFgBrush}" />
+        <Setter Property="FontSize" Value="14" />
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="ListBoxItem">
                     <Grid>
                         <Border Name="ItemBorder" Padding="8,4" Margin="3"
                                 CornerRadius="5"
