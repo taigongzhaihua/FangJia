@@ -9,8 +9,8 @@
                  Title="方家"
                  Height="800" Width="1200"
                  MinHeight="450" MinWidth="800" 
-                 
-                 WindowStyle="None"
+                 WindowStartupLocation="CenterScreen"
+                 WindowStyle="SingleBorderWindow"
                  HorizontalAlignment="Center"
                  VerticalAlignment="Center">
     <!-- 主窗口布局 -->

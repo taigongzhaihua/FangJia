@@ -1,21 +1,26 @@
 ﻿<Application x:Class="FangJia.App"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:wd="https://github.com/WPFDevelopersOrg/WPFDevelopers"
              StartupUri="/UI/Views/MainWindow.xaml">
     <Application.Resources>
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="pack://application:,,,/WPFDevelopers;component/Themes/Light.Blue.xaml" />
+                <!--需要注意 wd:Resources 必须在配色主题后，Theme="Dark" 为黑色皮肤-->
+                <wd:Resources Theme="Light" />
+                <ResourceDictionary Source="pack://application:,,,/WPFDevelopers;component/Themes/Theme.xaml" />
                 <ResourceDictionary Source="/Resources/Styles/SkinColors.xaml" />
                 <ResourceDictionary Source="/Resources/Styles/Fonts.xaml" />
-                <ResourceDictionary Source="/Resources/Styles/buttons.xaml"/>
-                <ResourceDictionary Source="/Resources/Styles/Grids.xaml"/>
-                <ResourceDictionary Source="/Resources/Styles/TextBlocks.xaml"/>
-                <ResourceDictionary Source="/Resources/Styles/ListBoxs.xaml"/>
-                <ResourceDictionary Source="/Resources/Styles/GroupBoxs.xaml"/>
-                <ResourceDictionary Source="/Resources/Styles/ComboBoxs.xaml"/>
-                <ResourceDictionary Source="/Resources/Styles/Expander.xaml"/>
-                <ResourceDictionary Source="/Resources/Styles/ToggleButtons.xaml"/>
-                <ResourceDictionary Source="/Resources/Styles/Menu.xaml"/>
+                <ResourceDictionary Source="/Resources/Styles/buttons.xaml" />
+                <ResourceDictionary Source="/Resources/Styles/Grids.xaml" />
+                <ResourceDictionary Source="/Resources/Styles/TextBlocks.xaml" />
+                <ResourceDictionary Source="/Resources/Styles/ListBoxs.xaml" />
+                <ResourceDictionary Source="/Resources/Styles/GroupBoxs.xaml" />
+                <ResourceDictionary Source="/Resources/Styles/ComboBoxs.xaml" />
+                <ResourceDictionary Source="/Resources/Styles/Expander.xaml" />
+                <ResourceDictionary Source="/Resources/Styles/ToggleButtons.xaml" />
+                <ResourceDictionary Source="/Resources/Styles/Menu.xaml" />
             </ResourceDictionary.MergedDictionaries>
         </ResourceDictionary>
     </Application.Resources>

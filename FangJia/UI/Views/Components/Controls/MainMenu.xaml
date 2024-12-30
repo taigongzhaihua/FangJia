@@ -32,9 +32,12 @@
 
 
         <!-- 菜单列表 -->
-        <Grid Grid.Column="0" Grid.Row="1" x:Name="ListGrid">
+        
             <ListBox x:Name="SidebarListBox"
-                     Margin="8,0,0,10" BorderThickness="0"
+                     Grid.Column="0"
+                     Grid.Row="1"
+                     Margin="8,0,0,10" Padding="0" BorderThickness="0"
+                     Style="{DynamicResource MainMenuListBoxStyle}"
                      ScrollViewer.VerticalScrollBarVisibility="Auto"
                      Width="42" Background="Transparent"
                      SelectionMode="Single"
@@ -43,7 +46,7 @@
                     <StaticResource ResourceKey="SidebarListBoxItemStyle" />
                 </ListBox.ItemContainerStyle>
             </ListBox>
-        </Grid>
+        
 
         <!-- 按钮，用于展开/收起菜单 -->
         <Button Grid.Row="0" Grid.Column="1" Grid.RowSpan="2"

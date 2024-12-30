@@ -5,6 +5,7 @@
       xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
       xmlns:converters="clr-namespace:FangJia.UI.Converters"
       xmlns:viewModels="clr-namespace:FangJia.UI.ViewModels.Pages.Data"
+      xmlns:behaviors="clr-namespace:FangJia.BusinessLogic.Models.Behaviors"
       mc:Ignorable="d"
       d:DesignHeight="800" d:DesignWidth="1000" d:DataContext="{d:DesignInstance viewModels:FormulasViewModel}"
       Title="方剂"
@@ -71,6 +72,7 @@
                           Foreground="{StaticResource ListItemFgBrush}"
                           MaxWidth="300" MinWidth="220"
                           SelectionMode="Single"
+                          Style="{DynamicResource CustomListViewStyle}"
                           SelectionChanged="Selector_OnSelectionChanged"
                           x:Name="CategoriesListView">
                     <ListView.Template>
@@ -136,7 +138,6 @@
                                         </ListView.ItemTemplate>
                                     </ListView>
                                 </Border>
-
                             </Expander>
                         </DataTemplate>
                     </ListView.ItemTemplate>
@@ -259,8 +260,24 @@
 
                     <TextBlock Text="方歌：" Grid.Row="8" Grid.Column="0" VerticalAlignment="Top"
                                Style="{DynamicResource TertiaryTitleText}" />
-                    <TextBox Text="{Binding SelectedFormula.Song,FallbackValue=''}"
-                             Grid.Row="8" Grid.Column="1" Margin="0,0,0,10"/>
+                    <RichTextBox behaviors:RichTextBoxBehavior.Text="{Binding SelectedFormula.Song,FallbackValue=''}"
+                                 Grid.Row="8" Grid.Column="1" Margin="0,0,0,10" 
+                                 IsDocumentEnabled="True"
+                                 x:Name="RichTextBox">
+                        <RichTextBox.ContextMenu>
+                            <ContextMenu>
+                                <MenuItem Header="复制" Command="Copy" />
+                                <MenuItem Header="粘贴" Command="Paste" />
+                                <MenuItem Header="剪切" Command="Cut" />
+                                <Separator Margin="-30,5,0,5"
+                                           Padding="0" />
+                                <MenuItem Header="关联药物" Click="MenuItem_OnClick"/>
+                                <Separator Margin="-30,5,0,5"
+                                           Padding="0" />
+                                <MenuItem Header="全选" Command="SelectAll" />
+                            </ContextMenu>
+                        </RichTextBox.ContextMenu>
+                    </RichTextBox>
 
                     <TextBlock Text="附注：" Grid.Row="9" Grid.Column="0" VerticalAlignment="Top"
                                Style="{DynamicResource TertiaryTitleText}" />
@@ -329,6 +346,9 @@
             <Button.ContextMenu>
                 <ContextMenu x:Name="CrawlerMenu">
                     <MenuItem Icon="&#xe613;" Header="中医方剂网" Command="{Binding GetFormulaFromZyfjCommand}" />
+                    <MenuItem Icon="&#xe613;"
+                              Header="中医方剂网"
+                              Command="{Binding GetFormulaFromZyfjCommand}" ></MenuItem>
                 </ContextMenu>
             </Button.ContextMenu>
         </Button>

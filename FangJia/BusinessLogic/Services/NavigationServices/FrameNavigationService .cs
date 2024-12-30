@@ -1,9 +1,12 @@
-﻿using System.Diagnostics.CodeAnalysis;
+﻿using System.ComponentModel;
+using System.Diagnostics.CodeAnalysis;
+using System.Runtime.CompilerServices;
 using FangJia.BusinessLogic.Interfaces;
 using FangJia.BusinessLogic.Models.Config;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media.Animation;
+using FangJia.BusinessLogic.Models;
 
 namespace FangJia.BusinessLogic.Services.NavigationServices;
 
@@ -11,13 +14,14 @@ namespace FangJia.BusinessLogic.Services.NavigationServices;
 /// 提供页面导航服务的类，实现了 INavigationService 接口。
 /// </summary>
 [SuppressMessage("ReSharper", "ClassNeverInstantiated.Global")]
-public class FrameNavigationService : INavigationService
+public class FrameNavigationService : INavigationService,INotifyPropertyChanged
 {
 	private          string?                    _currentViewName;          // 当前视图的名称
 	private          Frame                      _frame            = null!; // 导航服务操作的Frame对象
 	private readonly Dictionary<string, string> _pageMappings     = [];    // 页面名称和对应的URI映射
-	private readonly Stack<string?>             _backNameStack    = new(); // 后退栈
-	private readonly Stack<string?>             _forwardNameStack = new(); // 前进栈
+	private readonly ObservableStack<string?>   _backNameStack    = new(); // 后退栈
+	private readonly ObservableStack<string?>   _forwardNameStack = new(); // 前进栈
+
 
 	/// <summary>
 	/// 判断是否可以返回上一个页面。
@@ -28,6 +32,13 @@ public class FrameNavigationService : INavigationService
 	/// 判断是否可以前进到下一个页面。
 	/// </summary>
 	public bool CanGoForward => _forwardNameStack.Count > 0;
+
+
+	public FrameNavigationService()
+	{
+		_backNameStack.StackChanged    += () => OnPropertyChanged(nameof(CanGoBack));
+		_forwardNameStack.StackChanged += () => OnPropertyChanged(nameof(CanGoForward));
+	}
 
 	/// <summary>
 	/// 设置导航框架。
@@ -267,5 +278,20 @@ public class FrameNavigationService : INavigationService
 		// 更新视图信息
 		_backNameStack.Push(CurrentViewName());
 		_currentViewName = _forwardNameStack.Pop();
+	}
+
+	public event PropertyChangedEventHandler? PropertyChanged;
+
+	protected virtual void OnPropertyChanged([CallerMemberName] string? propertyName = null)
+	{
+		PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
+	}
+
+	protected bool SetField<T>(ref T field, T value, [CallerMemberName] string? propertyName = null)
+	{
+		if (EqualityComparer<T>.Default.Equals(field, value)) return false;
+		field = value;
+		OnPropertyChanged(propertyName);
+		return true;
 	}
 }

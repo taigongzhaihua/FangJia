@@ -18,7 +18,6 @@
 		<None Remove="Resources\Fonts\iconfont.ttf" />
 	</ItemGroup>
 	<ItemGroup>
-		<Folder Include="BusinessLogic\Helpers\" />
 		<Folder Include="BusinessLogic\Models\Utils\" />
 		<Folder Include="UI\Views\Components\Dialogs\" />
 	</ItemGroup>
@@ -32,6 +31,7 @@
 		<PackageReference Include="System.Data.SQLite.Core" Version="1.0.119" />
 		<PackageReference Include="Tomlyn" Version="0.17.0" />
 		<PackageReference Include="Unity" Version="5.11.10" />
+		<PackageReference Include="WPFDevelopers" Version="1.1.0.3-preview" />
 	</ItemGroup>
 	<ItemGroup>
 		<EmbeddedResource Include="Resources\Configs\pagesConfig.json">

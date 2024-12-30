@@ -11,6 +11,10 @@
     {
       "name": "SettingPage",
       "uri": "/UI/Views/Pages/Setting.xaml"
+    },
+    {
+      "name": "HomePage-MemorizationPage",
+        "uri": "/UI/Views/Pages/Memorization.xaml"
     }
   ],
   "MainMenuItems": [

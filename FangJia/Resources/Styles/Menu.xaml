@@ -1,11 +1,12 @@
 ﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
                     xmlns:behaviors="clr-namespace:FangJia.BusinessLogic.Models.Behaviors">
-    <Style TargetType="{x:Type ContextMenu}">
-    <Setter Property="BorderThickness" Value="0.5" />
+    <Style TargetType="ContextMenu">
+    <Setter Property="BorderThickness" Value="0" />
     <Setter Property="Padding" Value="3,5" />
     <Setter Property="Background" Value="{StaticResource ControlBgBrush}" />
     <Setter Property="BorderBrush" Value="{StaticResource TransparentButtonBorderBrush}" />
+    <Setter Property="Margin" Value="10"/>
     <Setter Property="Template">
         <Setter.Value>
             <ControlTemplate TargetType="ContextMenu">
@@ -13,7 +14,12 @@
                         BorderBrush="{TemplateBinding BorderBrush}"
                         BorderThickness="{TemplateBinding BorderThickness}"
                         CornerRadius="8"
-                        Padding="{TemplateBinding Padding}">
+                        Padding="{TemplateBinding Padding}"
+                        Margin="{TemplateBinding Margin}">
+                    <Border.Effect>
+                        <DropShadowEffect ShadowDepth="0" BlurRadius="10" Opacity="0.5"
+                                          Color="{StaticResource ShadowColor}" />
+                    </Border.Effect>
                     <StackPanel>
                         <ItemsPresenter />
                     </StackPanel>
@@ -24,8 +30,11 @@
 </Style>
 
 <!-- 定义通用 MenuItem 样式 -->
-<Style TargetType="{x:Type MenuItem}">
+<Style TargetType="MenuItem">
     <Setter Property="behaviors:MenuItemBehaviors.AttachMouseEvents" Value="True" />
+    <Setter Property="Background" Value="{StaticResource ListItemBgBrush}"/>
+    <Setter Property="Foreground" Value="{StaticResource ListItemFgBrush}"/>
+    <Setter Property="IsEnabled" Value="True"/>
     <Setter Property="Template">
         <Setter.Value>
             <ControlTemplate TargetType="MenuItem">
@@ -92,12 +101,12 @@
                     <Border x:Name="Border" 
                             CornerRadius="5" BorderThickness="0"
                             MinWidth="120" MinHeight="30" Margin="2"
-                            Background="{StaticResource ListItemBgBrush}">
+                            Background="{TemplateBinding Background}">
                         <StackPanel Orientation="Horizontal">
                             <!-- 图标 -->
                             <TextBlock x:Name="MenuItemIcon"
                                        Text="{Binding Icon, RelativeSource={RelativeSource TemplatedParent}}"
-                                       Foreground="{StaticResource ListItemFgBrush}"
+                                       Foreground="{TemplateBinding Foreground}"
                                        FontFamily="{DynamicResource IconFont}"
                                        VerticalAlignment="Center"
                                        FontSize="16"
@@ -105,7 +114,7 @@
                             <!-- 菜单项内容 -->
                             <TextBlock x:Name="MenuItemContent"
                                        Text="{TemplateBinding Header}"
-                                       Foreground="{StaticResource ListItemFgBrush}"
+                                       Foreground="{TemplateBinding Foreground}"
                                        FontSize="14"
                                        VerticalAlignment="Center"
                                        Margin="5,0"/>
