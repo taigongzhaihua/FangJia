@@ -249,15 +249,15 @@
                                                         BorderBrush="{StaticResource TransparentButtonBorderBrush}"
                                                         Background="{StaticResource ControlBgBrush}"
                                                         Foreground="{StaticResource BodyTextBrush}"
-                                                        Delimiter=","
+                                                        Delimiter=", "
                                                         IsSelectAllActive="True"
                                                         ItemsSource="{TemplateBinding behaviors:SourceAttachedBehavior.Source}"
                                                         Padding="5,2"
                                                         Margin="0"
-                                                        VerticalContentAlignment="Center"
-                                                        VerticalAlignment="Center"
                                                         SelectionMode="Multiple"
-                                                        behaviors:SourceAttachedBehavior.SelectedItems="{Binding (behaviors:SourceAttachedBehavior.SelectedItems),RelativeSource={RelativeSource TemplatedParent}}">
+                                                        Style="{DynamicResource MultiSelectComboBox}"
+                                                        ItemContainerStyle="{DynamicResource MultiSelectComboBoxItem}"
+                                                        behaviors:SourceAttachedBehavior.SelectedItems="{Binding (behaviors:SourceAttachedBehavior.SelectedItems),RelativeSource={RelativeSource TemplatedParent}}" >
 
                                     <wd:MultiSelectComboBox.Visibility>
                                         <MultiBinding Converter="{StaticResource FocusedToVisibilityConverter}" >
@@ -310,6 +310,22 @@
                     </Grid>
 
                 </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+        <Setter Property="ContextMenu" >
+            <Setter.Value>
+                <ContextMenu>
+                    <MenuItem Header="复制"
+                              Command="Copy" />
+                    <MenuItem Header="粘贴"
+                              Command="Paste" />
+                    <MenuItem Header="剪切"
+                              Command="Cut" />
+                    <Separator Margin="-30,5,0,5"
+                               Padding="0" />
+                    <MenuItem Header="全选"
+                              Command="SelectAll" />
+                </ContextMenu>
             </Setter.Value>
         </Setter>
     </Style>

@@ -263,6 +263,7 @@
                     <RichTextBox behaviors:RichTextBoxBehavior.Text="{Binding SelectedFormula.Song,FallbackValue=''}"
                                  Grid.Row="8" Grid.Column="1" Margin="0,0,0,10" 
                                  IsDocumentEnabled="True"
+                                 IsUndoEnabled="False"
                                  x:Name="RichTextBox">
                         <RichTextBox.ContextMenu>
                             <ContextMenu>

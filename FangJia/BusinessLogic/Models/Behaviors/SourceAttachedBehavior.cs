@@ -36,7 +36,7 @@ public static class SourceAttachedBehavior
 	{
 		if (d is not MultiSelectComboBox element) return;
 		element.SelectedItems.Clear();
-		foreach (var item in (GetSelectedItems(element) as IList)!)
+		foreach (var item in (e.NewValue as IList)!)
 		{
 			element.SelectedItems.Add(item);
 		}

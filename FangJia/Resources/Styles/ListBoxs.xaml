@@ -1,14 +1,16 @@
 ﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
                     xmlns:converters="clr-namespace:FangJia.UI.Converters"
-                    xmlns:sys="clr-namespace:System;assembly=System.Runtime">
+                    xmlns:sys="clr-namespace:System;assembly=System.Runtime" >
     <!-- ToggleButton Style -->
-    <Style x:Key="MenuToggleButtonStyle" TargetType="ToggleButton">
-        <Setter Property="Template">
+    <Style x:Key="MenuToggleButtonStyle"
+           TargetType="ToggleButton" >
+        <Setter Property="Template" >
             <Setter.Value>
-                <ControlTemplate TargetType="ToggleButton">
+                <ControlTemplate TargetType="ToggleButton" >
                     <Grid>
-                        <Border x:Name="Border" Background="{TemplateBinding Background}"
+                        <Border x:Name="Border"
+                                Background="{TemplateBinding Background}"
                                 Margin="0,5"
                                 Padding="5"
                                 Height="42"
@@ -16,34 +18,41 @@
                                 ToolTip="{Binding ElementName=TextBlock,Path=Text}"
                                 ToolTipService.InitialShowDelay="0"
                                 ToolTipService.Placement="Right"
-                                ToolTipService.VerticalOffset="-8">
-                            <StackPanel Orientation="Horizontal">
+                                ToolTipService.VerticalOffset="-8" >
+                            <StackPanel Orientation="Horizontal" >
                                 <TextBlock x:Name="IconBlock"
                                            Text="{Binding Icon}"
                                            Foreground="{TemplateBinding Foreground}"
-                                           FontSize="24" FontFamily="{DynamicResource IconFont}"
+                                           FontSize="24"
+                                           FontFamily="{DynamicResource IconFont}"
                                            Width="30"
                                            Margin="0,0,10,0"
                                            TextAlignment="Center"
-                                           VerticalAlignment="Center">
+                                           VerticalAlignment="Center" >
                                     <!-- Using RenderTransform for scaling -->
                                     <TextBlock.RenderTransform>
-                                        <ScaleTransform x:Name="IconScale" ScaleX="1" ScaleY="1" />
+                                        <ScaleTransform x:Name="IconScale"
+                                                        ScaleX="1"
+                                                        ScaleY="1" />
                                     </TextBlock.RenderTransform>
                                     <TextBlock.RenderTransformOrigin>
-                                        <Point X="0.5" Y="0.5" />
+                                        <Point X="0.5"
+                                               Y="0.5" />
                                         <!-- Center of the element -->
                                     </TextBlock.RenderTransformOrigin>
                                 </TextBlock>
                                 <TextBlock x:Name="TextBlock"
                                            Text="{Binding Name}"
                                            Foreground="{TemplateBinding Foreground}"
-                                           FontSize="14" FontWeight="Bold"
+                                           FontSize="14"
+                                           FontWeight="Bold"
                                            Margin="0"
-                                           VerticalAlignment="Center">
+                                           VerticalAlignment="Center" >
                                     <!-- Using RenderTransform for translation -->
                                     <TextBlock.RenderTransform>
-                                        <TranslateTransform x:Name="TextTranslate" X="0" Y="0" />
+                                        <TranslateTransform x:Name="TextTranslate"
+                                                            X="0"
+                                                            Y="0" />
                                     </TextBlock.RenderTransform>
                                 </TextBlock>
                             </StackPanel>
@@ -51,7 +60,7 @@
                         <VisualStateManager.VisualStateGroups>
                             <VisualStateGroup>
                                 <!-- Normal State -->
-                                <VisualState x:Name="Unchecked">
+                                <VisualState x:Name="Unchecked" >
                                     <Storyboard>
                                         <!-- Using TranslateTransform for TextBlock margin -->
                                         <DoubleAnimation Storyboard.TargetName="TextTranslate"
@@ -70,7 +79,7 @@
                                     </Storyboard>
                                 </VisualState>
                                 <!-- MouseOver State -->
-                                <VisualState x:Name="Checked">
+                                <VisualState x:Name="Checked" >
                                     <Storyboard>
                                         <!-- Using TranslateTransform for TextBlock margin -->
                                         <DoubleAnimation Storyboard.TargetName="TextTranslate"
@@ -96,10 +105,11 @@
         </Setter>
     </Style>
     <converters:MainMenuListWidthConverter x:Key="MainMenuListWidthConverter" />
-    <Style x:Key="SidebarListBoxItemStyle" TargetType="ListBoxItem">
-        <Setter Property="Template">
+    <Style x:Key="SidebarListBoxItemStyle"
+           TargetType="ListBoxItem" >
+        <Setter Property="Template" >
             <Setter.Value>
-                <ControlTemplate TargetType="ListBoxItem">
+                <ControlTemplate TargetType="ListBoxItem" >
                     <Grid>
                         <ToggleButton x:Name="MenuItem"
                                       IsChecked="{Binding IsSelected, Mode=TwoWay, RelativeSource={RelativeSource TemplatedParent}}"
@@ -110,23 +120,33 @@
                     </Grid>
                     <ControlTemplate.Triggers>
                         <!-- Normal State -->
-                        <Trigger Property="IsMouseOver" Value="False">
-                            <Setter TargetName="MenuItem" Property="Background" Value="Transparent" />
-                            <Setter TargetName="MenuItem" Property="Foreground"
+                        <Trigger Property="IsMouseOver"
+                                 Value="False" >
+                            <Setter TargetName="MenuItem"
+                                    Property="Background"
+                                    Value="Transparent" />
+                            <Setter TargetName="MenuItem"
+                                    Property="Foreground"
                                     Value="{StaticResource AccentFgBrush}" />
                         </Trigger>
                         <!-- MouseOver State -->
-                        <Trigger Property="IsMouseOver" Value="True">
-                            <Setter TargetName="MenuItem" Property="Background"
+                        <Trigger Property="IsMouseOver"
+                                 Value="True" >
+                            <Setter TargetName="MenuItem"
+                                    Property="Background"
                                     Value="{StaticResource AccentHoverBgBrush}" />
-                            <Setter TargetName="MenuItem" Property="Foreground"
+                            <Setter TargetName="MenuItem"
+                                    Property="Foreground"
                                     Value="{StaticResource AccentHoverFgBrush}" />
                         </Trigger>
                         <!-- Selected State -->
-                        <Trigger Property="IsSelected" Value="True">
-                            <Setter TargetName="MenuItem" Property="Background"
+                        <Trigger Property="IsSelected"
+                                 Value="True" >
+                            <Setter TargetName="MenuItem"
+                                    Property="Background"
                                     Value="{StaticResource AccentPressedBgBrush}" />
-                            <Setter TargetName="MenuItem" Property="Foreground"
+                            <Setter TargetName="MenuItem"
+                                    Property="Foreground"
                                     Value="{StaticResource AccentPressedFgBrush}" />
                         </Trigger>
                     </ControlTemplate.Triggers>
@@ -134,16 +154,22 @@
             </Setter.Value>
         </Setter>
     </Style>
-    <Style TargetType="ListBoxItem" x:Key="DataTabListItemStyle">
+    <Style TargetType="ListBoxItem"
+           x:Key="DataTabListItemStyle" >
         <Setter Property="Foreground"
                 Value="{StaticResource TertiaryTitleBrush}" />
-        <Setter Property="Background" Value="{StaticResource WindowBgBrush}"/>
-        <Setter Property="Height" Value="30" />
-        <Setter Property="Width" Value="80" />
-        <Setter Property="BorderThickness" Value="0"></Setter>
-        <Setter Property="Template">
+        <Setter Property="Background"
+                Value="{StaticResource WindowBgBrush}" />
+        <Setter Property="Height"
+                Value="30" />
+        <Setter Property="Width"
+                Value="80" />
+        <Setter Property="BorderThickness"
+                Value="0" >
+        </Setter>
+        <Setter Property="Template" >
             <Setter.Value>
-                <ControlTemplate TargetType="ListBoxItem">
+                <ControlTemplate TargetType="ListBoxItem" >
                     <Grid>
                         <ToggleButton x:Name="MenuItem"
                                       IsChecked="{Binding IsSelected, Mode=TwoWay, RelativeSource={RelativeSource TemplatedParent}}"
@@ -159,23 +185,32 @@
                         <!-- Visual State Logic Replaced by Triggers -->
                     </Grid>
                     <ControlTemplate.Triggers>
-                        <Trigger Property="IsMouseOver" Value="False">
-                            <Setter TargetName="MenuItem" Property="Background"
+                        <Trigger Property="IsMouseOver"
+                                 Value="False" >
+                            <Setter TargetName="MenuItem"
+                                    Property="Background"
                                     Value="{StaticResource WindowBgBrush}" />
-                            <Setter TargetName="MenuItem" Property="Margin"
+                            <Setter TargetName="MenuItem"
+                                    Property="Margin"
                                     Value="0,0,-1,0" />
                         </Trigger>
-                        <Trigger Property="IsMouseOver" Value="True">
-                            <Setter TargetName="MenuItem" Property="Background"
+                        <Trigger Property="IsMouseOver"
+                                 Value="True" >
+                            <Setter TargetName="MenuItem"
+                                    Property="Background"
                                     Value="{StaticResource ControlBgBrush}" />
 
-                            <Setter TargetName="MenuItem" Property="Margin"
+                            <Setter TargetName="MenuItem"
+                                    Property="Margin"
                                     Value="0,0,-15,0" />
                         </Trigger>
-                        <Trigger Property="IsSelected" Value="True">
-                            <Setter TargetName="MenuItem" Property="Background"
+                        <Trigger Property="IsSelected"
+                                 Value="True" >
+                            <Setter TargetName="MenuItem"
+                                    Property="Background"
                                     Value="{StaticResource LayoutBgBrush}" />
-                            <Setter TargetName="MenuItem" Property="Margin"
+                            <Setter TargetName="MenuItem"
+                                    Property="Margin"
                                     Value="0,0,-15,0" />
                         </Trigger>
                     </ControlTemplate.Triggers>
@@ -183,19 +218,23 @@
             </Setter.Value>
         </Setter>
     </Style>
-    <Style x:Key="DataTabToggleButtonStyle" TargetType="ToggleButton">
-        <Setter Property="Template">
+    <Style x:Key="DataTabToggleButtonStyle"
+           TargetType="ToggleButton" >
+        <Setter Property="Template" >
             <Setter.Value>
-                <ControlTemplate TargetType="ToggleButton">
+                <ControlTemplate TargetType="ToggleButton" >
                     <Grid>
-                        <Border x:Name="Border" Background="{TemplateBinding Background}"
+                        <Border x:Name="Border"
+                                Background="{TemplateBinding Background}"
                                 BorderBrush="{TemplateBinding BorderBrush}"
-                                BorderThickness="{TemplateBinding BorderThickness}">
-                            <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
+                                BorderThickness="{TemplateBinding BorderThickness}" >
+                            <StackPanel Orientation="Horizontal"
+                                        HorizontalAlignment="Center" >
                                 <TextBlock x:Name="TextBlock"
                                            Text="{TemplateBinding Content}"
                                            Foreground="{TemplateBinding Foreground}"
-                                           Margin="0" HorizontalAlignment="Center"
+                                           Margin="0"
+                                           HorizontalAlignment="Center"
                                            VerticalAlignment="Center" />
                             </StackPanel>
                         </Border>
@@ -227,36 +266,50 @@
     </Style>
     <!--  1.确定参数  -->
     <!--纵向滚动条宽度-->
-    <sys:Double x:Key="VerticalScrollBarThickness">4</sys:Double>
+    <sys:Double x:Key="VerticalScrollBarThickness" >4</sys:Double>
     <!--纵向滑块颜色-->
-    <SolidColorBrush x:Key="VerticalTrackThumbBackgroundBrush" Color="{StaticResource AccentColor}" />
+    <SolidColorBrush x:Key="VerticalTrackThumbBackgroundBrush"
+                     Color="{StaticResource AccentColor}" />
     <!--横向滚动条宽度-->
-    <sys:Double x:Key="HorizontalScrollBarThickness">4</sys:Double>
+    <sys:Double x:Key="HorizontalScrollBarThickness" >4</sys:Double>
     <!--横向滑块颜色-->
-    <SolidColorBrush x:Key="HorizontalTrackThumbBackgroundBrush" Color="{StaticResource AccentColor}" />
+    <SolidColorBrush x:Key="HorizontalTrackThumbBackgroundBrush"
+                     Color="{StaticResource AccentColor}" />
     <!-- 自定义垂直滚动条的样式 -->
-    <Style TargetType="ScrollBar" x:Key="CustomScrollBarStyle">
-        <Setter Property="OverridesDefaultStyle" Value="true" />
+    <Style TargetType="ScrollBar"
+           x:Key="CustomScrollBarStyle" >
+        <Setter Property="OverridesDefaultStyle"
+                Value="true" />
+
         <Style.Triggers>
-            <Trigger Property="Orientation" Value="Horizontal">
-                <Setter Property="Width" Value="Auto" />
-                <Setter Property="Height" Value="{StaticResource HorizontalScrollBarThickness}" />
-                <Setter Property="Template" Value="{DynamicResource HorizontalScrollBar}" />
+            <Trigger Property="Orientation"
+                     Value="Horizontal" >
+                <Setter Property="Width"
+                        Value="Auto" />
+                <Setter Property="Height"
+                        Value="{StaticResource HorizontalScrollBarThickness}" />
+                <Setter Property="Template"
+                        Value="{DynamicResource HorizontalScrollBar}" />
             </Trigger>
-            <Trigger Property="Orientation" Value="Vertical">
-                <Setter Property="Width" Value="{StaticResource VerticalScrollBarThickness}" />
-                <Setter Property="Height" Value="Auto" />
-                <Setter Property="Template" Value="{DynamicResource VerticalScrollBar}" />
+            <Trigger Property="Orientation"
+                     Value="Vertical" >
+                <Setter Property="Width"
+                        Value="{StaticResource VerticalScrollBarThickness}" />
+                <Setter Property="Height"
+                        Value="Auto" />
+                <Setter Property="Template"
+                        Value="{DynamicResource VerticalScrollBar}" />
             </Trigger>
         </Style.Triggers>
     </Style>
     <!-- 3.定义template  -->
     <!-- 纵向滚动条template  -->
-    <ControlTemplate x:Key="VerticalScrollBar" TargetType="{x:Type RangeBase}">
-        <Grid Background="Transparent">
+    <ControlTemplate x:Key="VerticalScrollBar"
+                     TargetType="{x:Type RangeBase}" >
+        <Grid Background="Transparent" >
             <!--轨道-->
             <Track Name="PART_Track"
-                   IsDirectionReversed="True">
+                   IsDirectionReversed="True" >
                 <!-- 减少按钮 -->
                 <Track.DecreaseRepeatButton>
                     <RepeatButton Command="ScrollBar.LineUpCommand"
@@ -270,10 +323,72 @@
                 </Track.IncreaseRepeatButton>
                 <Track.Thumb>
                     <!--滑块-->
-                    <Thumb Background="{StaticResource ListItemSelectedBgBrush}" BorderThickness="0">
+                    <Thumb Background="{StaticResource ButtonHoverMaskBrush}"
+                           BorderThickness="0" >
                         <Thumb.Template>
                             <ControlTemplate>
-                                <Grid Background="{TemplateBinding Background}" />
+                                <Grid>
+                                    <Border Background="{TemplateBinding Background}"
+                                            CornerRadius="3"
+                                            x:Name="border" 
+                                            Width="{DynamicResource VerticalScrollBarThickness}"/>
+                                    <VisualStateManager.VisualStateGroups>
+                                        <VisualStateGroup x:Name="CommonStates" >
+                                            <VisualState x:Name="Normal" >
+                                                <Storyboard>
+                                                    <ColorAnimation Storyboard.TargetName="border"
+                                                                    Storyboard.TargetProperty="(Border.Background).(SolidColorBrush.Color)"
+                                                                    Duration="0:0:0.3"
+                                                                    To="{StaticResource ButtonHoverMask}" />
+                                                    <DoubleAnimation Storyboard.TargetName="border"
+                                                                     Storyboard.TargetProperty="Width"
+                                                                     Duration="0:0:0.3"
+                                                                     To="4"/>
+                                                </Storyboard>
+                                            </VisualState>
+
+                                            <VisualState x:Name="MouseOver" >
+                                                <Storyboard>
+                                                    <!-- 这里直接将背景设为更深的颜色 -->
+                                                    <ColorAnimation Storyboard.TargetName="border"
+                                                                    Storyboard.TargetProperty="(Border.Background).(SolidColorBrush.Color)"
+                                                                    Duration="0:0:0.3"
+                                                                    To="{StaticResource ButtonHoverMask}" />
+                                                    <DoubleAnimation Storyboard.TargetName="border"
+                                                                     Storyboard.TargetProperty="Width"
+                                                                     Duration="0:0:0.3"
+                                                                     To="6" />
+                                                </Storyboard>
+                                            </VisualState>
+                                            <VisualState x:Name="Pressed" >
+                                                <Storyboard>
+                                                    <!-- 这里直接将背景设为更深的颜色 -->
+                                                    <ColorAnimation Storyboard.TargetName="border"
+                                                                    Storyboard.TargetProperty="(Border.Background).(SolidColorBrush.Color)"
+                                                                    Duration="0:0:0.3"
+                                                                    To="{StaticResource ButtonPressedMask}" />
+                                                    <DoubleAnimation Storyboard.TargetName="border"
+                                                                     Storyboard.TargetProperty="Width"
+                                                                     Duration="0:0:0.3"
+                                                                     To="6" />
+                                                </Storyboard>
+                                            </VisualState>
+                                            <VisualState x:Name="Disabled" >
+                                                <Storyboard>
+                                                    <!-- 这里直接将背景设为更深的颜色 -->
+                                                    <ColorAnimation Storyboard.TargetName="border"
+                                                                    Storyboard.TargetProperty="(Border.Background).(SolidColorBrush.Color)"
+                                                                    Duration="0:0:0.3"
+                                                                    To="Transparent" />
+                                                    <DoubleAnimation Storyboard.TargetName="border"
+                                                                     Storyboard.TargetProperty="Width"
+                                                                     Duration="0:0:0.3"
+                                                                     To="4" />
+                                                </Storyboard>
+                                            </VisualState>
+                                        </VisualStateGroup>
+                                    </VisualStateManager.VisualStateGroups>
+                                </Grid>
                             </ControlTemplate>
                         </Thumb.Template>
                     </Thumb>
@@ -283,15 +398,18 @@
         </Grid>
     </ControlTemplate>
     <!-- 横向滚动条template  -->
-    <ControlTemplate x:Key="HorizontalScrollBar" TargetType="{x:Type RangeBase}">
+    <ControlTemplate x:Key="HorizontalScrollBar"
+                     TargetType="{x:Type RangeBase}" >
         <Grid>
-            <Track Name="PART_Track" FlowDirection="LeftToRight">
+            <Track Name="PART_Track"
+                   FlowDirection="LeftToRight" >
                 <Track.DecreaseRepeatButton>
                     <RepeatButton Command="ScrollBar.LineLeftCommand"
                                   Style="{DynamicResource RepeatButtonStyle }" />
                 </Track.DecreaseRepeatButton>
                 <Track.Thumb>
-                    <Thumb Background="{StaticResource LayoutBgBrush}" BorderThickness="0">
+                    <Thumb Background="{StaticResource LayoutBgBrush}"
+                           BorderThickness="0" >
                         <Thumb.Template>
                             <ControlTemplate>
                                 <Grid Background="{TemplateBinding Background}" />
@@ -306,41 +424,39 @@
             </Track>
         </Grid>
     </ControlTemplate>
-    <Style TargetType="RepeatButton" x:Key="RepeatButtonStyle">
-        <Setter Property="Background" Value="{StaticResource ListItemBgBrush}" />
-        <Setter Property="BorderThickness" Value="0" />
-        <Setter Property="Template">
+    <Style TargetType="RepeatButton"
+           x:Key="RepeatButtonStyle" >
+        <Setter Property="Background"
+                Value="Transparent" />
+        <Setter Property="BorderThickness"
+                Value="0" />
+        <Setter Property="Template" >
             <Setter.Value>
-                <ControlTemplate TargetType="RepeatButton">
+                <ControlTemplate TargetType="RepeatButton" >
                     <Border Background="{TemplateBinding Background}"
                             BorderBrush="{TemplateBinding BorderBrush}"
-                            BorderThickness="{TemplateBinding BorderThickness}">
+                            BorderThickness="{TemplateBinding BorderThickness}" >
                         <ContentPresenter />
                     </Border>
-                    <ControlTemplate.Triggers>
-                        <Trigger Property="IsPressed" Value="True">
-                            <Setter Property="Background" Value="{StaticResource ListItemHoverBgBrush}" />
-                        </Trigger>
-                        <Trigger Property="IsMouseOver" Value="True">
-                            <Setter Property="Background" Value="{StaticResource ListItemHoverBgBrush}" />
-                        </Trigger>
-                    </ControlTemplate.Triggers>
                 </ControlTemplate>
             </Setter.Value>
         </Setter>
     </Style>
     <!-- 自定义listbox样式 -->
-    <Style TargetType="ListView" x:Key="CustomListViewStyle">
-        <Setter Property="Background" Value="{StaticResource ListItemBgBrush}"></Setter>
-        <Setter Property="Template">
+    <Style TargetType="ListView"
+           x:Key="CustomListViewStyle" >
+        <Setter Property="Background"
+                Value="{StaticResource ListItemBgBrush}" >
+        </Setter>
+        <Setter Property="Template" >
             <Setter.Value>
-                <ControlTemplate TargetType="ListView">
+                <ControlTemplate TargetType="ListView" >
                     <Border CornerRadius="5"
                             Padding="4"
                             Margin="5"
                             Background="{TemplateBinding Background}"
-                            BorderThickness="0">
-                        <ScrollViewer Padding="0,10">
+                            BorderThickness="0" >
+                        <ScrollViewer Padding="0" >
                             <ItemsPresenter />
                         </ScrollViewer>
                     </Border>
@@ -361,7 +477,7 @@
                             Margin="5"
                             Background="{TemplateBinding Background}"
                             BorderThickness="0" >
-                        <ScrollViewer Padding="5,10" >
+                        <ScrollViewer Padding="0" >
                             <ItemsPresenter />
                         </ScrollViewer>
                     </Border>
@@ -370,16 +486,26 @@
         </Setter>
     </Style>
     <!-- 自定义 ListBoxItem 的样式 -->
-    <Style TargetType="ListViewItem" x:Key="CustomListViewItemStyle">
-        <Setter Property="Foreground" Value="{StaticResource ListItemFgBrush}" />
-        <Setter Property="FontSize" Value="14" />
-        <Setter Property="Template">
+    <Style TargetType="ListViewItem"
+           x:Key="CustomListViewItemStyle" >
+        <Setter Property="Foreground"
+                Value="{StaticResource ListItemFgBrush}" />
+        <Setter Property="FontSize"
+                Value="14" />
+        <Setter Property="Padding"
+                Value="8,4" />
+        <Setter Property="Margin"
+                Value="3" >
+        </Setter>
+        <Setter Property="Template" >
             <Setter.Value>
-                <ControlTemplate TargetType="ListViewItem">
+                <ControlTemplate TargetType="ListViewItem" >
                     <Grid>
-                        <Border Name="ItemBorder" Padding="8,4" Margin="3"
+                        <Border Name="ItemBorder"
+                                Padding="{TemplateBinding Padding}"
+                                Margin="0"
                                 CornerRadius="5"
-                                Background="{TemplateBinding Background}">
+                                Background="{TemplateBinding Background}" >
                             <ContentControl x:Name="contentControl"
                                             Content="{TemplateBinding Content}"
                                             ContentTemplate="{TemplateBinding ContentTemplate}"
@@ -387,8 +513,8 @@
                                             Foreground="{TemplateBinding Foreground}" />
                         </Border>
                         <VisualStateManager.VisualStateGroups>
-                            <VisualStateGroup x:Name="CommonStates">
-                                <VisualState x:Name="Normal">
+                            <VisualStateGroup x:Name="CommonStates" >
+                                <VisualState x:Name="Normal" >
                                     <Storyboard>
                                         <ColorAnimation Storyboard.TargetName="ItemBorder"
                                                         Storyboard.TargetProperty="(Border.Background).(SolidColorBrush.Color)"
@@ -401,7 +527,7 @@
                                     </Storyboard>
                                 </VisualState>
 
-                                <VisualState x:Name="MouseOver">
+                                <VisualState x:Name="MouseOver" >
                                     <Storyboard>
                                         <!-- 这里直接将背景设为更深的颜色 -->
                                         <ColorAnimation Storyboard.TargetName="ItemBorder"
@@ -414,7 +540,7 @@
                                                         To="{StaticResource ListItemHoverFg}" />
                                     </Storyboard>
                                 </VisualState>
-                                <VisualState x:Name="Selected">
+                                <VisualState x:Name="Selected" >
                                     <Storyboard>
                                         <!-- 这里直接将背景设为更深的颜色 -->
                                         <ColorAnimation Storyboard.TargetName="ItemBorder"
@@ -427,7 +553,7 @@
                                                         To="{StaticResource ListItemSelectedFg}" />
                                     </Storyboard>
                                 </VisualState>
-                                <VisualState x:Name="Disabled">
+                                <VisualState x:Name="Disabled" >
                                     <Storyboard>
                                         <!-- 这里直接将背景设为更深的颜色 -->
                                         <ColorAnimation Storyboard.TargetName="ItemBorder"
@@ -447,16 +573,21 @@
             </Setter.Value>
         </Setter>
     </Style>
-<Style TargetType="ListBoxItem" x:Key="CustomListBoxItemStyle">
-        <Setter Property="Foreground" Value="{StaticResource ListItemFgBrush}" />
-        <Setter Property="FontSize" Value="14" />
-        <Setter Property="Template">
+    <Style TargetType="ListBoxItem"
+           x:Key="CustomListBoxItemStyle" >
+        <Setter Property="Foreground"
+                Value="{StaticResource ListItemFgBrush}" />
+        <Setter Property="FontSize"
+                Value="14" />
+        <Setter Property="Template" >
             <Setter.Value>
-                <ControlTemplate TargetType="ListBoxItem">
+                <ControlTemplate TargetType="ListBoxItem" >
                     <Grid>
-                        <Border Name="ItemBorder" Padding="8,4" Margin="3"
+                        <Border Name="ItemBorder"
+                                Padding="8,4"
+                                Margin="3"
                                 CornerRadius="5"
-                                Background="{TemplateBinding Background}">
+                                Background="{TemplateBinding Background}" >
                             <ContentControl x:Name="contentControl"
                                             Content="{TemplateBinding Content}"
                                             ContentTemplate="{TemplateBinding ContentTemplate}"
@@ -464,8 +595,8 @@
                                             Foreground="{TemplateBinding Foreground}" />
                         </Border>
                         <VisualStateManager.VisualStateGroups>
-                            <VisualStateGroup x:Name="CommonStates">
-                                <VisualState x:Name="Normal">
+                            <VisualStateGroup x:Name="CommonStates" >
+                                <VisualState x:Name="Normal" >
                                     <Storyboard>
                                         <ColorAnimation Storyboard.TargetName="ItemBorder"
                                                         Storyboard.TargetProperty="(Border.Background).(SolidColorBrush.Color)"
@@ -478,7 +609,7 @@
                                     </Storyboard>
                                 </VisualState>
 
-                                <VisualState x:Name="MouseOver">
+                                <VisualState x:Name="MouseOver" >
                                     <Storyboard>
                                         <!-- 这里直接将背景设为更深的颜色 -->
                                         <ColorAnimation Storyboard.TargetName="ItemBorder"
@@ -491,7 +622,7 @@
                                                         To="{StaticResource ListItemHoverFg}" />
                                     </Storyboard>
                                 </VisualState>
-                                <VisualState x:Name="Selected">
+                                <VisualState x:Name="Selected" >
                                     <Storyboard>
                                         <!-- 这里直接将背景设为更深的颜色 -->
                                         <ColorAnimation Storyboard.TargetName="ItemBorder"
@@ -504,7 +635,7 @@
                                                         To="{StaticResource ListItemSelectedFg}" />
                                     </Storyboard>
                                 </VisualState>
-                                <VisualState x:Name="Disabled">
+                                <VisualState x:Name="Disabled" >
                                     <Storyboard>
                                         <!-- 这里直接将背景设为更深的颜色 -->
                                         <ColorAnimation Storyboard.TargetName="ItemBorder"

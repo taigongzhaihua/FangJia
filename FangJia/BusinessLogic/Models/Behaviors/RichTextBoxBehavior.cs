@@ -37,16 +37,13 @@ public static partial class RichTextBoxBehavior
 		var newValue = e.NewValue as string;
 
 		// 更新 RichTextBox 内容
-		richTextBox.Document=new FlowDocument();
+		richTextBox.Document = new FlowDocument();
 
 		if (!string.IsNullOrEmpty(newValue))
 		{
 			// 解析字符串，生成富文本内容
 			var flowDocument = ParseToFlowDocument(newValue);
-			if (flowDocument != null)
-			{
-				richTextBox.Document = flowDocument;
-			}
+			richTextBox.Document = flowDocument;
 		}
 
 		// 添加事件监听器，确保双向绑定
@@ -110,15 +107,14 @@ public static partial class RichTextBoxBehavior
 				                                                          Source = dataContext,
 				                                                          Mode   = BindingMode.TwoWay
 			                                                          });
-			foreach (var filteredList in drugs.Select
-				         (drug => (SourceAttachedBehavior.GetSource(textBox) as IList)!
-				                  .Cast<FormulationComposition>()
-				                  .Where(fc => fc.ToString() == drug)
-				                  .ToList()))
-			{
-				SourceAttachedBehavior.SetSelectedItems
-					(textBox, new ObservableCollection<FormulationComposition>(filteredList));
-			}
+			var filteredList = drugs.Select
+				(drug => (SourceAttachedBehavior.GetSource(textBox) as IList)!
+				         .Cast<FormulationComposition>()
+				         .Where(fc => fc.ToString() == drug)
+				         .ToList()).SelectMany(x => x).ToList();
+
+			SourceAttachedBehavior.SetSelectedItems
+				(textBox, new ObservableCollection<FormulationComposition>(filteredList));
 
 			// 将 TextBox 包装为 InlineUIContainer
 			var container = new InlineUIContainer(textBox)
@@ -133,7 +129,7 @@ public static partial class RichTextBoxBehavior
 		// 添加剩余普通文本
 		if (lastIndex < input.Length)
 		{
-			paragraph.Inlines.Add(new Run(input.Substring(lastIndex)));
+			paragraph.Inlines.Add(new Run(input[lastIndex..]));
 		}
 
 		flowDocument.Blocks.Add(paragraph);
@@ -162,7 +158,8 @@ public static partial class RichTextBoxBehavior
 						var word = textBox.Text;
 
 						// 从绑定的 Source 中提取药物信息
-						if (SourceAttachedBehavior.GetSelectedItems(textBox) is IEnumerable<FormulationComposition> associatedDrugs)
+						if (SourceAttachedBehavior.GetSelectedItems(textBox) is IEnumerable<FormulationComposition>
+						    associatedDrugs)
 						{
 							var drugs = string.Join(",", associatedDrugs);
 							result.Append($"[{word}]{{{drugs}}}");
@@ -171,6 +168,7 @@ public static partial class RichTextBoxBehavior
 						{
 							result.Append($"[{word}]");
 						}
+
 						break;
 				}
 			}
