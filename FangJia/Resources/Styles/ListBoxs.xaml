@@ -266,12 +266,12 @@
     </Style>
     <!--  1.确定参数  -->
     <!--纵向滚动条宽度-->
-    <sys:Double x:Key="VerticalScrollBarThickness" >4</sys:Double>
+    <sys:Double x:Key="VerticalScrollBarThickness" >6</sys:Double>
     <!--纵向滑块颜色-->
     <SolidColorBrush x:Key="VerticalTrackThumbBackgroundBrush"
                      Color="{StaticResource AccentColor}" />
     <!--横向滚动条宽度-->
-    <sys:Double x:Key="HorizontalScrollBarThickness" >4</sys:Double>
+    <sys:Double x:Key="HorizontalScrollBarThickness" >6</sys:Double>
     <!--横向滑块颜色-->
     <SolidColorBrush x:Key="HorizontalTrackThumbBackgroundBrush"
                      Color="{StaticResource AccentColor}" />
@@ -313,7 +313,8 @@
                 <!-- 减少按钮 -->
                 <Track.DecreaseRepeatButton>
                     <RepeatButton Command="ScrollBar.LineUpCommand"
-                                  Style="{DynamicResource RepeatButtonStyle }" />
+                                  Style="{DynamicResource RepeatButtonStyle }" 
+                                  Margin="3,0"/>
                 </Track.DecreaseRepeatButton>
 
                 <!-- 增加按钮 -->
@@ -324,14 +325,15 @@
                 <Track.Thumb>
                     <!--滑块-->
                     <Thumb Background="{StaticResource ButtonHoverMaskBrush}"
-                           BorderThickness="0" >
+                           BorderThickness="0"
+                           x:Name="Thumb" >
                         <Thumb.Template>
                             <ControlTemplate>
                                 <Grid>
                                     <Border Background="{TemplateBinding Background}"
                                             CornerRadius="3"
-                                            x:Name="border" 
-                                            Width="{DynamicResource VerticalScrollBarThickness}"/>
+                                            x:Name="border"
+                                            Width="{DynamicResource VerticalScrollBarThickness}" />
                                     <VisualStateManager.VisualStateGroups>
                                         <VisualStateGroup x:Name="CommonStates" >
                                             <VisualState x:Name="Normal" >
@@ -339,11 +341,7 @@
                                                     <ColorAnimation Storyboard.TargetName="border"
                                                                     Storyboard.TargetProperty="(Border.Background).(SolidColorBrush.Color)"
                                                                     Duration="0:0:0.3"
-                                                                    To="{StaticResource ButtonHoverMask}" />
-                                                    <DoubleAnimation Storyboard.TargetName="border"
-                                                                     Storyboard.TargetProperty="Width"
-                                                                     Duration="0:0:0.3"
-                                                                     To="4"/>
+                                                                    To="Transparent" />
                                                 </Storyboard>
                                             </VisualState>
 
@@ -354,10 +352,6 @@
                                                                     Storyboard.TargetProperty="(Border.Background).(SolidColorBrush.Color)"
                                                                     Duration="0:0:0.3"
                                                                     To="{StaticResource ButtonHoverMask}" />
-                                                    <DoubleAnimation Storyboard.TargetName="border"
-                                                                     Storyboard.TargetProperty="Width"
-                                                                     Duration="0:0:0.3"
-                                                                     To="6" />
                                                 </Storyboard>
                                             </VisualState>
                                             <VisualState x:Name="Pressed" >
@@ -367,10 +361,6 @@
                                                                     Storyboard.TargetProperty="(Border.Background).(SolidColorBrush.Color)"
                                                                     Duration="0:0:0.3"
                                                                     To="{StaticResource ButtonPressedMask}" />
-                                                    <DoubleAnimation Storyboard.TargetName="border"
-                                                                     Storyboard.TargetProperty="Width"
-                                                                     Duration="0:0:0.3"
-                                                                     To="6" />
                                                 </Storyboard>
                                             </VisualState>
                                             <VisualState x:Name="Disabled" >
@@ -380,10 +370,6 @@
                                                                     Storyboard.TargetProperty="(Border.Background).(SolidColorBrush.Color)"
                                                                     Duration="0:0:0.3"
                                                                     To="Transparent" />
-                                                    <DoubleAnimation Storyboard.TargetName="border"
-                                                                     Storyboard.TargetProperty="Width"
-                                                                     Duration="0:0:0.3"
-                                                                     To="4" />
                                                 </Storyboard>
                                             </VisualState>
                                         </VisualStateGroup>
@@ -395,6 +381,46 @@
                 </Track.Thumb>
 
             </Track>
+            <VisualStateManager.VisualStateGroups>
+                <VisualStateGroup x:Name="CommonStates" >
+                    <VisualState x:Name="Normal" >
+                        <Storyboard>
+                            <ColorAnimation Storyboard.TargetName="Thumb"
+                                            Storyboard.TargetProperty="(Thumb.Background).(SolidColorBrush.Color)"
+                                            Duration="0:0:0.3"
+                                            To="Transparent" />
+                        </Storyboard>
+                    </VisualState>
+
+                    <VisualState x:Name="MouseOver" >
+                        <Storyboard>
+                            <!-- 这里直接将背景设为更深的颜色 -->
+                            <ColorAnimation Storyboard.TargetName="Thumb"
+                                            Storyboard.TargetProperty="(Thumb.Background).(SolidColorBrush.Color)"
+                                            Duration="0:0:0.3"
+                                            To="{StaticResource ButtonHoverMask}" />
+                        </Storyboard>
+                    </VisualState>
+                    <VisualState x:Name="Pressed" >
+                        <Storyboard>
+                            <!-- 这里直接将背景设为更深的颜色 -->
+                            <ColorAnimation Storyboard.TargetName="Thumb"
+                                            Storyboard.TargetProperty="(Thumb.Background).(SolidColorBrush.Color)"
+                                            Duration="0:0:0.3"
+                                            To="{StaticResource ButtonPressedMask}" />
+                        </Storyboard>
+                    </VisualState>
+                    <VisualState x:Name="Disabled" >
+                        <Storyboard>
+                            <!-- 这里直接将背景设为更深的颜色 -->
+                            <ColorAnimation Storyboard.TargetName="Thumb"
+                                            Storyboard.TargetProperty="(Thumb.Background).(SolidColorBrush.Color)"
+                                            Duration="0:0:0.3"
+                                            To="Transparent" />
+                        </Storyboard>
+                    </VisualState>
+                </VisualStateGroup>
+            </VisualStateManager.VisualStateGroups>
         </Grid>
     </ControlTemplate>
     <!-- 横向滚动条template  -->

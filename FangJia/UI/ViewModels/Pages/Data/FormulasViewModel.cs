@@ -117,7 +117,7 @@ public partial class FormulasViewModel(
 				           TotalLength = formulations.Count
 			           }; // 更新进度
 
-// 并行异步处理配方列表
+		// 并行异步处理配方列表
 		foreach (var formulation in list)
 		{
 			// 在本地数据库中查找是否存在相同名称的配方
@@ -181,6 +181,7 @@ public partial class FormulasViewModel(
 	private async Task SetFormulasTask(Category value)
 	{
 		// 从数据服务中异步获取与指定类别名称匹配的配方列表，并赋值给 Formulas 属性
+		await Task.Delay(200);
 		Formulas = [.. await _dataService!.GetFormulationsByCategoryNameAsync(value.Name)];
 	}
 

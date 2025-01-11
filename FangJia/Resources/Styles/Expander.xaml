@@ -267,7 +267,8 @@
                                      Width="19"
                                      RenderOptions.EdgeMode="Unspecified"
                                      RenderOptions.BitmapScalingMode="HighQuality" />
-                            <Path x:Name="arrow"
+                            <Path Grid.Column="0"
+                                  x:Name="arrow"
                                   Data="M 1,1.5 L 4.5,5 L 8,1.5"
                                   HorizontalAlignment="Center"
                                   SnapsToDevicePixels="false"
@@ -389,6 +390,7 @@
                                           VerticalContentAlignment="{TemplateBinding VerticalContentAlignment}" />
                             <ContentPresenter x:Name="ExpandSite"
                                               DockPanel.Dock="Bottom"
+                                              ClipToBounds="True"
                                               Focusable="false"
                                               HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
                                               Margin="{TemplateBinding Padding}"
@@ -396,19 +398,20 @@
                                               VerticalAlignment="{TemplateBinding VerticalContentAlignment}">
                                 <ContentPresenter.LayoutTransform>
                                     <TransformGroup>
-                                        <ScaleTransform />
+                                        <ScaleTransform ScaleY="0" />
                                         <SkewTransform />
                                         <RotateTransform />
                                         <TranslateTransform />
                                     </TransformGroup>
                                 </ContentPresenter.LayoutTransform>
+                                <ContentPresenter.Opacity>0</ContentPresenter.Opacity>
                             </ContentPresenter>
                         </DockPanel>
                     </Border>
                     <ControlTemplate.Triggers>
-                        <EventTrigger RoutedEvent="FrameworkElement.Loaded">
-                            <BeginStoryboard Storyboard="{StaticResource StHide}" />
-                        </EventTrigger>
+                        <!-- <EventTrigger RoutedEvent="FrameworkElement.Loaded"> -->
+                        <!--     <BeginStoryboard Storyboard="{StaticResource StHide}" /> -->
+                        <!-- </EventTrigger> -->
                         <EventTrigger RoutedEvent="Expander.Expanded">
                             <BeginStoryboard x:Name="STShow_BeginStoryboard"
                                              Storyboard="{StaticResource StShow}" />
