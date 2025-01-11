@@ -150,42 +150,27 @@ public class DataService
 	{
 		try
 		{
-			// 查询所有一级分类，并按一级分类分组
-			var firstCategories = await _dbManager.QueryAsync<string>
-				                      ("Category",
-				                       ["FirstCategory"],
-				                       "WHERE FirstCategory IS NOT NULL GROUP BY FirstCategory");
+			// 查询所有分类，包括一级分类和对应的二级分类
+			var categoriesData = await _dbManager.QueryAsync<(string FirstCategory, string SecondCategory)>(
+				                      "Category",
+				                      ["FirstCategory", "SecondCategory"],
+				                      "WHERE FirstCategory IS NOT NULL AND SecondCategory IS NOT NULL"
+				                     );
 
-			// 初始化分类列表
-			var categories = new List<Category>();
-
-			// 遍历每个一级分类
-			foreach (var firstCategoryName in firstCategories)
-			{
-				// 创建一个新的分类对象，并设置一级分类名称
-				var category = new Category
-				               {
-					               Name          = firstCategoryName,
-					               SubCategories = []
-				               };
-
-				// 查询与当前一级分类关联的二级分类
-				var parameters = new { FirstCategory = firstCategoryName };
-				var secondCategories = await _dbManager.QueryAsync<string>
-					                       ("Category",
-					                        ["SecondCategory"],
-					                        "WHERE FirstCategory = @FirstCategory AND SecondCategory IS NOT NULL GROUP BY SecondCategory",
-					                        parameters);
-
-				// 遍历每个二级分类，并将其添加到当前一级分类的子分类列表中
-				foreach (var secondCategoryName in secondCategories)
-				{
-					category.SubCategories.Add(new Category { Name = secondCategoryName });
-				}
-
-				// 将当前一级分类及其子分类添加到分类列表中
-				categories.Add(category);
-			}
+			// 按一级分类分组，并构建Category对象
+			var categories = categoriesData
+			                 .GroupBy(data => data.FirstCategory)
+			                 .Select(group => new Category
+			                                  {
+				                                  Name = group.Key,
+				                                  SubCategories = new ObservableCollection<Category>
+					                                  (group
+					                                   .Select
+						                                   (data => new Category
+						                                            { Name = data.SecondCategory })
+					                                   .ToList())
+			                                  })
+			                 .ToList();
 
 			// 返回包含所有分类及其子分类的集合
 			return categories;
@@ -197,6 +182,7 @@ public class DataService
 			throw;
 		}
 	}
+
 
 	/// <summary>
 	/// 异步获取分类ID通过分类名称。
@@ -229,77 +215,78 @@ public class DataService
 	/// 3. 对于每个方剂，查询其组成和图片，并将其附加到方剂对象中。
 	/// 4. 返回包含所有方剂的集合。
 	/// </remarks>
-public async Task<IEnumerable<Formulation>> GetFormulationsByCategoryNameAsync(string? categoryName)
-{
-    try
-    {
-        Logger.Info($"开始根据分类名称 {categoryName} 获取方剂");
+	public async Task<IEnumerable<Formulation>> GetFormulationsByCategoryNameAsync(string? categoryName)
+	{
+		try
+		{
+			Logger.Info($"开始根据分类名称 {categoryName} 获取方剂");
 
-        // Step 1: 查询 Category 表，获取与分类名称匹配的一级或二级分类的ID
-        var categoryIds = (await _dbManager.QueryAsync<int>(
-            "Category",
-            ["Id"],
-            "WHERE FirstCategory = @CategoryName OR SecondCategory = @CategoryName",
-            new { CategoryName = categoryName }
-        )).ToList();
+			// Step 1: 查询 Category 表，获取与分类名称匹配的一级或二级分类的ID
+			var categoryIds = (await _dbManager.QueryAsync<int>(
+			                                                    "Category",
+			                                                    ["Id"],
+			                                                    "WHERE FirstCategory = @CategoryName OR SecondCategory = @CategoryName",
+			                                                    new { CategoryName = categoryName }
+			                                                   )).ToList();
 
-        // 如果没有找到匹配的分类ID，返回空集合
-        if (categoryIds.Count == 0)
-        {
-            Logger.Warn($"分类名称 {categoryName} 未找到对应的分类ID");
-            return [];
-        }
+			// 如果没有找到匹配的分类ID，返回空集合
+			if (categoryIds.Count == 0)
+			{
+				Logger.Warn($"分类名称 {categoryName} 未找到对应的分类ID");
+				return [];
+			}
 
-        // Step 2: 查询 Formulation 表，获取与这些分类ID关联的所有方剂
-        var formulations = (await _dbManager.QueryAsync<Formulation>(
-            "Formulation",
-            ["*"],
-            "WHERE CategoryId IN @CategoryIds",
-            new { CategoryIds = categoryIds }
-        )).ToList();
+			// Step 2: 查询 Formulation 表，获取与这些分类ID关联的所有方剂
+			var formulations = (await _dbManager.QueryAsync<Formulation>(
+			                                                             "Formulation",
+			                                                             ["*"],
+			                                                             "WHERE CategoryId IN @CategoryIds",
+			                                                             new { CategoryIds = categoryIds }
+			                                                            )).ToList();
 
-        if (formulations.Count == 0)
-        {
-            Logger.Warn($"分类名称 {categoryName} 未找到任何方剂");
-            return formulations;
-        }
+			if (formulations.Count == 0)
+			{
+				Logger.Warn($"分类名称 {categoryName} 未找到任何方剂");
+				return formulations;
+			}
 
-        // 获取所有 FormulationId
-        var formulationIds = formulations.Select(f => f.Id).ToArray();
+			// 获取所有 FormulationId
+			var formulationIds = formulations.Select(f => f.Id).ToArray();
 
-        // Step 3: 批量查询所有组成
-        var compositions = (await _dbManager.QueryAsync<FormulationComposition>(
-            "FormulationComposition",
-            ["*"],
-            "WHERE FormulationId IN @FormulationIds",
-            new { FormulationIds = formulationIds }
-        )).ToLookup(c => c.FormulationId);
+			// Step 3: 批量查询所有组成
+			var compositions = (await _dbManager.QueryAsync<FormulationComposition>(
+				                     "FormulationComposition",
+				                     ["*"],
+				                     "WHERE FormulationId IN @FormulationIds",
+				                     new { FormulationIds = formulationIds }
+				                    )).ToLookup(c => c.FormulationId);
 
-        // Step 4: 批量查询所有图片
-        var formulationImages = (await _dbManager.QueryAsync<FormulationImage>(
-            "FormulationImage",
-            ["*"],
-            "WHERE FormulationId IN @FormulationIds",
-            new { FormulationIds = formulationIds }
-        )).ToDictionary(img => img.FormulationId);
+			// Step 4: 批量查询所有图片
+			var formulationImages = (await _dbManager.QueryAsync<FormulationImage>(
+				                          "FormulationImage",
+				                          ["*"],
+				                          "WHERE FormulationId IN @FormulationIds",
+				                          new { FormulationIds = formulationIds }
+				                         )).ToDictionary(img => img.FormulationId);
 
-        // Step 5: 将组成和图片附加到对应的方剂对象
-        foreach (var formulation in formulations)
-        {
-            formulation.Compositions     = new ObservableCollection<FormulationComposition>(compositions[formulation.Id].ToList());
-            formulation.FormulationImage = formulationImages.GetValueOrDefault(formulation.Id)!;
-        }
+			// Step 5: 将组成和图片附加到对应的方剂对象
+			foreach (var formulation in formulations)
+			{
+				formulation.Compositions =
+					new ObservableCollection<FormulationComposition>(compositions[formulation.Id].ToList());
+				formulation.FormulationImage = formulationImages.GetValueOrDefault(formulation.Id)!;
+			}
 
-        Logger.Info($"成功根据分类名称 {categoryName} 获取 {formulations.Count} 个方剂");
-        return formulations;
-    }
-    catch (Exception ex)
-    {
-        // 记录错误日志，并重新抛出异常
-        Logger.Error(ex, $"根据分类名称 {categoryName} 获取方剂时发生错误");
-        throw;
-    }
-}
+			Logger.Info($"成功根据分类名称 {categoryName} 获取 {formulations.Count} 个方剂");
+			return formulations;
+		}
+		catch (Exception ex)
+		{
+			// 记录错误日志，并重新抛出异常
+			Logger.Error(ex, $"根据分类名称 {categoryName} 获取方剂时发生错误");
+			throw;
+		}
+	}
 
 
 	/// <summary>

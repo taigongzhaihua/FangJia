@@ -24,7 +24,7 @@ public partial class Formulas
         DataContext = viewModel;
         CrawlerMenu.DataContext = viewModel;
         if (viewModel.Categories.Count > 0) return;
-        Loaded += async (_, _) => { await viewModel.InitDataTask(); };
+        Loaded += async (_, _) =>  await viewModel.InitDataTask();
     }
 
     private void ButtonBase_OnClick(object sender, RoutedEventArgs e)

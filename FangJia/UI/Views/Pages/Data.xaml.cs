@@ -27,7 +27,7 @@ public partial class DataPage
 		var viewModel = ServiceLocator.GetService<ViewModels.Pages.DataViewModel>();
 		DataContext = viewModel;
 		viewModel.InitPageData();
-		// 设置初始视图为 HomePage
+		// 设置初始视图为 FormulaPage
 		frameNavigationService?.NavigateTo("FormulaPage");
 		viewModel.UpdateTabSelectedIndex();
 	}
